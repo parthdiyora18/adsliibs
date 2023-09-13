@@ -1,0 +1,50 @@
+plugins {
+    id 'com.android.application'
+}
+apply plugin: 'applovin-quality-service'
+applovin {
+    apiKey "WV9ZbXpKkDZf0xhLJfXQiIZzriHUMlT2whr9-qnPThcH13zaWyXxIinCQ2SebkklzRTUiusDVlRpA9Z_WQyNsG"
+}
+
+android {
+    namespace 'com.allads.library'
+    compileSdk 33
+    defaultConfig {
+        applicationId "com.allads.library"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    testFixtures {
+        enable = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation project(path: ':AdConsole')
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}

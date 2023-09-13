@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Secound_Activity"
+    tools:ignore="MissingDefaultResource">
+
+    <RelativeLayout
+        android:id="@+id/native_ads"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center" />
+
+    <RelativeLayout
+        android:id="@+id/small_native_ads"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/native_ads"
+        android:gravity="center" />
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/small_native_banner_ads"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:text="Inter Ad" />
+
+    <RelativeLayout
+        android:id="@+id/small_native_banner_ads"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/banner_ads"
+        android:gravity="center" />
+
+    <RelativeLayout
+        android:id="@+id/banner_ads"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center" />
+
+</RelativeLayout>

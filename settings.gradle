@@ -1,0 +1,25 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url "https://maven.google.com" }
+        maven { url "https://jitpack.io" }
+        maven { url 'https://artifacts.applovin.com/android' }
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        mavenLocal()
+        maven { url "https://maven.google.com" }
+        maven { url "https://jitpack.io" }
+        maven { url 'https://maven.wortise.com/artifactory/public' }
+    }
+}
+rootProject.name = "Ads Library"
+include ':app'
+include ':AdConsole'

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    android:layout_margin="2dp"
+    android:background="@drawable/round_bg">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_margin="3dp"
+        android:background="?attr/selectableItemBackground">
+
+        <ImageView
+            android:id="@+id/icon_image_view"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="3dp"
+            android:scaleType="fitXY"
+            android:visibility="visible"
+            tools:ignore="ContentDescription" />
+
+        <RelativeLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/ad_call_to_action"
+            android:layout_toEndOf="@+id/icon_image_view">
+
+            <LinearLayout
+                android:id="@+id/lebal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/ad_label"
+                    android:layout_width="18dp"
+                    android:layout_height="13.5dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="1.5dp"
+                    android:gravity="center"
+                    app:cardBackgroundColor="#F44336"
+                    tools:ignore="MissingConstraints">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="AD"
+                        android:textColor="#fff"
+                        android:textSize="8sp"
+                        android:textStyle="bold" />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/title_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@string/app_name"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/body_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lebal"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="1dp"
+                android:ellipsize="end"
+                android:lines="3"
+                android:text="Provided by Applovin"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="10sp"
+                tools:ignore="SmallSp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/ad_call_to_action"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:background="@drawable/round_native_btn"
+            android:gravity="center"
+            android:text="Install"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <queries>
+<!--        VPN Detect-->
+        <package android:name="com.minhui.networkcapture" />
+        <package android:name="com.minhui.networkcapture.pro" />
+        <package android:name="jp.co.taosoftware.android.packetcapture" />
+        <package android:name="app.greyshirts.sslcapture" />
+        <package android:name="com.emanuelef.remote_capture" />
+        <package android:name="eu.faircode.netguard" />
+        <package android:name="com.fulldive.extension.tordnscrypt" />
+        <package android:name="tech.httptoolkit.android.v1" />
+    </queries>
+
+    <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true">
+
+        <activity
+            android:name=".Activity.PolicyActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.facebook.ads.AudienceNetworkActivity"
+            android:hardwareAccelerated="true" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+            android:value="true" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+
+        <meta-data
+            android:name="applovin.sdk.key"
+            android:value="TciuTRecze8TdoQOCTmS6GmCcq0HvwyOq4Ouk36w6gJGPza8XenJg8I2PTUZhnyfezBfTwArn-hDwFWWEGwcyp" />
+    </application>
+
+</manifest>
