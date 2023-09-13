@@ -1172,11 +1172,11 @@ public class AdsControl {
                                 ad_small_native_banner_network++;
                                 break;
                             case "adx":
-                                String[] adx_small__native_banner_id = app_data.get(0).getAdxNativeId().split(",");
-                                if (current_adx_small_native_BannerId < adx_small__native_banner_id.length) {
-                                    preload_Adx_Native_Banner(adx_small__native_banner_id[current_adx_small_native_BannerId]);
+                                String[] adx_small_native_banner_id = app_data.get(0).getAdxNativeId().split(",");
+                                if (current_adx_small_native_BannerId < adx_small_native_banner_id.length) {
+                                    preload_Adx_Native_Banner(adx_small_native_banner_id[current_adx_small_native_BannerId]);
                                     current_adx_small_native_BannerId++;
-                                    if (current_adx_small_native_BannerId == adx_small__native_banner_id.length) {
+                                    if (current_adx_small_native_BannerId == adx_small_native_banner_id.length) {
                                         current_adx_small_native_BannerId = 0;
                                     }
                                 }
