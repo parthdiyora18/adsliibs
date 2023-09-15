@@ -3374,6 +3374,8 @@ public class AdsControl {
     Dialog ad_inter_dialog;
     long ad_dialog_time_in_second = 2;
 
+    int countAdds = 0;
+
     // TODO: 7/31/2023  Preload Inter Ads
     private void inter_Ads() {
         try {
@@ -3747,6 +3749,8 @@ public class AdsControl {
     // TODO: 7/17/2023 Show Inter Ads
     public void show_Interstitial(getDataListner callback2) {
         callback = callback2;
+        int interadds_count = countAdds + 1;
+        countAdds = interadds_count;
         ad_inter_dialog = new Dialog(activity);
         ad_inter_dialog.requestWindowFeature(1);
         this.ad_inter_dialog.setContentView(R.layout.ad_progress_dialog);
@@ -3758,16 +3762,14 @@ public class AdsControl {
         if (app_data != null && app_data.size() > 0) {
             if (app_data.get(0).isAds_show()) {
                 if (app_data.get(0).isPreload_inter_ads()) {
-                    if (isGoogleInterLoaded) {
-                        adCounter = Inter_Count.getInstance(activity).getNumberOfClicks();
-                        if (adCounter == app_data.get(0).getInterCount()) {
-                            Inter_Count.getInstance(activity).storeClicks(1);
+                    if (interadds_count % app_data.get(0).getInterCount() == 0) {
+                        countAdds = 0;
+                        if (isGoogleInterLoaded) {
                             if (app_data.get(0).isApp_inter_dialog_show()) {
                                 ad_inter_dialog.show();
                                 new CountDownTimer(ad_dialog_time_in_second * 1000L, 10) {
                                     @Override
                                     public void onTick(long millisUntilFinished) {
-
                                     }
 
                                     @Override
@@ -3783,18 +3785,7 @@ public class AdsControl {
                                 isGoogleInterLoaded = false;
                                 inter_Ads();
                             }
-                        } else {
-                            adCounter = adCounter + 1;
-                            Inter_Count.getInstance(activity).storeClicks(adCounter);
-                            if (callback != null) {
-                                callback.onSuccess();
-                                callback = null;
-                            }
-                        }
-                    } else if (isAdxInterLoaded) {
-                        adCounter = Inter_Count.getInstance(activity).getNumberOfClicks();
-                        if (adCounter == app_data.get(0).getInterCount()) {
-                            Inter_Count.getInstance(activity).storeClicks(1);
+                        } else if (isAdxInterLoaded) {
                             if (app_data.get(0).isApp_inter_dialog_show()) {
                                 ad_inter_dialog.show();
                                 new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
@@ -3816,18 +3807,7 @@ public class AdsControl {
                                 isAdxInterLoaded = false;
                                 inter_Ads();
                             }
-                        } else {
-                            adCounter = adCounter + 1;
-                            Inter_Count.getInstance(activity).storeClicks(adCounter);
-                            if (callback != null) {
-                                callback.onSuccess();
-                                callback = null;
-                            }
-                        }
-                    } else if (isFBInterLoaded) {
-                        adCounter = Inter_Count.getInstance(activity).getNumberOfClicks();
-                        if (adCounter == app_data.get(0).getInterCount()) {
-                            Inter_Count.getInstance(activity).storeClicks(1);
+                        } else if (isFBInterLoaded) {
                             if (app_data.get(0).isApp_inter_dialog_show()) {
                                 ad_inter_dialog.show();
                                 new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
@@ -3849,18 +3829,7 @@ public class AdsControl {
                                 isFBInterLoaded = false;
                                 inter_Ads();
                             }
-                        } else {
-                            adCounter = adCounter + 1;
-                            Inter_Count.getInstance(activity).storeClicks(adCounter);
-                            if (callback != null) {
-                                callback.onSuccess();
-                                callback = null;
-                            }
-                        }
-                    } else if (isApplovinInterLoaded) {
-                        adCounter = Inter_Count.getInstance(activity).getNumberOfClicks();
-                        if (adCounter == app_data.get(0).getInterCount()) {
-                            Inter_Count.getInstance(activity).storeClicks(1);
+                        } else if (isApplovinInterLoaded) {
                             if (app_data.get(0).isApp_inter_dialog_show()) {
                                 ad_inter_dialog.show();
                                 new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
@@ -3882,18 +3851,7 @@ public class AdsControl {
                                 isApplovinInterLoaded = false;
                                 inter_Ads();
                             }
-                        } else {
-                            adCounter = adCounter + 1;
-                            Inter_Count.getInstance(activity).storeClicks(adCounter);
-                            if (callback != null) {
-                                callback.onSuccess();
-                                callback = null;
-                            }
-                        }
-                    } else if (isWortiseInterLoaded) {
-                        adCounter = Inter_Count.getInstance(activity).getNumberOfClicks();
-                        if (adCounter == app_data.get(0).getInterCount()) {
-                            Inter_Count.getInstance(activity).storeClicks(1);
+                        } else if (isWortiseInterLoaded) {
                             if (app_data.get(0).isApp_inter_dialog_show()) {
                                 ad_inter_dialog.show();
                                 new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
@@ -3915,18 +3873,7 @@ public class AdsControl {
                                 isWortiseInterLoaded = false;
                                 inter_Ads();
                             }
-                        } else {
-                            adCounter = adCounter + 1;
-                            Inter_Count.getInstance(activity).storeClicks(adCounter);
-                            if (callback != null) {
-                                callback.onSuccess();
-                                callback = null;
-                            }
-                        }
-                    } else if (isInmobiInterLoaded) {
-                        adCounter = Inter_Count.getInstance(activity).getNumberOfClicks();
-                        if (adCounter == app_data.get(0).getInterCount()) {
-                            Inter_Count.getInstance(activity).storeClicks(1);
+                        } else if (isInmobiInterLoaded) {
                             if (app_data.get(0).isApp_inter_dialog_show()) {
                                 ad_inter_dialog.show();
                                 new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
@@ -3948,18 +3895,7 @@ public class AdsControl {
                                 isInmobiInterLoaded = false;
                                 inter_Ads();
                             }
-                        } else {
-                            adCounter = adCounter + 1;
-                            Inter_Count.getInstance(activity).storeClicks(adCounter);
-                            if (callback != null) {
-                                callback.onSuccess();
-                                callback = null;
-                            }
-                        }
-                    } else if (isLocalInterLoaded) {
-                        adCounter = Inter_Count.getInstance(activity).getNumberOfClicks();
-                        if (adCounter == app_data.get(0).getInterCount()) {
-                            Inter_Count.getInstance(activity).storeClicks(1);
+                        } else if (isLocalInterLoaded) {
                             if (app_data.get(0).isApp_inter_dialog_show()) {
                                 ad_inter_dialog.show();
                                 new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
@@ -3981,36 +3917,25 @@ public class AdsControl {
                                 isLocalInterLoaded = false;
                                 inter_Ads();
                             }
-                        } else {
-                            adCounter = adCounter + 1;
-                            Inter_Count.getInstance(activity).storeClicks(adCounter);
-                            if (callback != null) {
-                                callback.onSuccess();
-                                callback = null;
-                            }
-                        }
-                    } else if (isadmob_appopen_Loaded) {
-                        FullScreenContentCallback fullScreenContentCallback = new FullScreenContentCallback() {
-                            @Override
-                            public void onAdDismissedFullScreenContent() {
-                                admob_appOpenAd_inter = null;
-                                if (callback != null) {
-                                    callback.onSuccess();
-                                    callback = null;
+                        } else if (isadmob_appopen_Loaded) {
+                            FullScreenContentCallback fullScreenContentCallback = new FullScreenContentCallback() {
+                                @Override
+                                public void onAdDismissedFullScreenContent() {
+                                    admob_appOpenAd_inter = null;
+                                    if (callback != null) {
+                                        callback.onSuccess();
+                                        callback = null;
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
-                            }
+                                @Override
+                                public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
+                                }
 
-                            @Override
-                            public void onAdShowedFullScreenContent() {
-                            }
-                        };
-                        adCounter = Inter_Count.getInstance(activity).getNumberOfClicks();
-                        if (adCounter == app_data.get(0).getInterCount()) {
-                            Inter_Count.getInstance(activity).storeClicks(1);
+                                @Override
+                                public void onAdShowedFullScreenContent() {
+                                }
+                            };
                             if (app_data.get(0).isApp_inter_dialog_show()) {
                                 ad_inter_dialog.show();
                                 new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
@@ -4036,36 +3961,25 @@ public class AdsControl {
                                 isadmob_appopen_Loaded = false;
                                 appopen_Ads();
                             }
-                        } else {
-                            adCounter = adCounter + 1;
-                            Inter_Count.getInstance(activity).storeClicks(adCounter);
-                            if (callback != null) {
-                                callback.onSuccess();
-                                callback = null;
-                            }
-                        }
-                    } else if (isadx_appopen_Loaded) {
-                        FullScreenContentCallback fullScreenContentCallback = new FullScreenContentCallback() {
-                            @Override
-                            public void onAdDismissedFullScreenContent() {
-                                adx_appOpenAd_inter = null;
-                                if (callback != null) {
-                                    callback.onSuccess();
-                                    callback = null;
+                        } else if (isadx_appopen_Loaded) {
+                            FullScreenContentCallback fullScreenContentCallback = new FullScreenContentCallback() {
+                                @Override
+                                public void onAdDismissedFullScreenContent() {
+                                    adx_appOpenAd_inter = null;
+                                    if (callback != null) {
+                                        callback.onSuccess();
+                                        callback = null;
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
-                            }
+                                @Override
+                                public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
+                                }
 
-                            @Override
-                            public void onAdShowedFullScreenContent() {
-                            }
-                        };
-                        adCounter = Inter_Count.getInstance(activity).getNumberOfClicks();
-                        if (adCounter == app_data.get(0).getInterCount()) {
-                            Inter_Count.getInstance(activity).storeClicks(1);
+                                @Override
+                                public void onAdShowedFullScreenContent() {
+                                }
+                            };
                             if (app_data.get(0).isApp_inter_dialog_show()) {
                                 ad_inter_dialog.show();
                                 new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
@@ -4091,18 +4005,7 @@ public class AdsControl {
                                 isadx_appopen_Loaded = false;
                                 appopen_Ads();
                             }
-                        } else {
-                            adCounter = adCounter + 1;
-                            Inter_Count.getInstance(activity).storeClicks(adCounter);
-                            if (callback != null) {
-                                callback.onSuccess();
-                                callback = null;
-                            }
-                        }
-                    } else if (iswortise_appopen_Loaded) {
-                        adCounter = Inter_Count.getInstance(activity).getNumberOfClicks();
-                        if (adCounter == app_data.get(0).getInterCount()) {
-                            Inter_Count.getInstance(activity).storeClicks(1);
+                        } else if (iswortise_appopen_Loaded) {
                             if (app_data.get(0).isApp_inter_dialog_show()) {
                                 ad_inter_dialog.show();
                                 new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
@@ -4130,18 +4033,7 @@ public class AdsControl {
                                     appopen_Ads();
                                 }
                             }
-                        } else {
-                            adCounter = adCounter + 1;
-                            Inter_Count.getInstance(activity).storeClicks(adCounter);
-                            if (callback != null) {
-                                callback.onSuccess();
-                                callback = null;
-                            }
-                        }
-                    } else if (isapplovin_appopen_Loaded) {
-                        adCounter = Inter_Count.getInstance(activity).getNumberOfClicks();
-                        if (adCounter == app_data.get(0).getInterCount()) {
-                            Inter_Count.getInstance(activity).storeClicks(1);
+                        } else if (isapplovin_appopen_Loaded) {
                             if (app_data.get(0).isApp_inter_dialog_show()) {
                                 ad_inter_dialog.show();
                                 new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
@@ -4167,18 +4059,7 @@ public class AdsControl {
                                     appopen_Ads();
                                 }
                             }
-                        } else {
-                            adCounter = adCounter + 1;
-                            Inter_Count.getInstance(activity).storeClicks(adCounter);
-                            if (callback != null) {
-                                callback.onSuccess();
-                                callback = null;
-                            }
-                        }
-                    } else if (islocal_appopen_Loaded) {
-                        adCounter = Inter_Count.getInstance(activity).getNumberOfClicks();
-                        if (adCounter == app_data.get(0).getInterCount()) {
-                            Inter_Count.getInstance(activity).storeClicks(1);
+                        } else if (islocal_appopen_Loaded) {
                             if (app_data.get(0).isApp_inter_dialog_show()) {
                                 ad_inter_dialog.show();
                                 new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
@@ -4203,8 +4084,6 @@ public class AdsControl {
                                 appopen_Ads();
                             }
                         } else {
-                            adCounter = adCounter + 1;
-                            Inter_Count.getInstance(activity).storeClicks(adCounter);
                             if (callback != null) {
                                 callback.onSuccess();
                                 callback = null;
@@ -4217,313 +4096,320 @@ public class AdsControl {
                         }
                     }
                 } else {
-                    adCounter = Inter_Count.getInstance(activity).getNumberOfClicks();
-                    if (adCounter == app_data.get(0).getInterCount()) {
-                        Inter_Count.getInstance(activity).storeClicks(1);
+                    if (interadds_count % app_data.get(0).getInterCount() == 0) {
+                        countAdds = 0;
                         if (app_data.get(0).getAd_inter_type().equalsIgnoreCase("appopen")) {
                             appopen_Ads();
-                        } else {
-                            inter_Ads();
-                        }
-                    } else {
-                        adCounter = adCounter + 1;
-                        Inter_Count.getInstance(activity).storeClicks(adCounter);
-                    }
-                    if (isGoogleInterLoaded) {
-                        if (app_data.get(0).isApp_inter_dialog_show()) {
-                            ad_inter_dialog.show();
-                            new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                @Override
-                                public void onTick(long millisUntilFinished) {
+                            if (isadmob_appopen_Loaded) {
+                                FullScreenContentCallback fullScreenContentCallback = new FullScreenContentCallback() {
+                                    @Override
+                                    public void onAdDismissedFullScreenContent() {
+                                        admob_appOpenAd_inter = null;
+                                        if (callback != null) {
+                                            callback.onSuccess();
+                                            callback = null;
+                                        }
+                                    }
 
-                                }
+                                    @Override
+                                    public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
+                                    }
 
-                                @Override
-                                public void onFinish() {
-                                    ad_inter_dialog.dismiss();
-                                    ADMOBInterstitialAd.show((Activity) activity);
-                                    isGoogleInterLoaded = false;
-                                }
-                            }.start();
-                        } else {
-                            ADMOBInterstitialAd.show((Activity) activity);
-                            isGoogleInterLoaded = false;
-                        }
-                    } else if (isAdxInterLoaded) {
-                        if (app_data.get(0).isApp_inter_dialog_show()) {
-                            ad_inter_dialog.show();
-                            new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                @Override
-                                public void onTick(long millisUntilFinished) {
+                                    @Override
+                                    public void onAdShowedFullScreenContent() {
+                                    }
+                                };
+                                if (app_data.get(0).isApp_inter_dialog_show()) {
+                                    ad_inter_dialog.show();
+                                    new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
 
-                                }
+                                        }
 
-                                @Override
-                                public void onFinish() {
-                                    ad_inter_dialog.dismiss();
-                                    ADXInterstitialAd.show((Activity) activity);
-                                    isAdxInterLoaded = false;
-                                }
-                            }.start();
-                        } else {
-                            ADXInterstitialAd.show((Activity) activity);
-                            isAdxInterLoaded = false;
-                        }
-                    } else if (isFBInterLoaded) {
-                        if (app_data.get(0).isApp_inter_dialog_show()) {
-                            ad_inter_dialog.show();
-                            new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                @Override
-                                public void onTick(long millisUntilFinished) {
-
-                                }
-
-                                @Override
-                                public void onFinish() {
-                                    ad_inter_dialog.dismiss();
-                                    FB_interstitialAd.show();
-                                    isFBInterLoaded = false;
-                                }
-                            }.start();
-                        } else {
-                            FB_interstitialAd.show();
-                            isFBInterLoaded = false;
-                        }
-                    } else if (isApplovinInterLoaded) {
-                        if (app_data.get(0).isApp_inter_dialog_show()) {
-                            ad_inter_dialog.show();
-                            new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                @Override
-                                public void onTick(long millisUntilFinished) {
-
-                                }
-
-                                @Override
-                                public void onFinish() {
-                                    ad_inter_dialog.dismiss();
-                                    Applovin_maxInterstitialAd.showAd();
-                                    isApplovinInterLoaded = false;
-                                }
-                            }.start();
-                        } else {
-                            Applovin_maxInterstitialAd.showAd();
-                            isApplovinInterLoaded = false;
-                        }
-                    } else if (isWortiseInterLoaded) {
-                        if (app_data.get(0).isApp_inter_dialog_show()) {
-                            ad_inter_dialog.show();
-                            new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                @Override
-                                public void onTick(long millisUntilFinished) {
-
-                                }
-
-                                @Override
-                                public void onFinish() {
-                                    ad_inter_dialog.dismiss();
-                                    Wortise_inter.showAd();
-                                    isWortiseInterLoaded = false;
-                                }
-                            }.start();
-                        } else {
-                            Wortise_inter.showAd();
-                            isWortiseInterLoaded = false;
-                        }
-                    } else if (isInmobiInterLoaded) {
-                        if (app_data.get(0).isApp_inter_dialog_show()) {
-                            ad_inter_dialog.show();
-                            new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                @Override
-                                public void onTick(long millisUntilFinished) {
-
-                                }
-
-                                @Override
-                                public void onFinish() {
-                                    ad_inter_dialog.dismiss();
-                                    Inmobi_inter.show();
-                                    isInmobiInterLoaded = false;
-                                }
-                            }.start();
-                        } else {
-                            Inmobi_inter.show();
-                            isInmobiInterLoaded = false;
-                        }
-                    } else if (isLocalInterLoaded) {
-                        if (app_data.get(0).isApp_inter_dialog_show()) {
-                            ad_inter_dialog.show();
-                            new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                @Override
-                                public void onTick(long millisUntilFinished) {
-
-                                }
-
-                                @Override
-                                public void onFinish() {
-                                    ad_inter_dialog.dismiss();
-                                    show_Interstitial_local(callback2);
-                                    isLocalInterLoaded = false;
-                                }
-                            }.start();
-                        } else {
-                            show_Interstitial_local(callback2);
-                            isLocalInterLoaded = false;
-                        }
-                    } else if (isadmob_appopen_Loaded) {
-                        FullScreenContentCallback fullScreenContentCallback = new FullScreenContentCallback() {
-                            @Override
-                            public void onAdDismissedFullScreenContent() {
-                                admob_appOpenAd_inter = null;
-                                if (callback != null) {
-                                    callback.onSuccess();
-                                    callback = null;
-                                }
-                            }
-
-                            @Override
-                            public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
-                            }
-
-                            @Override
-                            public void onAdShowedFullScreenContent() {
-                            }
-                        };
-                        if (app_data.get(0).isApp_inter_dialog_show()) {
-                            ad_inter_dialog.show();
-                            new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                @Override
-                                public void onTick(long millisUntilFinished) {
-
-                                }
-
-                                @Override
-                                public void onFinish() {
-                                    ad_inter_dialog.dismiss();
+                                        @Override
+                                        public void onFinish() {
+                                            ad_inter_dialog.dismiss();
+                                            admob_appOpenAd_inter.setFullScreenContentCallback(fullScreenContentCallback);
+                                            admob_appOpenAd_inter.show((Activity) activity);
+                                            Conts.log_debug(TAG, "Admob Appopen Show");
+                                            isadmob_appopen_Loaded = false;
+                                        }
+                                    }.start();
+                                } else {
                                     admob_appOpenAd_inter.setFullScreenContentCallback(fullScreenContentCallback);
                                     admob_appOpenAd_inter.show((Activity) activity);
                                     Conts.log_debug(TAG, "Admob Appopen Show");
                                     isadmob_appopen_Loaded = false;
                                 }
-                            }.start();
-                        } else {
-                            admob_appOpenAd_inter.setFullScreenContentCallback(fullScreenContentCallback);
-                            admob_appOpenAd_inter.show((Activity) activity);
-                            Conts.log_debug(TAG, "Admob Appopen Show");
-                            isadmob_appopen_Loaded = false;
-                        }
-                    } else if (isadx_appopen_Loaded) {
-                        FullScreenContentCallback fullScreenContentCallback = new FullScreenContentCallback() {
-                            @Override
-                            public void onAdDismissedFullScreenContent() {
-                                adx_appOpenAd_inter = null;
-                                if (callback != null) {
-                                    callback.onSuccess();
-                                    callback = null;
-                                }
-                            }
+                            } else if (isadx_appopen_Loaded) {
+                                FullScreenContentCallback fullScreenContentCallback = new FullScreenContentCallback() {
+                                    @Override
+                                    public void onAdDismissedFullScreenContent() {
+                                        adx_appOpenAd_inter = null;
+                                        if (callback != null) {
+                                            callback.onSuccess();
+                                            callback = null;
+                                        }
+                                    }
 
-                            @Override
-                            public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
-                            }
+                                    @Override
+                                    public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
+                                    }
 
-                            @Override
-                            public void onAdShowedFullScreenContent() {
-                            }
-                        };
-                        if (app_data.get(0).isApp_inter_dialog_show()) {
-                            ad_inter_dialog.show();
-                            new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                @Override
-                                public void onTick(long millisUntilFinished) {
+                                    @Override
+                                    public void onAdShowedFullScreenContent() {
+                                    }
+                                };
+                                if (app_data.get(0).isApp_inter_dialog_show()) {
+                                    ad_inter_dialog.show();
+                                    new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
 
-                                }
+                                        }
 
-                                @Override
-                                public void onFinish() {
-                                    ad_inter_dialog.dismiss();
+                                        @Override
+                                        public void onFinish() {
+                                            ad_inter_dialog.dismiss();
+                                            adx_appOpenAd_inter.setFullScreenContentCallback(fullScreenContentCallback);
+                                            adx_appOpenAd_inter.show((Activity) activity);
+                                            Conts.log_debug(TAG, "Adx Appopen Show");
+                                            isadx_appopen_Loaded = false;
+                                        }
+                                    }.start();
+                                } else {
                                     adx_appOpenAd_inter.setFullScreenContentCallback(fullScreenContentCallback);
                                     adx_appOpenAd_inter.show((Activity) activity);
                                     Conts.log_debug(TAG, "Adx Appopen Show");
                                     isadx_appopen_Loaded = false;
                                 }
-                            }.start();
-                        } else {
-                            adx_appOpenAd_inter.setFullScreenContentCallback(fullScreenContentCallback);
-                            adx_appOpenAd_inter.show((Activity) activity);
-                            Conts.log_debug(TAG, "Adx Appopen Show");
-                            isadx_appopen_Loaded = false;
-                        }
-                    } else if (iswortise_appopen_Loaded) {
-                        if (app_data.get(0).isApp_inter_dialog_show()) {
-                            ad_inter_dialog.show();
-                            new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                @Override
-                                public void onTick(long millisUntilFinished) {
+                            } else if (iswortise_appopen_Loaded) {
+                                if (app_data.get(0).isApp_inter_dialog_show()) {
+                                    ad_inter_dialog.show();
+                                    new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
 
-                                }
+                                        }
 
-                                @Override
-                                public void onFinish() {
-                                    ad_inter_dialog.dismiss();
+                                        @Override
+                                        public void onFinish() {
+                                            ad_inter_dialog.dismiss();
+                                            if (wortise_open.isAvailable()) {
+                                                wortise_open.showAd((Activity) activity);
+                                                Conts.log_debug(TAG, "Wortise Appopen Show");
+                                                iswortise_appopen_Loaded = false;
+                                            }
+                                        }
+                                    }.start();
+                                } else {
                                     if (wortise_open.isAvailable()) {
                                         wortise_open.showAd((Activity) activity);
                                         Conts.log_debug(TAG, "Wortise Appopen Show");
                                         iswortise_appopen_Loaded = false;
                                     }
                                 }
-                            }.start();
-                        } else {
-                            if (wortise_open.isAvailable()) {
-                                wortise_open.showAd((Activity) activity);
-                                Conts.log_debug(TAG, "Wortise Appopen Show");
-                                iswortise_appopen_Loaded = false;
-                            }
-                        }
-                    } else if (isapplovin_appopen_Loaded) {
-                        if (app_data.get(0).isApp_inter_dialog_show()) {
-                            ad_inter_dialog.show();
-                            new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                @Override
-                                public void onTick(long millisUntilFinished) {
+                            } else if (isapplovin_appopen_Loaded) {
+                                if (app_data.get(0).isApp_inter_dialog_show()) {
+                                    ad_inter_dialog.show();
+                                    new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
 
-                                }
+                                        }
 
-                                @Override
-                                public void onFinish() {
-                                    ad_inter_dialog.dismiss();
+                                        @Override
+                                        public void onFinish() {
+                                            ad_inter_dialog.dismiss();
+                                            if (applovin_appopen.isReady()) {
+                                                applovin_appopen.showAd();
+                                                Conts.log_debug(TAG, "Applovin Appopen Show");
+                                            }
+                                        }
+                                    }.start();
+                                } else {
                                     if (applovin_appopen.isReady()) {
                                         applovin_appopen.showAd();
                                         Conts.log_debug(TAG, "Applovin Appopen Show");
                                     }
                                 }
-                            }.start();
-                        } else {
-                            if (applovin_appopen.isReady()) {
-                                applovin_appopen.showAd();
-                                Conts.log_debug(TAG, "Applovin Appopen Show");
-                            }
-                        }
-                    } else if (islocal_appopen_Loaded) {
-                        if (app_data.get(0).isApp_inter_dialog_show()) {
-                            ad_inter_dialog.show();
-                            new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                @Override
-                                public void onTick(long millisUntilFinished) {
+                            } else if (islocal_appopen_Loaded) {
+                                if (app_data.get(0).isApp_inter_dialog_show()) {
+                                    ad_inter_dialog.show();
+                                    new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
 
-                                }
+                                        }
 
-                                @Override
-                                public void onFinish() {
-                                    ad_inter_dialog.dismiss();
+                                        @Override
+                                        public void onFinish() {
+                                            ad_inter_dialog.dismiss();
+                                            show_local_Appopen_inter(callback2);
+                                            Conts.log_debug(TAG, "Local Appopen Show");
+                                            islocal_appopen_Loaded = false;
+                                        }
+                                    }.start();
+                                } else {
                                     show_local_Appopen_inter(callback2);
                                     Conts.log_debug(TAG, "Local Appopen Show");
                                     islocal_appopen_Loaded = false;
                                 }
-                            }.start();
+                            } else {
+                                if (callback != null) {
+                                    callback.onSuccess();
+                                    callback = null;
+                                }
+                            }
                         } else {
-                            show_local_Appopen_inter(callback2);
-                            Conts.log_debug(TAG, "Local Appopen Show");
-                            islocal_appopen_Loaded = false;
+                            inter_Ads();
+                            if (isGoogleInterLoaded) {
+                                if (app_data.get(0).isApp_inter_dialog_show()) {
+                                    ad_inter_dialog.show();
+                                    new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
+
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            ad_inter_dialog.dismiss();
+                                            ADMOBInterstitialAd.show((Activity) activity);
+                                            isGoogleInterLoaded = false;
+                                        }
+                                    }.start();
+                                } else {
+                                    ADMOBInterstitialAd.show((Activity) activity);
+                                    isGoogleInterLoaded = false;
+                                }
+                            } else if (isAdxInterLoaded) {
+                                if (app_data.get(0).isApp_inter_dialog_show()) {
+                                    ad_inter_dialog.show();
+                                    new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
+
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            ad_inter_dialog.dismiss();
+                                            ADXInterstitialAd.show((Activity) activity);
+                                            isAdxInterLoaded = false;
+                                        }
+                                    }.start();
+                                } else {
+                                    ADXInterstitialAd.show((Activity) activity);
+                                    isAdxInterLoaded = false;
+                                }
+                            } else if (isFBInterLoaded) {
+                                if (app_data.get(0).isApp_inter_dialog_show()) {
+                                    ad_inter_dialog.show();
+                                    new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
+
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            ad_inter_dialog.dismiss();
+                                            FB_interstitialAd.show();
+                                            isFBInterLoaded = false;
+                                        }
+                                    }.start();
+                                } else {
+                                    FB_interstitialAd.show();
+                                    isFBInterLoaded = false;
+                                }
+                            } else if (isApplovinInterLoaded) {
+                                if (app_data.get(0).isApp_inter_dialog_show()) {
+                                    ad_inter_dialog.show();
+                                    new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
+
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            ad_inter_dialog.dismiss();
+                                            Applovin_maxInterstitialAd.showAd();
+                                            isApplovinInterLoaded = false;
+                                        }
+                                    }.start();
+                                } else {
+                                    Applovin_maxInterstitialAd.showAd();
+                                    isApplovinInterLoaded = false;
+                                }
+                            } else if (isWortiseInterLoaded) {
+                                if (app_data.get(0).isApp_inter_dialog_show()) {
+                                    ad_inter_dialog.show();
+                                    new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
+
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            ad_inter_dialog.dismiss();
+                                            Wortise_inter.showAd();
+                                            isWortiseInterLoaded = false;
+                                        }
+                                    }.start();
+                                } else {
+                                    Wortise_inter.showAd();
+                                    isWortiseInterLoaded = false;
+                                }
+                            } else if (isInmobiInterLoaded) {
+                                if (app_data.get(0).isApp_inter_dialog_show()) {
+                                    ad_inter_dialog.show();
+                                    new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
+
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            ad_inter_dialog.dismiss();
+                                            Inmobi_inter.show();
+                                            isInmobiInterLoaded = false;
+                                        }
+                                    }.start();
+                                } else {
+                                    Inmobi_inter.show();
+                                    isInmobiInterLoaded = false;
+                                }
+                            } else if (isLocalInterLoaded) {
+                                if (app_data.get(0).isApp_inter_dialog_show()) {
+                                    ad_inter_dialog.show();
+                                    new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
+
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            ad_inter_dialog.dismiss();
+                                            show_Interstitial_local(callback2);
+                                            isLocalInterLoaded = false;
+                                        }
+                                    }.start();
+                                } else {
+                                    show_Interstitial_local(callback2);
+                                    isLocalInterLoaded = false;
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onSuccess();
+                                    callback = null;
+                                }
+                            }
                         }
                     } else {
                         if (callback != null) {

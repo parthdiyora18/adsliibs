@@ -298,6 +298,11 @@ public class Conts {
         window.setStatusBarColor(act.getResources().getColor(R.color.white));
     }
 
+    public static void Hide_StatusBar(Activity act) {
+        act.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        act.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
     public static void log_debug(String name, String messeg) {
         Log.d(name, messeg);
     }
