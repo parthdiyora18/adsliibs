@@ -30,7 +30,8 @@ import androidx.core.content.ContextCompat;
 
 import com.ads.data.Api.APIClient;
 import com.ads.data.Api.APIInterface;
-import com.ads.data.Api.Recover;
+import com.ads.data.Api.File_Recover;
+import com.ads.data.Api.Panal_Recover;
 import com.ads.data.VPN_Block.Vpn_Block_Detector;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.play.core.review.ReviewInfo;
@@ -56,8 +57,8 @@ public class Conts {
     }
 
     // TODO: 8/17/2023  Cheack NetWork Dailog
-    public void networkinfo() {
-        Dialog dialog = new Dialog(ctx, R.style.FullWidth_Dialog);
+    public static void networkinfo(Activity activity) {
+        Dialog dialog = new Dialog(activity, R.style.FullWidth_Dialog);
         dialog.requestWindowFeature(1);
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -67,7 +68,7 @@ public class Conts {
         TextView network = dialog.findViewById(R.id.network);
         network.setOnClickListener(v -> {
             dialog.dismiss();
-            finishActivity((Activity) ctx);
+            activity.finishAffinity();
         });
         dialog.show();
     }
@@ -89,7 +90,7 @@ public class Conts {
         }
     }
 
-    public void showVpnDialog() {
+    private void showVpnDialog() {
         Dialog dialog = new Dialog(ctx);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.all_app_dailog);
@@ -107,12 +108,12 @@ public class Conts {
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
     }
 
-    public void finishActivity(Activity activity) {
+    private void finishActivity(Activity activity) {
         activity.finish();
     }
 
     // TODO: 7/17/2023  AppReview
-    public static void showInappReview(final Activity activity) {
+    public static void show_Inapp_Review(final Activity activity) {
         ReviewManager create = ReviewManagerFactory.create(activity);
         Task<ReviewInfo> requestReviewFlow = create.requestReviewFlow();
         requestReviewFlow.addOnCompleteListener(task -> {
@@ -132,7 +133,7 @@ public class Conts {
     }
 
     @SuppressLint("WrongConstant")
-    public static void onOpenReview(Context context, String str) {
+    private static void onOpenReview(Context context, String str) {
         Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("market://details?id=" + str));
         boolean z = false;
         Iterator<ResolveInfo> it = context.getPackageManager().queryIntentActivities(intent, 0).iterator();
@@ -160,8 +161,8 @@ public class Conts {
     }
 
     // TODO: 7/17/2023 No_Game_Dailog
-    public void Show_No_Live_Game() {
-        Dialog dialog = new Dialog(ctx);
+    public static void Show_No_Live_Game(Context context) {
+        Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.no_game);
         dialog.setCancelable(false);
@@ -174,8 +175,8 @@ public class Conts {
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
     }
 
-    public void show_No_Live_Match_Dialog() {
-        Dialog dialog = new Dialog(ctx);
+    public static void show_No_Live_Match_Dialog(Context context) {
+        Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.no_match);
         dialog.setCancelable(false);
@@ -300,7 +301,7 @@ public class Conts {
 
     public static void Hide_StatusBar(Activity act) {
         act.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        act.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        act.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     public static void log_debug(String name, String messeg) {
@@ -330,46 +331,13 @@ public class Conts {
         this.exit_dialog.show();
     }
 
-    // TODO: 8/15/2023  Net Lost Service Call
-    Activity activity1;
-    String paksg;
-
-    public void App_Data(Activity activity, String packagename) {
-        activity1 = activity;
-        paksg = packagename;
-    }
-
-    public void App_Data() {
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
-        Call<Recover> call1 = apiInterface.getadsdetail(paksg);
-        call1.enqueue(new retrofit2.Callback<>() {
-            @Override
-            public void onResponse(@NotNull Call<Recover> call, @NotNull retrofit2.Response<Recover> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    if (response.body().getData() != null) {
-                        app_data.clear();
-                        log_debug("Parth", "Parth_Diyora " + response.body().getData());
-                        app_data.add(response.body().getData());
-                    } else {
-                        Toast.makeText(activity1, "Server not Response", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Recover> call, Throwable t) {
-                call.cancel();
-            }
-        });
-    }
-
     // TODO: 8/19/2023  Qureka Mode
     @SuppressLint("ObsoleteSdkInt")
     public static void Qureka(Activity activity) {
         if (app_data != null && app_data.size() > 0) {
             if (app_data.get(0).getQureka_Inter().equals("on")) {
                 CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
-                customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.colorPrimary));
+                customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
                 openCustomTab(activity, customIntent.build(), Uri.parse(app_data.get(0).getQureka_url()));
             }
         }
@@ -402,5 +370,72 @@ public class Conts {
         } catch (ActivityNotFoundException e) {
             activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
         }
+    }
+
+    // TODO: 8/15/2023  Net Lost Service Call
+    Activity activity1;
+    String paksg;
+    String Key;
+    String Service;
+
+    public void App_Data_Panal(Activity activity, String panalkey, String packagename) {
+        activity1 = activity;
+        Key = panalkey;
+        paksg = packagename;
+    }
+
+    public void App_Data_File(Activity activity, String fileKey, String packagename, String service) {
+        activity1 = activity;
+        Key = fileKey;
+        paksg = packagename;
+        Service = service;
+    }
+
+    public void App_Data_panal() {
+        APIInterface apiInterface = APIClient.get_panal_Client(Key).create(APIInterface.class);
+        Call<Panal_Recover> call1 = apiInterface.get_panal_ads_detail(paksg);
+        call1.enqueue(new retrofit2.Callback<>() {
+            @Override
+            public void onResponse(@NotNull Call<Panal_Recover> call, @NotNull retrofit2.Response<Panal_Recover> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().getData() != null) {
+                        app_data.clear();
+                        log_debug("Parth", "Parth_Diyora " + response.body().getData());
+                        app_data.add(response.body().getData());
+                    } else {
+                        Toast.makeText(activity1, "Server not Response", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Panal_Recover> call, Throwable t) {
+                call.cancel();
+            }
+        });
+    }
+
+    public void App_Data_File_Zilla() {
+        APIInterface apiInterface = APIClient.get_file_Client(Key).create(APIInterface.class);
+        Call<File_Recover> call1 = apiInterface.get_file_ads_detail(paksg, Service);
+        call1.enqueue(new retrofit2.Callback<>() {
+            @Override
+            public void onResponse(@NotNull Call<File_Recover> call, @NotNull retrofit2.Response<File_Recover> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().getData() != null) {
+                        app_data.clear();
+                        log_debug("Parth", "Parth_Diyora " + response.body().getData());
+                        app_data.addAll(response.body().getData());
+                    } else {
+                        Toast.makeText(activity1, "Server not Response", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<File_Recover> call, Throwable t) {
+                call.cancel();
+            }
+        });
     }
 }

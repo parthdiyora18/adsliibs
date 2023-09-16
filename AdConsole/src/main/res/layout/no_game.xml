@@ -58,7 +58,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:src="@drawable/comming_soon"
-            app:tint="@color/colorPrimary" />
+            app:tint="@color/first_color" />
 
         <TextView
             android:layout_width="match_parent"
@@ -87,7 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/round_native_btn"
-                android:backgroundTint="@color/colorPrimary"
+                android:backgroundTint="@color/first_color"
                 android:gravity="center"
                 android:text="I will do"
                 android:textColor="@color/white"

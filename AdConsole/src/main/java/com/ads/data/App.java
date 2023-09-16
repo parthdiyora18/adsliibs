@@ -23,6 +23,7 @@ import org.json.JSONObject;
 public class App extends Application {
     private static App _instance;
     AppOpen appOpenManager;
+
     public void onCreate() {
         super.onCreate();
         _instance = this;
@@ -100,14 +101,28 @@ public class App extends Application {
                 }
             }
             if (wifinet || datanet) {
-                if (AdsControl.isOnline(context)) {
-                    check = false;
-                    Conts conts = new Conts(context);
-                    conts.App_Data();
+                try {
+                    if (AdsControl.isOnline(context)) {
+                        check = false;
+                        Conts conts = new Conts(context);
+                        conts.App_Data_panal();
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    if (AdsControl.isOnline(context)) {
+                        check = false;
+                        Conts conts = new Conts(context);
+                        conts.App_Data_File_Zilla();
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
     }
+
     @Override
     public void onTerminate() {
         super.onTerminate();

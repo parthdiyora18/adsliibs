@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#ffffffff</color>
-    <!--    <color name="background_color">#400054F2</color>-->
-    <color name="background_color">#2A2C3B</color>
-
-    <color name="colorPrimary">#1E4175</color>
-
+    <!--    <color name="secound_color">#400054F2</color>-->
+    <color name="first_color">#1E4175</color>
+    <color name="secound_color">#2A2C3B</color>
     //new color
     <color name="black">#FF000000</color>
     <color name="gray_more_light">#33e5e5e5</color>

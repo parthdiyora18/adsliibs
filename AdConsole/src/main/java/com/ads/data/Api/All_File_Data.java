@@ -3,9 +3,7 @@ package com.ads.data.Api;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-public class Data {
+public class All_File_Data {
     @SerializedName("admob_splash_interid")
     @Expose
     private String admob_splash_interid;
@@ -138,6 +136,12 @@ public class Data {
     @SerializedName("preload_native_ads")
     @Expose
     private boolean preload_native_ads;
+    @SerializedName("preload_small_native_ads")
+    @Expose
+    private boolean preload_small_native_ads;
+    @SerializedName("preload_small_native_banner_ads")
+    @Expose
+    private boolean preload_small_native_banner_ads;
     @SerializedName("preload_banner_ads")
     @Expose
     private boolean preload_banner_ads;
@@ -201,6 +205,21 @@ public class Data {
     @SerializedName("live_mode")
     @Expose
     private String live_mode;
+    @SerializedName("Download")
+    @Expose
+    private String Download;
+    @SerializedName("Backgraound")
+    @Expose
+    private String Backgraound;
+    @SerializedName("Popup")
+    @Expose
+    private String Popup;
+    @SerializedName("Popup_click")
+    @Expose
+    private String Popup_click;
+    @SerializedName("Main_click")
+    @Expose
+    private String Main_click;
     @SerializedName("redirect_app")
     @Expose
     private String redirectApp;
@@ -557,6 +576,22 @@ public class Data {
         this.preload_native_ads = preload_native_ads;
     }
 
+    public boolean isPreload_small_native_ads() {
+        return preload_small_native_ads;
+    }
+
+    public void setPreload_small_native_ads(boolean preload_small_native_ads) {
+        this.preload_small_native_ads = preload_small_native_ads;
+    }
+
+    public boolean isPreload_small_native_banner_ads() {
+        return preload_small_native_banner_ads;
+    }
+
+    public void setPreload_small_native_banner_ads(boolean preload_small_native_banner_ads) {
+        this.preload_small_native_banner_ads = preload_small_native_banner_ads;
+    }
+
     public boolean isPreload_banner_ads() {
         return preload_banner_ads;
     }
@@ -723,6 +758,46 @@ public class Data {
 
     public void setLive_mode(String live_mode) {
         this.live_mode = live_mode;
+    }
+
+    public String getDownload() {
+        return Download;
+    }
+
+    public void setDownload(String download) {
+        Download = download;
+    }
+
+    public String getBackgraound() {
+        return Backgraound;
+    }
+
+    public void setBackgraound(String backgraound) {
+        Backgraound = backgraound;
+    }
+
+    public String getPopup() {
+        return Popup;
+    }
+
+    public void setPopup(String popup) {
+        Popup = popup;
+    }
+
+    public String getPopup_click() {
+        return Popup_click;
+    }
+
+    public void setPopup_click(String popup_click) {
+        Popup_click = popup_click;
+    }
+
+    public String getMain_click() {
+        return Main_click;
+    }
+
+    public void setMain_click(String main_click) {
+        Main_click = main_click;
     }
 
     public String getRedirectApp() {

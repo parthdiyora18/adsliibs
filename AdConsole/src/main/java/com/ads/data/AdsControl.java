@@ -1,7 +1,5 @@
 package com.ads.data;
 
-import static com.ads.data.Api.APIClient.Base_url;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -35,8 +33,9 @@ import androidx.cardview.widget.CardView;
 
 import com.ads.data.Api.APIClient;
 import com.ads.data.Api.APIInterface;
-import com.ads.data.Api.Data;
-import com.ads.data.Api.Recover;
+import com.ads.data.Api.All_File_Data;
+import com.ads.data.Api.File_Recover;
+import com.ads.data.Api.Panal_Recover;
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdFormat;
 import com.applovin.mediation.MaxAdListener;
@@ -234,10 +233,10 @@ public class AdsControl {
     AsyncHttpClient downloadcount = new AsyncHttpClient();
     int success = 0;
 
-    public void installcounter(String packagename) {
+    public void installcounter(String key, String packagename) {
         RequestParams params = new RequestParams();
         params.put("package_name", packagename);
-        downloadcount.post(Base_url + "appInstall", params, new JsonHttpResponseHandler() {
+        downloadcount.post(key + "appInstall", params, new JsonHttpResponseHandler() {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.e("Response : ", response.toString());
                 try {
@@ -254,19 +253,19 @@ public class AdsControl {
     }
 
     // TODO: 7/17/2023 Main Service Call
-    public static ArrayList<Data> app_data = new ArrayList<>();
+    public static ArrayList<All_File_Data> app_data = new ArrayList<>();
 
-    @SuppressLint("ObsoleteSdkInt")
-    public void init(final Activity activity, String packagename, getDataListner Callback) {
+    @SuppressLint("ObsoleteSdkInt")  // Panal Call
+    public void init_panal(final Activity activity, String panal_key, String packagename, getDataListner Callback) {
         boolean isBeingDebugged = Settings.Secure.getInt(activity.getContentResolver(), Settings.Global.ADB_ENABLED, 0) == 1;
         if (isNetworkAvailable()) {
             try {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
-                    Call<Recover> call1 = apiInterface.getadsdetail(packagename);
+                    APIInterface apiInterface = APIClient.get_panal_Client(panal_key).create(APIInterface.class);
+                    Call<Panal_Recover> call1 = apiInterface.get_panal_ads_detail(packagename);
                     call1.enqueue(new retrofit2.Callback<>() {
                         @Override
-                        public void onResponse(@NotNull Call<Recover> call, @NotNull retrofit2.Response<Recover> response) {
+                        public void onResponse(@NotNull Call<Panal_Recover> call, @NotNull retrofit2.Response<Panal_Recover> response) {
                             if (response.isSuccessful() && response.body() != null) {
                                 if (response.body().getData() != null) {
                                     app_data.clear();
@@ -304,7 +303,7 @@ public class AdsControl {
                         }
 
                         @Override
-                        public void onFailure(@NonNull Call<Recover> call, @NonNull Throwable t) {
+                        public void onFailure(@NonNull Call<Panal_Recover> call, @NonNull Throwable t) {
                             call.cancel();
                             preload_ads_call(Callback);
                         }
@@ -314,10 +313,73 @@ public class AdsControl {
                 throw new RuntimeException(e);
             }
             Conts conts = new Conts(activity);
-            conts.App_Data(activity, packagename);
+            conts.App_Data_Panal(activity, panal_key, packagename);
         } else {
+            Conts.networkinfo(activity);
+        }
+    }
+
+    @SuppressLint("ObsoleteSdkInt")  // FileZilla Call
+    public void init_file(final Activity activity, String file_key, String packagename, String service, getDataListner Callback) {
+        boolean isBeingDebugged = Settings.Secure.getInt(activity.getContentResolver(), Settings.Global.ADB_ENABLED, 0) == 1;
+        if (isNetworkAvailable()) {
+            try {
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                    APIInterface apiInterface = APIClient.get_file_Client(file_key).create(APIInterface.class);
+                    Call<File_Recover> call1 = apiInterface.get_file_ads_detail(packagename, service);
+                    call1.enqueue(new retrofit2.Callback<>() {
+                        @Override
+                        public void onResponse(@NotNull Call<File_Recover> call, @NotNull retrofit2.Response<File_Recover> response) {
+                            if (response.isSuccessful() && response.body() != null) {
+                                if (response.body().getData() != null) {
+                                    app_data.clear();
+                                    Conts.log_debug(TAG, "Parth_Diyora " + response.body().getData());
+                                    app_data.addAll(response.body().getData());
+                                    WortiseSdk.initialize(activity, app_data.get(0).getWortiseAppId());
+                                    String ridirect_app = app_data.get(0).getRedirectApp();
+                                    if (!ridirect_app.equalsIgnoreCase("")) {
+                                        activity.startActivity(new Intent("android.intent.action.VIEW").setData(Uri.parse("https://play.google.com/store/apps/details?id=" + ridirect_app)));
+                                    } else {
+                                        if (app_data.get(0).isVpn_option()) {
+                                            Conts conts = new Conts(activity);
+                                            conts.check_VPN_App(activity, () -> {
+                                                if (isBeingDebugged && app_data.get(0).isDev_option()) {
+                                                    Conts conts1 = new Conts(activity);
+                                                    conts1.Debugging(() -> preload_ads_call(Callback));
+                                                } else {
+                                                    preload_ads_call(Callback);
+                                                }
+                                            });
+                                        } else {
+                                            if (isBeingDebugged && app_data.get(0).isDev_option()) {
+                                                Conts conts1 = new Conts(activity);
+                                                conts1.Debugging(() -> preload_ads_call(Callback));
+                                            } else {
+                                                preload_ads_call(Callback);
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    preload_ads_call(Callback);
+                                    Toast.makeText(activity, "Server not Response", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<File_Recover> call, @NonNull Throwable t) {
+                            call.cancel();
+                            preload_ads_call(Callback);
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             Conts conts = new Conts(activity);
-            conts.networkinfo();
+            conts.App_Data_File(activity, file_key, packagename, service);
+        } else {
+            Conts.networkinfo(activity);
         }
     }
 
@@ -337,8 +399,12 @@ public class AdsControl {
                     } else {
                         native_Ads();
                     }
-                    small_native_banner_Ads();
+                }
+                if (app_data.get(0).isPreload_small_native_ads()) {
                     small_native_Ads();
+                }
+                if (app_data.get(0).isPreload_small_native_banner_ads()) {
+                    small_native_banner_Ads();
                 }
                 if (app_data.get(0).isPreload_inter_ads()) {
                     if (app_data.get(0).getAd_inter_type().equalsIgnoreCase("appopen")) {
@@ -388,7 +454,9 @@ public class AdsControl {
                             AdsControl.getInstance(activity).show_local_Appopen(() -> Next_Call(myCallback));
                             break;
                         case "off":
-                            Next_Call(myCallback);
+                            new Handler().postDelayed(() -> {
+                                Next_Call(myCallback);
+                            }, 2500);
                             break;
                         default:
                     }
@@ -1439,7 +1507,7 @@ public class AdsControl {
     public void show_small_native_banner_ad(final ViewGroup native_banner_ad) {
         if (app_data != null && app_data.size() > 0) {
             if (app_data.get(0).isAds_show()) {
-                if (app_data.get(0).isPreload_native_ads()) {
+                if (app_data.get(0).isPreload_small_native_banner_ads()) {
                     if (isadmob_small_native_banner_Loaded) {
                         new NativeAds(activity).Admob_Small_Native_Banner_Ad(Admob_small_native_banner_Ad, native_banner_ad);
                         Conts.log_debug(TAG, "Admob Native Banner ad show");
@@ -1988,7 +2056,7 @@ public class AdsControl {
     public void show_small_native_ad(final ViewGroup native_banner_ad) {
         if (app_data != null && app_data.size() > 0) {
             if (app_data.get(0).isAds_show()) {
-                if (app_data.get(0).isPreload_native_ads()) {
+                if (app_data.get(0).isPreload_small_native_ads()) {
                     if (isAdmob_small_native_Loaded) {
                         new NativeAds(activity).Admob_Small_Native_Ad(Admob_small_native_Ad, native_banner_ad);
                         Conts.log_debug(TAG, "Admob Small Native ad show");
