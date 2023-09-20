@@ -56,12 +56,12 @@ public class AppOpen implements LifecycleObserver, Application.ActivityLifecycle
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void onStart() {
-        appopen_Ads();
+        appopen_Ads(currentActivity);
     }
 
     int ad_openad_network = 0;
 
-    public void appopen_Ads() {
+    public void appopen_Ads(Activity activity) {
         try {
             if (app_data != null && app_data.size() > 0) {
                 if (app_data.get(0).isAds_show()) {
@@ -69,31 +69,31 @@ public class AppOpen implements LifecycleObserver, Application.ActivityLifecycle
                     if (ad_openad_network < adnetwork.length) {
                         switch (adnetwork[ad_openad_network]) {
                             case "native":
-                                Native_Ads();
+                                Native_Ads(activity);
                                 ad_openad_network++;
                                 break;
                             case "inter":
-                                AdsControl.getInstance(currentActivity).show_splash_inter(() -> currentActivity = null);
+                                AdsControl.getInstance(currentActivity).show_splash_inter(activity, () -> currentActivity = null);
                                 ad_openad_network++;
                                 break;
                             case "admob":
-                                AdsControl.getInstance(currentActivity).show_Admob_Appopen(() -> currentActivity = null);
+                                AdsControl.getInstance(currentActivity).show_Admob_Appopen(activity, () -> currentActivity = null);
                                 ad_openad_network++;
                                 break;
                             case "adx":
-                                AdsControl.getInstance(currentActivity).show_Adx_Appopen(() -> currentActivity = null);
+                                AdsControl.getInstance(currentActivity).show_Adx_Appopen(activity, () -> currentActivity = null);
                                 ad_openad_network++;
                                 break;
                             case "wortise":
-                                AdsControl.getInstance(currentActivity).show_Wortise_Appopen(() -> currentActivity = null);
+                                AdsControl.getInstance(currentActivity).show_Wortise_Appopen(activity, () -> currentActivity = null);
                                 ad_openad_network++;
                                 break;
                             case "applovin":
-                                AdsControl.getInstance(currentActivity).show_Applovin_Appopen(() -> currentActivity = null);
+                                AdsControl.getInstance(currentActivity).show_Applovin_Appopen(activity, () -> currentActivity = null);
                                 ad_openad_network++;
                                 break;
                             case "local":
-                                AdsControl.getInstance(currentActivity).show_local_Appopen(() -> currentActivity = null);
+                                AdsControl.getInstance(currentActivity).show_local_Appopen(activity, () -> currentActivity = null);
                                 ad_openad_network++;
                                 break;
                             default:
@@ -113,13 +113,13 @@ public class AppOpen implements LifecycleObserver, Application.ActivityLifecycle
 
     Dialog ad_dialog;
 
-    void Native_Ads() {
-        Dialog dialog = new Dialog(currentActivity);
+    void Native_Ads(Activity act) {
+        Dialog dialog = new Dialog(act);
         ad_dialog = dialog;
         dialog.requestWindowFeature(1);
         dialog.setCancelable(false);
         this.ad_dialog.setContentView(R.layout.open_native);
-        AdsControl.getInstance(currentActivity).show_native_ad(dialog.findViewById(R.id.ad_native));
+        AdsControl.getInstance(act).show_native_ad(dialog.findViewById(R.id.ad_native));
         ImageView continuee = ad_dialog.findViewById(R.id.continuee);
         new Handler().postDelayed(() -> {
             continuee.setVisibility(View.VISIBLE);

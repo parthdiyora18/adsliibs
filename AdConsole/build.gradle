@@ -44,7 +44,7 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.16.1'
     implementation 'com.loopj.android:android-async-http:1.4.11'
     // Admob, Adx
-    implementation 'com.google.android.gms:play-services-ads:22.3.0'
+    implementation 'com.google.android.gms:play-services-ads:22.4.0'
     implementation 'com.google.ads.mediation:facebook:6.16.0.0'
     implementation 'com.google.ads.mediation:applovin:11.11.3.0'
     // Fb
@@ -55,9 +55,9 @@ dependencies {
     implementation 'com.wortise:android-sdk:1.4.1'
     // Applovin
     implementation 'com.applovin:applovin-sdk:11.11.3'
-    implementation 'com.applovin.mediation:google-ad-manager-adapter:22.3.0.0'
-    implementation 'com.applovin.mediation:google-adapter:22.3.0.0'
-    implementation 'com.applovin.mediation:facebook-adapter:6.15.0.0'
+    implementation 'com.applovin.mediation:google-ad-manager-adapter:22.4.0.0'
+    implementation 'com.applovin.mediation:google-adapter:22.4.0.0'
+    implementation 'com.applovin.mediation:facebook-adapter:6.16.0.0'
     // Inmobi
     implementation 'com.inmobi.monetization:inmobi-ads:10.1.4'
 

@@ -27,13 +27,17 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         _instance = this;
+        // Admob , adx
         MobileAds.initialize(this, initializationStatus -> {
         });
+        // Fb
         AudienceNetworkAds.initialize(_instance);
+        // Applovin
         AppLovinSdk.getInstance(_instance).isInitialized();
         AppLovinSdk.getInstance(_instance).setMediationProvider("max");
         AppLovinSdk.initializeSdk(_instance, configuration -> {
         });
+        // Inmobi
         JSONObject consentObject = new JSONObject();
         try {
             consentObject.put(InMobiSdk.IM_GDPR_CONSENT_AVAILABLE, true);

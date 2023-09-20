@@ -19,7 +19,8 @@ public class Secound_Activity extends AppCompatActivity {
         AdsControl.getInstance(Secound_Activity.this).show_native_ad(findViewById(R.id.native_ads));
         AdsControl.getInstance(Secound_Activity.this).show_small_native_ad(findViewById(R.id.small_native_ads));
         AdsControl.getInstance(Secound_Activity.this).show_small_native_banner_ad(findViewById(R.id.small_native_banner_ads));
-        findViewById(R.id.btn).setOnClickListener(v -> AdsControl.getInstance(Secound_Activity.this).show_Interstitial(() -> {
+        findViewById(R.id.btn).setOnClickListener(v ->
+                AdsControl.getInstance(Secound_Activity.this).show_Interstitial(Secound_Activity.this, () -> {
             startActivity(new Intent(Secound_Activity.this, Thrd_Activity.class));
         }));
     }
