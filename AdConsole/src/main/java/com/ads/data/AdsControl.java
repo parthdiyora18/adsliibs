@@ -28,7 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import com.ads.data.Api.APIClient;
 import com.ads.data.Api.APIInterface;
@@ -203,7 +205,6 @@ public class AdsControl {
     AppOpenAd adx_appOpenAd_inter;
     AppOpenAd admob_appOpenAd;
     AppOpenAd adx_appOpenAd;
-
     SharedPreferences prefs;
 
     public AdsControl(Context context) {
@@ -253,7 +254,7 @@ public class AdsControl {
     public static ArrayList<All_File_Data> app_data = new ArrayList<>();
 
     @SuppressLint("ObsoleteSdkInt")  // Panal Call
-    public void init_panal(final Activity act, String panal_key, String packagename, getDataListner Callback) {
+    public void init_panal(final Activity act, String panal_key, String packagename, OnClickListener Callback) {
         boolean isBeingDebugged = Settings.Secure.getInt(act.getContentResolver(), Settings.Global.ADB_ENABLED, 0) == 1;
         if (isNetworkAvailable()) {
             try {
@@ -294,9 +295,11 @@ public class AdsControl {
                                         }
                                     }
                                 } else {
-                                    preload_ads_call(act, Callback);
                                     Toast.makeText(act, "Server not Response", Toast.LENGTH_SHORT).show();
+                                    Callback.onClick();
                                 }
+                            } else {
+                                Callback.onClick();
                             }
                         }
 
@@ -318,7 +321,7 @@ public class AdsControl {
     }
 
     @SuppressLint("ObsoleteSdkInt")  // FileZilla Call
-    public void init_file(final Activity act, String file_key, String packagename, String service, getDataListner Callback) {
+    public void init_file(final Activity act, String file_key, String packagename, String service, OnClickListener Callback) {
         boolean isBeingDebugged = Settings.Secure.getInt(act.getContentResolver(), Settings.Global.ADB_ENABLED, 0) == 1;
         if (isNetworkAvailable()) {
             try {
@@ -359,9 +362,11 @@ public class AdsControl {
                                         }
                                     }
                                 } else {
-                                    preload_ads_call(act, Callback);
                                     Toast.makeText(act, "Server not Response", Toast.LENGTH_SHORT).show();
+                                    Callback.onClick();
                                 }
+                            } else {
+                                Callback.onClick();
                             }
                         }
 
@@ -389,7 +394,7 @@ public class AdsControl {
     }
 
     // TODO: 8/29/2023  Preload ads
-    private void preload_ads_call(Activity activity, getDataListner myCallback) {
+    private void preload_ads_call(Activity activity, OnClickListener myCallback) {
         if (app_data != null && app_data.size() > 0) {
             if (app_data.get(0).isAds_show()) {
                 if (app_data.get(0).isPreload_native_ads()) {
@@ -425,7 +430,7 @@ public class AdsControl {
     }
 
     // TODO: 7/17/2023 Call Intent
-    private void call(Activity activity, getDataListner myCallback) {
+    private void call(Activity activity, OnClickListener myCallback) {
         try {
             if (app_data != null && app_data.size() > 0) {
                 if (app_data.get(0).isAds_show()) {
@@ -471,8 +476,8 @@ public class AdsControl {
     // TODO: 7/17/2023  Open Native Dialog Ads
     Dialog ad_dialog;
 
-    private void open_native(Activity activity, getDataListner callback) {
-        Dialog dialog = new Dialog(activity);
+    private void open_native(Activity act, OnClickListener callback) {
+        Dialog dialog = new Dialog(act);
         ad_dialog = dialog;
         dialog.requestWindowFeature(1);
         dialog.setCancelable(false);
@@ -483,7 +488,7 @@ public class AdsControl {
             continuee.setVisibility(View.VISIBLE);
             continuee.setOnClickListener(v -> {
                 ad_dialog.dismiss();
-                secound_splash_Ads(activity, callback);
+                secound_splash_Ads(act, callback);
             });
         }, 2500);
         this.ad_dialog.setCanceledOnTouchOutside(false);
@@ -493,29 +498,29 @@ public class AdsControl {
         this.ad_dialog.show();
     }
 
-    private void secound_splash_Ads(Activity activity, getDataListner callback2) {
+    private void secound_splash_Ads(Activity act, OnClickListener callback2) {
         try {
             if (app_data != null && app_data.size() > 0) {
                 if (app_data.get(0).isAds_show()) {
                     String adnetwork = app_data.get(0).getAd_secound_splash();
                     switch (adnetwork) {
                         case "inter":
-                            AdsControl.getInstance(activity).show_splash_inter(activity, () -> Next_Call(callback2));
+                            AdsControl.getInstance(act).show_splash_inter(act, () -> Next_Call(callback2));
                             break;
                         case "admob":
-                            AdsControl.getInstance(activity).show_Admob_Appopen(activity, () -> Next_Call(callback2));
+                            AdsControl.getInstance(act).show_Admob_Appopen(act, () -> Next_Call(callback2));
                             break;
                         case "adx":
-                            AdsControl.getInstance(activity).show_Adx_Appopen(activity, () -> Next_Call(callback2));
+                            AdsControl.getInstance(act).show_Adx_Appopen(act, () -> Next_Call(callback2));
                             break;
                         case "applovin":
-                            AdsControl.getInstance(activity).show_Applovin_Appopen(activity, () -> Next_Call(callback2));
+                            AdsControl.getInstance(act).show_Applovin_Appopen(act, () -> Next_Call(callback2));
                             break;
                         case "wortise":
-                            AdsControl.getInstance(activity).show_Wortise_Appopen(activity, () -> Next_Call(callback2));
+                            AdsControl.getInstance(act).show_Wortise_Appopen(act, () -> Next_Call(callback2));
                             break;
                         case "local":
-                            AdsControl.getInstance(activity).show_local_Appopen(activity, () -> Next_Call(callback2));
+                            AdsControl.getInstance(act).show_local_Appopen(act, () -> Next_Call(callback2));
                             break;
                         case "off":
                             Next_Call(callback2);
@@ -531,8 +536,8 @@ public class AdsControl {
         }
     }
 
-    private void Next_Call(getDataListner myCallback) {
-        myCallback.onSuccess();
+    private void Next_Call(OnClickListener myCallback) {
+        myCallback.onClick();
     }
 
     //-------------------------------------------------------- Banner Ads -------------------------------------------------------
@@ -545,6 +550,7 @@ public class AdsControl {
     int current_applovin_BannerId = 0;
     int current_wortise_BannerId = 0;
     int current_inmobi_BannerId = 0;
+
     private void banner_Ads() {
         try {
             if (app_data != null && app_data.size() > 0) {
@@ -1488,11 +1494,22 @@ public class AdsControl {
             } catch (Exception ignored) {
             }
             custm_native.setOnClickListener(view -> {
-                try {
-                    Intent intent = new Intent("android.intent.action.VIEW").setData(Uri.parse(app_data.get(0).getNew_app_link()));
-                    activity.startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
+                    try {
+                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
+                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
+                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    try {
+                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
+                        activity.startActivity(i);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -1850,10 +1867,10 @@ public class AdsControl {
 
     // Admob Mode
     private void preload_Admob_Small_Native_Ad(String placementId) {
-        if (isAdmob_small_native_Loaded) {
-            return;
-        }
         if (!placementId.equalsIgnoreCase("")) {
+            if (isAdmob_small_native_Loaded) {
+                return;
+            }
             final AdLoader.Builder builder = new AdLoader.Builder(activity, placementId);
             builder.forNativeAd(nativeAd -> {
                 Conts.log_debug(TAG, "Admob Small Native Ad Loaded");
@@ -1878,10 +1895,10 @@ public class AdsControl {
 
     // Adx Mode
     private void preload_Adx_Small_Native_Ad(String placementId) {
-        if (isadx_small_native_Loaded) {
-            return;
-        }
         if (!placementId.equalsIgnoreCase("")) {
+            if (isadx_small_native_Loaded) {
+                return;
+            }
             final AdLoader.Builder builder = new AdLoader.Builder(activity, placementId);
             builder.forNativeAd(nativeAd -> {
                 Conts.log_debug(TAG, "Adx Small Native Ad Loaded");
@@ -1906,10 +1923,10 @@ public class AdsControl {
 
     // FB Mode
     private void preload_Fb_Small_Native_Ad(String placementId) {
-        if (isFb_small_native_Loaded) {
-            return;
-        }
         if (!placementId.equalsIgnoreCase("")) {
+            if (isFb_small_native_Loaded) {
+                return;
+            }
             final NativeBannerAd fb_small_native = new NativeBannerAd(activity, placementId);
             NativeAdListener nativeAdListener = new NativeAdListener() {
 
@@ -1947,10 +1964,10 @@ public class AdsControl {
 
     // Applovin Mode
     private void preload_Applovin_Small_NativeAd(String placementId) {
-        if (isapplovin_small_native_Loaded) {
-            return;
-        }
         if (!placementId.equalsIgnoreCase("")) {
+            if (isapplovin_small_native_Loaded) {
+                return;
+            }
             final MaxNativeAdLoader nativeAdLoader = new MaxNativeAdLoader(placementId, activity);
             nativeAdLoader.setRevenueListener(ad -> {
             });
@@ -1979,10 +1996,10 @@ public class AdsControl {
 
     // Wortise Mode
     private void preload_Wortise_Small_Native_Ad(String placementId) {
-        if (isWortise_small_Native_Loaded) {
-            return;
-        }
         if (!placementId.equalsIgnoreCase("")) {
+            if (isWortise_small_Native_Loaded) {
+                return;
+            }
             final GoogleNativeAd wortise_google_small_native = new GoogleNativeAd(activity, placementId, new GoogleNativeAd.Listener() {
                 @Override
                 public void onNativeClicked(@NonNull GoogleNativeAd googleNativeAd) {
@@ -2037,11 +2054,22 @@ public class AdsControl {
             } catch (Exception ignored) {
             }
             custm_native.setOnClickListener(view -> {
-                try {
-                    Intent intent = new Intent("android.intent.action.VIEW").setData(Uri.parse(app_data.get(0).getNew_app_link()));
-                    activity.startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
+                    try {
+                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
+                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
+                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    try {
+                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
+                        activity.startActivity(i);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -2407,10 +2435,10 @@ public class AdsControl {
     // Admob Mode
     @SuppressLint("MissingPermission")
     private void preload_Admob_Native_Ad(String placementId) {
-        if (isadmob_native_Loaded) {
-            return;
-        }
         if (!placementId.equalsIgnoreCase("")) {
+            if (isadmob_native_Loaded) {
+                return;
+            }
             final AdLoader.Builder builder = new AdLoader.Builder(activity, placementId);
             builder.forNativeAd(nativeAd -> {
                 Conts.log_debug(TAG, "Admob Native Ad Loaded");
@@ -2435,10 +2463,10 @@ public class AdsControl {
     // Adx Mode
     @SuppressLint("MissingPermission")
     private void preload_Adx_Native_Ad(String placementId) {
-        if (isadx_native_Loaded) {
-            return;
-        }
         if (!placementId.equalsIgnoreCase("")) {
+            if (isadx_native_Loaded) {
+                return;
+            }
             final AdLoader.Builder builder = new AdLoader.Builder(activity, placementId);
             builder.forNativeAd(nativeAd -> {
                 Conts.log_debug(TAG, "Adx Native Ad Loaded");
@@ -2462,10 +2490,10 @@ public class AdsControl {
 
     // FB Mode
     private void preloadFbNativeAd(String placementId) {
-        if (isFB_Native_Loaded) {
-            return;
-        }
         if (!placementId.equalsIgnoreCase("")) {
+            if (isFB_Native_Loaded) {
+                return;
+            }
             final com.facebook.ads.NativeAd fbnative_Ad = new com.facebook.ads.NativeAd(activity, placementId);
             NativeAdListener nativeAdListener = new NativeAdListener() {
                 @Override
@@ -2501,10 +2529,10 @@ public class AdsControl {
 
     // Applovin Mode
     private void preload_Applovin_NativeAd(String placementId) {
-        if (isApplovin_Native_Loaded) {
-            return;
-        }
         if (!placementId.equalsIgnoreCase("")) {
+            if (isApplovin_Native_Loaded) {
+                return;
+            }
             final MaxNativeAdLoader nativeAdLoader = new MaxNativeAdLoader(placementId, activity);
             nativeAdLoader.setRevenueListener(ad -> {
             });
@@ -2533,10 +2561,10 @@ public class AdsControl {
 
     // Wortise Mode
     private void preload_Wortise_Native_Ad(String placementId) {
-        if (isWortise_Native_Loaded) {
-            return;
-        }
         if (!placementId.equalsIgnoreCase("")) {
+            if (isWortise_Native_Loaded) {
+                return;
+            }
             final GoogleNativeAd wortise_google_native = new GoogleNativeAd(activity, placementId, new GoogleNativeAd.Listener() {
                 @Override
                 public void onNativeClicked(@NonNull GoogleNativeAd googleNativeAd) {
@@ -2594,11 +2622,22 @@ public class AdsControl {
                 } catch (Exception ignored) {
                 }
                 custm_native.setOnClickListener(view -> {
-                    try {
-                        Intent intent = new Intent("android.intent.action.VIEW").setData(Uri.parse(app_data.get(0).getNew_app_link()));
-                        activity.startActivity(intent);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
+                        try {
+                            CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
+                            customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
+                            Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else {
+                        try {
+                            Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+                            i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
+                            activity.startActivity(i);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
             }
@@ -2693,10 +2732,10 @@ public class AdsControl {
     // Admob Mode
     @SuppressLint("MissingPermission")
     private void preload_medium_rectAd_Admob(String placmentId) {
-        if (isAdmob_Mediam_Ragtangal_Loaded) {
-            return;
-        }
         if (!placmentId.equalsIgnoreCase("")) {
+            if (isAdmob_Mediam_Ragtangal_Loaded) {
+                return;
+            }
             final AdView admob_Mediam_Ragtangal = new AdView(activity);
             admob_Mediam_Ragtangal.setAdSize(AdSize.MEDIUM_RECTANGLE);
             admob_Mediam_Ragtangal.setAdUnitId(placmentId);
@@ -2723,10 +2762,10 @@ public class AdsControl {
     // Adx Mode
     @SuppressLint("MissingPermission")
     private void preload_medium_rect_Adx(String placmentId) {
-        if (isAdx_Mediam_Ragtangal_Loaded) {
-            return;
-        }
         if (!placmentId.equalsIgnoreCase("")) {
+            if (isAdx_Mediam_Ragtangal_Loaded) {
+                return;
+            }
             final AdManagerAdView adx_Mediam_Ragtangal = new AdManagerAdView(activity);
             adx_Mediam_Ragtangal.setAdSize(AdSize.MEDIUM_RECTANGLE);
             adx_Mediam_Ragtangal.setAdUnitId(placmentId);
@@ -2754,10 +2793,10 @@ public class AdsControl {
 
     // FB Mode
     private void preload_medium_rect_FB(String placmentId) {
-        if (isFB_Mediam_Ragtangal_Loaded) {
-            return;
-        }
         if (!placmentId.equalsIgnoreCase("")) {
+            if (isFB_Mediam_Ragtangal_Loaded) {
+                return;
+            }
             final com.facebook.ads.AdView fb_Ragtangal = new com.facebook.ads.AdView(activity, placmentId, com.facebook.ads.AdSize.RECTANGLE_HEIGHT_250);
             com.facebook.ads.AdListener adListener = new com.facebook.ads.AdListener() {
                 @Override
@@ -2787,10 +2826,10 @@ public class AdsControl {
 
     // Applovin Mode
     private void preload_medium_rect_Applovin(String placmentId) {
-        if (isApplovin_Mediam_Ragtangal_Loaded) {
-            return;
-        }
         if (!placmentId.equalsIgnoreCase("")) {
+            if (isApplovin_Mediam_Ragtangal_Loaded) {
+                return;
+            }
             final MaxAdView applovin_medium_rect = new MaxAdView(placmentId, MaxAdFormat.MREC, activity);
             int widthPx = AppLovinSdkUtils.dpToPx(activity, 300);
             int heightPx = AppLovinSdkUtils.dpToPx(activity, 250);
@@ -2839,10 +2878,10 @@ public class AdsControl {
 
     // Wortise Mode
     private void preloadmedium_rect_Wortise(String placmentId) {
-        if (isWortise_medium_ragtangal_Loaded) {
-            return;
-        }
         if (!placmentId.equalsIgnoreCase("")) {
+            if (isWortise_medium_ragtangal_Loaded) {
+                return;
+            }
             final BannerAd wortise_medium_ragtangal = new BannerAd(activity);
             wortise_medium_ragtangal.setAdSize(com.wortise.ads.AdSize.HEIGHT_250);
             wortise_medium_ragtangal.setAdUnitId(placmentId);
@@ -3426,7 +3465,7 @@ public class AdsControl {
     }
 
     //-------------------------------------------- Inter Ads ----------------------------------------------------------------------------
-    static getDataListner callback;
+    static OnClickListener callback;
     int ad_inter_network = 0;
     int current_admob_IntrId = 0;
     int current_adx_IntrId = 0;
@@ -3547,7 +3586,7 @@ public class AdsControl {
                         public void onAdDismissedFullScreenContent() {
                             Conts.log_debug(TAG, "Admob Inter Close");
                             if (callback != null) {
-                                callback.onSuccess();
+                                callback.onClick();
                                 callback = null;
                             }
                         }
@@ -3592,7 +3631,7 @@ public class AdsControl {
                         public void onAdDismissedFullScreenContent() {
                             Conts.log_debug(TAG, "Adx Inter Close");
                             if (callback != null) {
-                                callback.onSuccess();
+                                callback.onClick();
                                 callback = null;
                             }
                         }
@@ -3634,7 +3673,7 @@ public class AdsControl {
                 public void onInterstitialDismissed(Ad ad) {
                     Conts.log_debug(TAG, "FB Inter ad Close");
                     if (callback != null) {
-                        callback.onSuccess();
+                        callback.onClick();
                         callback = null;
                     }
                 }
@@ -3688,7 +3727,7 @@ public class AdsControl {
                 public void onAdHidden(MaxAd ad) {
                     Conts.log_debug(TAG, "Applovin Inter Close");
                     if (callback != null) {
-                        callback.onSuccess();
+                        callback.onClick();
                         callback = null;
                     }
                 }
@@ -3728,7 +3767,7 @@ public class AdsControl {
                 public void onInterstitialDismissed(@NonNull com.wortise.ads.interstitial.InterstitialAd ad) {
                     Conts.log_debug(TAG, "Wortise Inter ad Close.");
                     if (callback != null) {
-                        callback.onSuccess();
+                        callback.onClick();
                         callback = null;
                     }
                 }
@@ -3775,7 +3814,7 @@ public class AdsControl {
                 public void onAdDismissed(@NonNull InMobiInterstitial ad) {
                     Conts.log_debug(TAG, "Inmobi Inter ad Close");
                     if (callback != null) {
-                        callback.onSuccess();
+                        callback.onClick();
                         callback = null;
                     }
                 }
@@ -3808,7 +3847,7 @@ public class AdsControl {
     }
 
     // TODO: 7/17/2023 Show Inter Ads
-    public void show_Interstitial(Activity act, getDataListner callback2) {
+    public void show_Interstitial(Activity act, OnClickListener callback2) {
         callback = callback2;
         int interadds_count = countAdds + 1;
         countAdds = interadds_count;
@@ -3955,7 +3994,7 @@ public class AdsControl {
                                 isInmobiInterLoaded = false;
                                 inter_Ads();
                             }
-                        }  else if (isLocalInterLoaded) {
+                        } else if (isLocalInterLoaded) {
                             if (app_data.get(0).isApp_inter_dialog_show()) {
                                 ad_inter_dialog.show();
                                 new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
@@ -3983,7 +4022,7 @@ public class AdsControl {
                                 public void onAdDismissedFullScreenContent() {
                                     admob_appOpenAd_inter = null;
                                     if (callback != null) {
-                                        callback.onSuccess();
+                                        callback.onClick();
                                         callback = null;
                                     }
                                 }
@@ -4027,7 +4066,7 @@ public class AdsControl {
                                 public void onAdDismissedFullScreenContent() {
                                     adx_appOpenAd_inter = null;
                                     if (callback != null) {
-                                        callback.onSuccess();
+                                        callback.onClick();
                                         callback = null;
                                     }
                                 }
@@ -4121,7 +4160,7 @@ public class AdsControl {
                                     appopen_Ads();
                                 }
                             }
-                        }  else if (islocal_appopen_Loaded) {
+                        } else if (islocal_appopen_Loaded) {
                             if (app_data.get(0).isApp_inter_dialog_show()) {
                                 ad_inter_dialog.show();
                                 new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
@@ -4147,13 +4186,13 @@ public class AdsControl {
                             }
                         } else {
                             if (callback != null) {
-                                callback.onSuccess();
+                                callback.onClick();
                                 callback = null;
                             }
                         }
                     } else {
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -4172,7 +4211,7 @@ public class AdsControl {
                                                     @Override
                                                     public void onAdDismissedFullScreenContent() {
                                                         if (callback != null) {
-                                                            callback.onSuccess();
+                                                            callback.onClick();
                                                             callback = null;
                                                         }
                                                     }
@@ -4216,7 +4255,7 @@ public class AdsControl {
                                                         super.onAdFailedToLoad(loadAdError);
                                                         Conts.log_debug(TAG, "Admob Open Failed " + loadAdError.getMessage());
                                                         if (callback != null) {
-                                                            callback.onSuccess();
+                                                            callback.onClick();
                                                             callback = null;
                                                         }
                                                     }
@@ -4224,7 +4263,7 @@ public class AdsControl {
                                                 AppOpenAd.load(act, placement, getAdRequest(), loadCallback);
                                             } else {
                                                 if (callback != null) {
-                                                    callback.onSuccess();
+                                                    callback.onClick();
                                                     callback = null;
                                                 }
                                             }
@@ -4238,7 +4277,7 @@ public class AdsControl {
                                                     public void onAdDismissedFullScreenContent() {
                                                         Conts.log_debug(TAG, "Adx Open Ad close");
                                                         if (callback != null) {
-                                                            callback.onSuccess();
+                                                            callback.onClick();
                                                             callback = null;
                                                         }
                                                     }
@@ -4281,7 +4320,7 @@ public class AdsControl {
                                                         super.onAdFailedToLoad(loadAdError);
                                                         Conts.log_debug(TAG, "Adx Open Ad Failed " + loadAdError.getMessage());
                                                         if (callback != null) {
-                                                            callback.onSuccess();
+                                                            callback.onClick();
                                                             callback = null;
                                                         }
                                                     }
@@ -4289,7 +4328,7 @@ public class AdsControl {
                                                 AppOpenAd.load(act, adx_placement, adManagerAdRequest(), loadCallback);
                                             } else {
                                                 if (callback != null) {
-                                                    callback.onSuccess();
+                                                    callback.onClick();
                                                     callback = null;
                                                 }
                                             }
@@ -4336,7 +4375,7 @@ public class AdsControl {
                                                     public void onAdHidden(MaxAd maxAd) {
                                                         Conts.log_debug(TAG, "Applovin Close Open Ad");
                                                         if (callback != null) {
-                                                            callback.onSuccess();
+                                                            callback.onClick();
                                                             callback = null;
                                                         }
                                                     }
@@ -4349,7 +4388,7 @@ public class AdsControl {
                                                     public void onAdLoadFailed(String s, MaxError maxError) {
                                                         Conts.log_debug(TAG, "Applovin Failed Open Ad " + maxError.getMessage());
                                                         if (callback != null) {
-                                                            callback.onSuccess();
+                                                            callback.onClick();
                                                             callback = null;
                                                         }
                                                     }
@@ -4360,7 +4399,7 @@ public class AdsControl {
                                                 });
                                             } else {
                                                 if (callback != null) {
-                                                    callback.onSuccess();
+                                                    callback.onClick();
                                                     callback = null;
                                                 }
                                             }
@@ -4407,7 +4446,7 @@ public class AdsControl {
                                                     public void onAppOpenFailed(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd, @NonNull com.wortise.ads.AdError adError) {
                                                         Conts.log_debug(TAG, "Wortise Open Ad Failed " + adError);
                                                         if (callback != null) {
-                                                            callback.onSuccess();
+                                                            callback.onClick();
                                                             callback = null;
                                                         }
                                                     }
@@ -4416,7 +4455,7 @@ public class AdsControl {
                                                     public void onAppOpenDismissed(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd) {
                                                         Conts.log_debug(TAG, "Wortise Open Ad Close");
                                                         if (callback != null) {
-                                                            callback.onSuccess();
+                                                            callback.onClick();
                                                             callback = null;
                                                         }
                                                     }
@@ -4427,7 +4466,7 @@ public class AdsControl {
                                                 });
                                             } else {
                                                 if (callback != null) {
-                                                    callback.onSuccess();
+                                                    callback.onClick();
                                                     callback = null;
                                                 }
                                             }
@@ -4499,7 +4538,7 @@ public class AdsControl {
                                                                 public void onAdDismissedFullScreenContent() {
                                                                     Conts.log_debug(TAG, "Admob Inter Close");
                                                                     if (callback != null) {
-                                                                        callback.onSuccess();
+                                                                        callback.onClick();
                                                                         callback = null;
                                                                     }
                                                                 }
@@ -4519,14 +4558,14 @@ public class AdsControl {
                                                         public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                                                             Conts.log_debug(TAG, "Admob Inter Failed " + loadAdError.getMessage());
                                                             if (callback != null) {
-                                                                callback.onSuccess();
+                                                                callback.onClick();
                                                                 callback = null;
                                                             }
                                                         }
                                                     });
                                                 } else {
                                                     if (callback != null) {
-                                                        callback.onSuccess();
+                                                        callback.onClick();
                                                         callback = null;
                                                     }
                                                 }
@@ -4571,7 +4610,7 @@ public class AdsControl {
                                                                 public void onAdDismissedFullScreenContent() {
                                                                     Conts.log_debug(TAG, "Adx Inter Close");
                                                                     if (callback != null) {
-                                                                        callback.onSuccess();
+                                                                        callback.onClick();
                                                                         callback = null;
                                                                     }
                                                                 }
@@ -4591,14 +4630,14 @@ public class AdsControl {
                                                         public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                                                             Conts.log_debug(TAG, "Adx Inter Failed " + loadAdError.getMessage());
                                                             if (callback != null) {
-                                                                callback.onSuccess();
+                                                                callback.onClick();
                                                                 callback = null;
                                                             }
                                                         }
                                                     });
                                                 } else {
                                                     if (callback != null) {
-                                                        callback.onSuccess();
+                                                        callback.onClick();
                                                         callback = null;
                                                     }
                                                 }
@@ -4625,7 +4664,7 @@ public class AdsControl {
                                                         public void onInterstitialDismissed(Ad ad) {
                                                             Conts.log_debug(TAG, "FB Inter ad Close");
                                                             if (callback != null) {
-                                                                callback.onSuccess();
+                                                                callback.onClick();
                                                                 callback = null;
                                                             }
                                                         }
@@ -4634,7 +4673,7 @@ public class AdsControl {
                                                         public void onError(Ad ad, AdError adError) {
                                                             Conts.log_debug(TAG, "FB Inter Failed " + adError.getErrorMessage());
                                                             if (callback != null) {
-                                                                callback.onSuccess();
+                                                                callback.onClick();
                                                                 callback = null;
                                                             }
                                                         }
@@ -4672,7 +4711,7 @@ public class AdsControl {
                                                     FB_interstitial.loadAd(FB_interstitial.buildLoadAdConfig().withAdListener(interstitialAdListener).build());
                                                 } else {
                                                     if (callback != null) {
-                                                        callback.onSuccess();
+                                                        callback.onClick();
                                                         callback = null;
                                                     }
                                                 }
@@ -4721,7 +4760,7 @@ public class AdsControl {
                                                         public void onAdHidden(MaxAd ad) {
                                                             Conts.log_debug(TAG, "Applovin Inter Close");
                                                             if (callback != null) {
-                                                                callback.onSuccess();
+                                                                callback.onClick();
                                                                 callback = null;
                                                             }
                                                         }
@@ -4734,7 +4773,7 @@ public class AdsControl {
                                                         public void onAdLoadFailed(String adUnitId, MaxError error) {
                                                             Conts.log_debug(TAG, "Applovin Inter Failed " + error.getMessage());
                                                             if (callback != null) {
-                                                                callback.onSuccess();
+                                                                callback.onClick();
                                                                 callback = null;
                                                             }
                                                         }
@@ -4746,7 +4785,7 @@ public class AdsControl {
                                                     interstitialAdmax.loadAd();
                                                 } else {
                                                     if (callback != null) {
-                                                        callback.onSuccess();
+                                                        callback.onClick();
                                                         callback = null;
                                                     }
                                                 }
@@ -4773,7 +4812,7 @@ public class AdsControl {
                                                         public void onInterstitialDismissed(@NonNull com.wortise.ads.interstitial.InterstitialAd ad) {
                                                             Conts.log_debug(TAG, "Wortise Inter ad Close");
                                                             if (callback != null) {
-                                                                callback.onSuccess();
+                                                                callback.onClick();
                                                                 callback = null;
                                                             }
                                                         }
@@ -4782,7 +4821,7 @@ public class AdsControl {
                                                         public void onInterstitialFailed(@NonNull com.wortise.ads.interstitial.InterstitialAd ad, @NonNull com.wortise.ads.AdError error) {
                                                             Conts.log_debug(TAG, "Wortise Inter Failed " + error.toString());
                                                             if (callback != null) {
-                                                                callback.onSuccess();
+                                                                callback.onClick();
                                                                 callback = null;
                                                             }
                                                         }
@@ -4815,7 +4854,7 @@ public class AdsControl {
                                                     });
                                                 } else {
                                                     if (callback != null) {
-                                                        callback.onSuccess();
+                                                        callback.onClick();
                                                         callback = null;
                                                     }
                                                 }
@@ -4846,7 +4885,7 @@ public class AdsControl {
                                                         public void onAdDismissed(@NonNull InMobiInterstitial ad) {
                                                             Conts.log_debug(TAG, "Inmobi Inter ad Close");
                                                             if (callback != null) {
-                                                                callback.onSuccess();
+                                                                callback.onClick();
                                                                 callback = null;
                                                             }
                                                         }
@@ -4878,7 +4917,7 @@ public class AdsControl {
                                                             super.onAdLoadFailed(inMobiInterstitial, inMobiAdRequestStatus);
                                                             Conts.log_debug(TAG, "Inmobi Inter ad Failed " + inMobiAdRequestStatus);
                                                             if (callback != null) {
-                                                                callback.onSuccess();
+                                                                callback.onClick();
                                                                 callback = null;
                                                             }
                                                         }
@@ -4886,7 +4925,7 @@ public class AdsControl {
                                                     inMobiInterstitial.load();
                                                 } else {
                                                     if (callback != null) {
-                                                        callback.onSuccess();
+                                                        callback.onClick();
                                                         callback = null;
                                                     }
                                                 }
@@ -4927,14 +4966,14 @@ public class AdsControl {
                         }
                     } else {
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
                 }
             } else {
                 if (callback != null) {
-                    callback.onSuccess();
+                    callback.onClick();
                     callback = null;
                 }
             }
@@ -4945,7 +4984,7 @@ public class AdsControl {
     static Animation animZoomIn;
 
     @SuppressLint("SetTextI18n")
-    private void show_local_Inter(Activity act, getDataListner myCallback2) {
+    private void show_local_Inter(Activity act, OnClickListener myCallback2) {
         callback = myCallback2;
         if (app_data != null && app_data.size() > 0) {
             Dialog dialog = new Dialog(act, R.style.FullWidth_Dialog);
@@ -4976,23 +5015,43 @@ public class AdsControl {
             } catch (Exception ignored) {
             }
             install.setOnClickListener(v -> {
-                try {
-                    Intent intent = new Intent("android.intent.action.VIEW").setData(Uri.parse(app_data.get(0).getNew_app_link()));
-                    act.startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
+                    try {
+                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
+                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
+                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    try {
+                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
+                        activity.startActivity(i);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 dialog.dismiss();
             });
 
             lat1.setOnClickListener(v -> {
-                try {
-                    Intent intent = new Intent("android.intent.action.VIEW");
-                    intent.setData(Uri.parse(app_data.get(0).getNew_app_link()));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    act.startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
+                    try {
+                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
+                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
+                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    try {
+                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
+                        activity.startActivity(i);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 dialog.dismiss();
             });
@@ -5002,7 +5061,7 @@ public class AdsControl {
             }, 2500);
             dialog.setOnDismissListener(dialog1 -> {
                 if (callback != null) {
-                    callback.onSuccess();
+                    callback.onClick();
                     callback = null;
                 }
             });
@@ -5014,7 +5073,7 @@ public class AdsControl {
 
     // TODO: 7/17/2023  Appopen Ads
     // Admob
-    public void show_Admob_Appopen(Activity activity, getDataListner callback2) {
+    public void show_Admob_Appopen(Activity activity, OnClickListener callback2) {
         callback = callback2;
         if (app_data != null && app_data.size() > 0) {
             String placement = app_data.get(0).getAdmobAppopenid();
@@ -5024,7 +5083,7 @@ public class AdsControl {
                     public void onAdDismissedFullScreenContent() {
                         admob_appOpenAd = null;
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5032,7 +5091,7 @@ public class AdsControl {
                     @Override
                     public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5058,7 +5117,7 @@ public class AdsControl {
                 AppOpenAd.load(activity, placement, getAdRequest(), loadCallback);
             } else {
                 if (callback != null) {
-                    callback.onSuccess();
+                    callback.onClick();
                     callback = null;
                 }
             }
@@ -5066,7 +5125,7 @@ public class AdsControl {
     }
 
     // Adx
-    public void show_Adx_Appopen(Activity act, getDataListner callback2) {
+    public void show_Adx_Appopen(Activity act, OnClickListener callback2) {
         callback = callback2;
         if (app_data != null && app_data.size() > 0) {
             String placement = app_data.get(0).getAdxAppopenId();
@@ -5077,7 +5136,7 @@ public class AdsControl {
                         Conts.log_debug(TAG, "Adx Open Ad close");
                         adx_appOpenAd = null;
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5085,7 +5144,7 @@ public class AdsControl {
                     @Override
                     public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5111,7 +5170,7 @@ public class AdsControl {
                 AppOpenAd.load(act, placement, adManagerAdRequest(), loadCallback);
             } else {
                 if (callback != null) {
-                    callback.onSuccess();
+                    callback.onClick();
                     callback = null;
                 }
             }
@@ -5119,7 +5178,7 @@ public class AdsControl {
     }
 
     // Wortise
-    public void show_Wortise_Appopen(Activity act, getDataListner callback2) {
+    public void show_Wortise_Appopen(Activity act, OnClickListener callback2) {
         callback = callback2;
         if (app_data != null && app_data.size() > 0) {
             String placement = app_data.get(0).getWortiseAppopenId();
@@ -5143,7 +5202,7 @@ public class AdsControl {
                     public void onAppOpenFailed(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd, @NonNull com.wortise.ads.AdError adError) {
                         Conts.log_debug(TAG, "Wortise Open Ad Failed " + adError);
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5152,7 +5211,7 @@ public class AdsControl {
                     public void onAppOpenDismissed(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd) {
                         Conts.log_debug(TAG, "Wortise Open Ad Close");
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5163,7 +5222,7 @@ public class AdsControl {
                 });
             } else {
                 if (callback != null) {
-                    callback.onSuccess();
+                    callback.onClick();
                     callback = null;
                 }
             }
@@ -5171,7 +5230,7 @@ public class AdsControl {
     }
 
     // Applovin Appopen
-    public void show_Applovin_Appopen(Activity activity, getDataListner dataListner) {
+    public void show_Applovin_Appopen(Activity activity, OnClickListener dataListner) {
         callback = dataListner;
         if (app_data != null && app_data.size() > 0) {
             String placement = app_data.get(0).getApplovin_appopen_id();
@@ -5197,7 +5256,7 @@ public class AdsControl {
                     public void onAdHidden(MaxAd maxAd) {
                         Conts.log_debug(TAG, "Applovin Close Open Ad");
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5210,7 +5269,7 @@ public class AdsControl {
                     public void onAdLoadFailed(String s, MaxError maxError) {
                         Conts.log_debug(TAG, "Applovin Failed Open Ad " + maxError.getMessage());
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5221,7 +5280,7 @@ public class AdsControl {
                 });
             } else {
                 if (callback != null) {
-                    callback.onSuccess();
+                    callback.onClick();
                     callback = null;
                 }
             }
@@ -5230,7 +5289,7 @@ public class AdsControl {
 
     // Local Appopen
     @SuppressLint("SetTextI18n")
-    public void show_local_Appopen(Activity act, getDataListner callback2) {
+    public void show_local_Appopen(Activity act, OnClickListener callback2) {
         callback = callback2;
         if (app_data != null && app_data.size() > 0) {
             Dialog dialog = new Dialog(act, android.R.style.Theme_Translucent_NoTitleBar);
@@ -5258,30 +5317,48 @@ public class AdsControl {
             } catch (Exception ignored) {
             }
             install.setOnClickListener(v -> {
-                try {
-                    Intent intent = new Intent("android.intent.action.VIEW");
-                    intent.setData(Uri.parse(app_data.get(0).getNew_app_link()));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    act.startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
+                    try {
+                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
+                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
+                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    try {
+                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
+                        activity.startActivity(i);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 
             lay1.setOnClickListener(v -> {
-                try {
-                    Intent intent = new Intent("android.intent.action.VIEW");
-                    intent.setData(Uri.parse(app_data.get(0).getNew_app_link()));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    act.startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
+                    try {
+                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
+                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
+                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    try {
+                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
+                        activity.startActivity(i);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             linearLayout.setOnClickListener(v -> dialog.dismiss());
             dialog.setOnDismissListener(dialog1 -> {
                 if (callback != null) {
-                    callback.onSuccess();
+                    callback.onClick();
                     callback = null;
                 }
             });
@@ -5427,7 +5504,7 @@ public class AdsControl {
                     public void onAppOpenDismissed(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd) {
                         Conts.log_debug(TAG, "Wortise Open Ad Close");
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5466,7 +5543,7 @@ public class AdsControl {
                     public void onAdHidden(MaxAd maxAd) {
                         Conts.log_debug(TAG, "Applovin Appopen Close");
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5488,6 +5565,7 @@ public class AdsControl {
             }
         }
     }
+
     // Local
     void get_local_Appopen_AdLoad() {
         if (islocal_appopen_Loaded) {
@@ -5498,7 +5576,7 @@ public class AdsControl {
 
     // Local Appopen
     @SuppressLint("SetTextI18n")
-    private void show_local_Appopen_inter(getDataListner callback2) {
+    private void show_local_Appopen_inter(OnClickListener callback2) {
         callback = callback2;
         if (app_data != null && app_data.size() > 0) {
             Dialog dialog = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar);
@@ -5526,24 +5604,42 @@ public class AdsControl {
             } catch (Exception ignored) {
             }
             install.setOnClickListener(v -> {
-                try {
-                    Intent intent = new Intent("android.intent.action.VIEW");
-                    intent.setData(Uri.parse(app_data.get(0).getNew_app_link()));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    activity.startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
+                    try {
+                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
+                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
+                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    try {
+                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
+                        activity.startActivity(i);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 
             lay1.setOnClickListener(v -> {
-                try {
-                    Intent intent = new Intent("android.intent.action.VIEW");
-                    intent.setData(Uri.parse(app_data.get(0).getNew_app_link()));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    activity.startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
+                    try {
+                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
+                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
+                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    try {
+                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
+                        activity.startActivity(i);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 
@@ -5551,7 +5647,7 @@ public class AdsControl {
 
             dialog.setOnDismissListener(dialog1 -> {
                 if (callback != null) {
-                    callback.onSuccess();
+                    callback.onClick();
                     callback = null;
                 }
             });
@@ -5560,7 +5656,7 @@ public class AdsControl {
     }
 
     // TODO: 8/10/2023  Splash Inter Ads
-    void show_splash_inter(Activity act, getDataListner callback3) {
+    void show_splash_inter(Activity act, OnClickListener callback3) {
         callback = callback3;
         if (app_data != null && app_data.size() > 0) {
             String admob_splash_inter = app_data.get(0).getAdmob_splash_interid();
@@ -5580,7 +5676,7 @@ public class AdsControl {
                             public void onAdDismissedFullScreenContent() {
                                 Conts.log_debug(TAG, "Admob Inter Close");
                                 if (callback != null) {
-                                    callback.onSuccess();
+                                    callback.onClick();
                                     callback = null;
                                 }
                             }
@@ -5589,7 +5685,7 @@ public class AdsControl {
                             public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
                                 Conts.log_debug(TAG, "Admob Inter failed to show" + adError.getMessage());
                                 if (callback != null) {
-                                    callback.onSuccess();
+                                    callback.onClick();
                                     callback = null;
                                 }
                             }
@@ -5606,7 +5702,7 @@ public class AdsControl {
                         super.onAdFailedToLoad(loadAdError);
                         Conts.log_debug(TAG, "Admob Inter Failed " + loadAdError);
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5623,7 +5719,7 @@ public class AdsControl {
                             public void onAdDismissedFullScreenContent() {
                                 Conts.log_debug(TAG, "Admob Inter Close");
                                 if (callback != null) {
-                                    callback.onSuccess();
+                                    callback.onClick();
                                     callback = null;
                                 }
                             }
@@ -5632,7 +5728,7 @@ public class AdsControl {
                             public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
                                 Conts.log_debug(TAG, "Admob Inter failed to show" + adError.getMessage());
                                 if (callback != null) {
-                                    callback.onSuccess();
+                                    callback.onClick();
                                     callback = null;
                                 }
                             }
@@ -5649,7 +5745,7 @@ public class AdsControl {
                         super.onAdFailedToLoad(loadAdError);
                         Conts.log_debug(TAG, "Adx Inter Failed " + loadAdError);
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5665,7 +5761,7 @@ public class AdsControl {
                     @Override
                     public void onInterstitialDismissed(Ad ad) {
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5674,7 +5770,7 @@ public class AdsControl {
                     public void onError(Ad ad, AdError adError) {
                         Conts.log_debug(TAG, "Fb Inter Failed " + adError);
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5712,7 +5808,7 @@ public class AdsControl {
                     public void onAdHidden(MaxAd ad) {
                         Conts.log_debug(TAG, "Applovin Inter Close");
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5725,7 +5821,7 @@ public class AdsControl {
                     public void onAdLoadFailed(String adUnitId, MaxError error) {
                         Conts.log_debug(TAG, "Applovin Inter Failed " + error);
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5747,7 +5843,7 @@ public class AdsControl {
                     @Override
                     public void onInterstitialDismissed(@NonNull com.wortise.ads.interstitial.InterstitialAd ad) {
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5756,7 +5852,7 @@ public class AdsControl {
                     public void onInterstitialFailed(@NonNull com.wortise.ads.interstitial.InterstitialAd ad, @NonNull com.wortise.ads.AdError error) {
                         Conts.log_debug(TAG, "Wortise Inter Failed" + error);
                         if (callback != null) {
-                            callback.onSuccess();
+                            callback.onClick();
                             callback = null;
                         }
                     }
@@ -5774,7 +5870,7 @@ public class AdsControl {
                 });
             } else {
                 if (callback != null) {
-                    callback.onSuccess();
+                    callback.onClick();
                     callback = null;
                 }
             }

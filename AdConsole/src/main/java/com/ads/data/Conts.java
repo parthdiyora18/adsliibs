@@ -123,17 +123,19 @@ public class Conts {
                 flow.addOnCompleteListener(task1 -> {
                 });
             } else {
-                onOpenReview(activity, activity.getPackageName());
+                Conts conts = new Conts(activity);
+                conts.onOpenReview(activity, activity.getPackageName());
             }
         });
         requestReviewFlow.addOnFailureListener(exc -> {
             Activity activity2 = null;
-            onOpenReview(activity2, activity2.getPackageName());
+            Conts conts = new Conts(activity2);
+            conts.onOpenReview(activity2, activity2.getPackageName());
         });
     }
 
     @SuppressLint("WrongConstant")
-    private static void onOpenReview(Context context, String str) {
+    private void onOpenReview(Context context, String str) {
         Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("market://details?id=" + str));
         boolean z = false;
         Iterator<ResolveInfo> it = context.getPackageManager().queryIntentActivities(intent, 0).iterator();
@@ -232,7 +234,7 @@ public class Conts {
 
     // TODO: 7/24/2023  Debuug Mode
     @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
-    public void Debugging(getDataListner callback) {
+    public void Debugging(OnClickListener callback) {
         if (Settings.Secure.getInt(ctx.getContentResolver(), Settings.Global.ADB_ENABLED, 0) == 1) {
             // debugging enabled
             Dialog dialog = new Dialog(ctx);
@@ -262,11 +264,11 @@ public class Conts {
             Window window = dialog.getWindow();
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         } else {
-            callback.onSuccess();
+            callback.onClick();
         }
     }
 
-    public void check_VPN_App(Activity activity, getDataListner callbak) {
+    public void check_VPN_App(Activity activity, OnClickListener callbak) {
         new Vpn_Block_Detector(activity).detectvpnBlockers((vpnFound, info) -> {
             if (vpnFound) {
                 Dialog dialog = new Dialog(ctx);
@@ -285,7 +287,7 @@ public class Conts {
                 Window window = dialog.getWindow();
                 window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
             } else {
-                callbak.onSuccess();
+                callbak.onClick();
             }
         });
     }
