@@ -3,10 +3,7 @@ package com.allads.library;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Conts.StatusBar(this);
         setContentView(R.layout.activity_main);
+        Conts.InAppUpdater(MainActivity.this);
         // Panal Call
         /*AdsControl.getInstance(this).init_panal(MainActivity.this,
                 getResources().getString(R.string.panal_key), getPackageName(), () -> {

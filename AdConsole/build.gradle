@@ -43,6 +43,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
     implementation 'org.jsoup:jsoup:1.16.1'
     implementation 'com.loopj.android:android-async-http:1.4.11'
+    // InappUpdate
+    implementation 'com.github.SanojPunchihewa:InAppUpdater:1.0.5'
     // Admob, Adx
     implementation 'com.google.android.gms:play-services-ads:22.4.0'
     implementation 'com.google.ads.mediation:facebook:6.16.0.0'

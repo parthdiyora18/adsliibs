@@ -16,6 +16,12 @@ public class All_File_Data {
     @SerializedName("admob_medium_rectangleid")
     @Expose
     private String admobMediumRectangleid;
+    @SerializedName("admob_small_nativeid")
+    @Expose
+    private String admob_small_nativeid;
+    @SerializedName("admob_small_native_bannerid")
+    @Expose
+    private String admob_small_native_bannerid;
     @SerializedName("admob_nativeid")
     @Expose
     private String admobNativeid;
@@ -34,6 +40,12 @@ public class All_File_Data {
     @SerializedName("adx_medium_rectangleid")
     @Expose
     private String adxMediumRectangleid;
+    @SerializedName("adx_small_native_id")
+    @Expose
+    private String adx_small_native_id;
+    @SerializedName("adx_small_native_banner_id")
+    @Expose
+    private String adx_small_native_banner_id;
     @SerializedName("adx_native_id")
     @Expose
     private String adxNativeId;
@@ -256,6 +268,22 @@ public class All_File_Data {
         this.admobMediumRectangleid = admobMediumRectangleid;
     }
 
+    public String getAdmob_small_nativeid() {
+        return admob_small_nativeid;
+    }
+
+    public void setAdmob_small_nativeid(String admob_small_nativeid) {
+        this.admob_small_nativeid = admob_small_nativeid;
+    }
+
+    public String getAdmob_small_native_bannerid() {
+        return admob_small_native_bannerid;
+    }
+
+    public void setAdmob_small_native_bannerid(String admob_small_native_bannerid) {
+        this.admob_small_native_bannerid = admob_small_native_bannerid;
+    }
+
     public String getAdmobNativeid() {
         return admobNativeid;
     }
@@ -263,6 +291,7 @@ public class All_File_Data {
     public void setAdmobNativeid(String admobNativeid) {
         this.admobNativeid = admobNativeid;
     }
+
 
     public String getAdmobAppopenid() {
         return admobAppopenid;
@@ -302,6 +331,22 @@ public class All_File_Data {
 
     public void setAdxMediumRectangleid(String adxMediumRectangleid) {
         this.adxMediumRectangleid = adxMediumRectangleid;
+    }
+
+    public String getAdx_small_native_id() {
+        return adx_small_native_id;
+    }
+
+    public void setAdx_small_native_id(String adx_small_native_id) {
+        this.adx_small_native_id = adx_small_native_id;
+    }
+
+    public String getAdx_small_native_banner_id() {
+        return adx_small_native_banner_id;
+    }
+
+    public void setAdx_small_native_banner_id(String adx_small_native_banner_id) {
+        this.adx_small_native_banner_id = adx_small_native_banner_id;
     }
 
     public String getAdxNativeId() {

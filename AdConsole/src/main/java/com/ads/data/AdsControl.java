@@ -6,6 +6,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -89,6 +91,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import cz.msebera.android.httpclient.entity.mime.Header;
@@ -250,6 +253,22 @@ public class AdsControl {
         });
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
+
+    public static boolean isPackageInstalled(Context context, String packageName) {
+        final PackageManager packageManager = context.getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage(packageName);
+        if (intent == null) {
+            return false;
+        }
+        List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return !list.isEmpty();
+    }
+
     // TODO: 7/17/2023 Main Service Call
     public static ArrayList<All_File_Data> app_data = new ArrayList<>();
 
@@ -273,7 +292,14 @@ public class AdsControl {
                                     WortiseSdk.initialize(act, app_data.get(0).getWortiseAppId());
                                     String ridirect_app = app_data.get(0).getRedirectApp();
                                     if (!ridirect_app.equalsIgnoreCase("")) {
-                                        act.startActivity(new Intent("android.intent.action.VIEW").setData(Uri.parse("https://play.google.com/store/apps/details?id=" + ridirect_app)));
+                                        Toast.makeText(activity, "Please use our updated Application.", Toast.LENGTH_SHORT).show();
+                                        boolean isAppInstalled = isPackageInstalled(activity, ridirect_app);
+                                        if (isAppInstalled) {
+                                            Intent LaunchIntent = act.getPackageManager().getLaunchIntentForPackage(ridirect_app);
+                                            act.startActivity(LaunchIntent);
+                                        } else {
+                                            act.startActivity(new Intent("android.intent.action.VIEW").setData(Uri.parse("https://play.google.com/store/apps/details?id=" + ridirect_app)));
+                                        }
                                     } else {
                                         if (app_data.get(0).isVpn_option()) {
                                             Conts conts = new Conts(act);
@@ -306,7 +332,7 @@ public class AdsControl {
                         @Override
                         public void onFailure(@NonNull Call<Panal_Recover> call, @NonNull Throwable t) {
                             call.cancel();
-                            preload_ads_call(act, Callback);
+                            Callback.onClick();
                         }
                     });
                 }
@@ -340,7 +366,14 @@ public class AdsControl {
                                     WortiseSdk.initialize(act, app_data.get(0).getWortiseAppId());
                                     String ridirect_app = app_data.get(0).getRedirectApp();
                                     if (!ridirect_app.equalsIgnoreCase("")) {
-                                        act.startActivity(new Intent("android.intent.action.VIEW").setData(Uri.parse("https://play.google.com/store/apps/details?id=" + ridirect_app)));
+                                        Toast.makeText(activity, "Please use our updated Application.", Toast.LENGTH_SHORT).show();
+                                        boolean isAppInstalled = isPackageInstalled(activity, ridirect_app);
+                                        if (isAppInstalled) {
+                                            Intent LaunchIntent = act.getPackageManager().getLaunchIntentForPackage(ridirect_app);
+                                            act.startActivity(LaunchIntent);
+                                        } else {
+                                            act.startActivity(new Intent("android.intent.action.VIEW").setData(Uri.parse("https://play.google.com/store/apps/details?id=" + ridirect_app)));
+                                        }
                                     } else {
                                         if (app_data.get(0).isVpn_option()) {
                                             Conts conts = new Conts(act);
@@ -373,7 +406,7 @@ public class AdsControl {
                         @Override
                         public void onFailure(@NonNull Call<File_Recover> call, @NonNull Throwable t) {
                             call.cancel();
-                            preload_ads_call(act, Callback);
+                            Callback.onClick();
                         }
                     });
                 }
@@ -387,11 +420,6 @@ public class AdsControl {
         }
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-    }
 
     // TODO: 8/29/2023  Preload ads
     private void preload_ads_call(Activity activity, OnClickListener myCallback) {
@@ -1233,7 +1261,7 @@ public class AdsControl {
                     if (ad_small_native_banner_network < adnetwork.length) {
                         switch (adnetwork[ad_small_native_banner_network]) {
                             case "admob":
-                                String[] admob_small__native_banner_id = app_data.get(0).getAdmobNativeid().split(",");
+                                String[] admob_small__native_banner_id = app_data.get(0).getAdmob_small_native_bannerid().split(",");
                                 if (current_admob_small_native_BannerId < admob_small__native_banner_id.length) {
                                     preload_Admob_Native_Banner_Ad(admob_small__native_banner_id[current_admob_small_native_BannerId]);
                                     current_admob_small_native_BannerId++;
@@ -1244,7 +1272,7 @@ public class AdsControl {
                                 ad_small_native_banner_network++;
                                 break;
                             case "adx":
-                                String[] adx_small_native_banner_id = app_data.get(0).getAdxNativeId().split(",");
+                                String[] adx_small_native_banner_id = app_data.get(0).getAdx_small_native_banner_id().split(",");
                                 if (current_adx_small_native_BannerId < adx_small_native_banner_id.length) {
                                     preload_Adx_Native_Banner(adx_small_native_banner_id[current_adx_small_native_BannerId]);
                                     current_adx_small_native_BannerId++;
@@ -1565,7 +1593,7 @@ public class AdsControl {
                         if (ad_small_native_banner_network < adnetwork.length) {
                             switch (adnetwork[ad_small_native_banner_network]) {
                                 case "admob":
-                                    String[] admob_small_native_banner_id = app_data.get(0).getAdmobNativeid().split(",");
+                                    String[] admob_small_native_banner_id = app_data.get(0).getAdmob_small_native_bannerid().split(",");
                                     if (current_admob_small_native_BannerId < admob_small_native_banner_id.length) {
                                         String placementId = admob_small_native_banner_id[current_admob_small_native_BannerId];
                                         if (!placementId.equalsIgnoreCase("")) {
@@ -1594,7 +1622,7 @@ public class AdsControl {
                                     ad_small_native_banner_network++;
                                     break;
                                 case "adx":
-                                    String[] adx_small_native_banner_id = app_data.get(0).getAdxNativeId().split(",");
+                                    String[] adx_small_native_banner_id = app_data.get(0).getAdx_small_native_banner_id().split(",");
                                     if (current_adx_small_native_BannerId < adx_small_native_banner_id.length) {
                                         String placementId = adx_small_native_banner_id[current_adx_small_native_BannerId];
                                         if (!placementId.equalsIgnoreCase("")) {
@@ -1794,7 +1822,7 @@ public class AdsControl {
                     if (ad_small_native_network < adnetwork.length) {
                         switch (adnetwork[ad_small_native_network]) {
                             case "admob":
-                                String[] admob_small_native_id = app_data.get(0).getAdmobNativeid().split(",");
+                                String[] admob_small_native_id = app_data.get(0).getAdmob_small_nativeid().split(",");
                                 if (current_admob_small_native_Id < admob_small_native_id.length) {
                                     preload_Admob_Small_Native_Ad(admob_small_native_id[current_admob_small_native_Id]);
                                     current_admob_small_native_Id++;
@@ -1805,7 +1833,7 @@ public class AdsControl {
                                 ad_small_native_network++;
                                 break;
                             case "adx":
-                                String[] adx_small_native_id = app_data.get(0).getAdxNativeId().split(",");
+                                String[] adx_small_native_id = app_data.get(0).getAdx_small_native_id().split(",");
                                 if (current_adx_small_native_Id < adx_small_native_id.length) {
                                     preload_Adx_Small_Native_Ad(adx_small_native_id[current_adx_small_native_Id]);
                                     current_adx_small_native_Id++;
@@ -2125,7 +2153,7 @@ public class AdsControl {
                         if (ad_small_native_network < adnetwork.length) {
                             switch (adnetwork[ad_small_native_network]) {
                                 case "admob":
-                                    String[] admob_small_native_id = app_data.get(0).getAdmobNativeid().split(",");
+                                    String[] admob_small_native_id = app_data.get(0).getAdmob_small_nativeid().split(",");
                                     if (current_admob_small_native_Id < admob_small_native_id.length) {
                                         String placementId = admob_small_native_id[current_admob_small_native_Id];
                                         if (!placementId.equalsIgnoreCase("")) {
@@ -2155,7 +2183,7 @@ public class AdsControl {
                                     ad_small_native_network++;
                                     break;
                                 case "adx":
-                                    String[] adx_small_native_id = app_data.get(0).getAdxNativeId().split(",");
+                                    String[] adx_small_native_id = app_data.get(0).getAdx_small_native_id().split(",");
                                     if (current_adx_small_native_Id < adx_small_native_id.length) {
                                         String placementId = adx_small_native_id[current_adx_small_native_Id];
                                         if (!placementId.equalsIgnoreCase("")) {
@@ -3846,6 +3874,95 @@ public class AdsControl {
         isLocalInterLoaded = true;
     }
 
+    // Local Mode
+    static Animation animZoomIn;
+
+    @SuppressLint("SetTextI18n")
+    private void show_local_Inter(Activity act, OnClickListener myCallback2) {
+        callback = myCallback2;
+        if (app_data != null && app_data.size() > 0) {
+            Dialog dialog = new Dialog(act, R.style.FullWidth_Dialog);
+            @SuppressLint("InflateParams") View view = LayoutInflater.from(act).inflate(R.layout.local_inter_ad, null);
+            dialog.setContentView(view);
+            dialog.setCancelable(false);
+            Window window = dialog.getWindow();
+            Objects.requireNonNull(window).setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            animZoomIn = AnimationUtils.loadAnimation(act, R.anim.slide_in_bottom);
+            CardView cvTopAd = dialog.findViewById(R.id.cvTopAd);
+            RelativeLayout lat1 = dialog.findViewById(R.id.lat1);
+            TextView install = dialog.findViewById(R.id.install);
+            ImageView ad_close = dialog.findViewById(R.id.ad_close);
+            TextView App_name = dialog.findViewById(R.id.appname);
+            ImageView appicon = dialog.findViewById(R.id.app_icon);
+            ImageView ad_banner = dialog.findViewById(R.id.ad_banner);
+            TextView app_ad_body = dialog.findViewById(R.id.ad_body);
+            cvTopAd.startAnimation(animZoomIn);
+            try {
+                Glide.with(act).load(app_data.get(0).getNew_app_icon()).into(appicon);
+                Glide.with(act).load(app_data.get(0).getNew_app_banner()).into(ad_banner);
+                App_name.setText(app_data.get(0).getNew_app_name());
+                App_name.setSelected(true);
+                app_ad_body.setText(app_data.get(0).getNew_app_body());
+                app_ad_body.setSelected(true);
+                install.setText("Install");
+            } catch (Exception ignored) {
+            }
+            install.setOnClickListener(v -> {
+                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
+                    try {
+                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
+                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
+                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    try {
+                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
+                        activity.startActivity(i);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                dialog.dismiss();
+            });
+
+            lat1.setOnClickListener(v -> {
+                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
+                    try {
+                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
+                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
+                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    try {
+                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
+                        activity.startActivity(i);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                dialog.dismiss();
+            });
+            new Handler().postDelayed(() -> {
+                ad_close.setVisibility(View.VISIBLE);
+                ad_close.setOnClickListener(v -> dialog.dismiss());
+            }, 2500);
+            dialog.setOnDismissListener(dialog1 -> {
+                if (callback != null) {
+                    callback.onClick();
+                    callback = null;
+                }
+            });
+            dialog.show();
+        }
+    }
+
     // TODO: 7/17/2023 Show Inter Ads
     public void show_Interstitial(Activity act, OnClickListener callback2) {
         callback = callback2;
@@ -4977,95 +5094,6 @@ public class AdsControl {
                     callback = null;
                 }
             }
-        }
-    }
-
-    // Local Mode
-    static Animation animZoomIn;
-
-    @SuppressLint("SetTextI18n")
-    private void show_local_Inter(Activity act, OnClickListener myCallback2) {
-        callback = myCallback2;
-        if (app_data != null && app_data.size() > 0) {
-            Dialog dialog = new Dialog(act, R.style.FullWidth_Dialog);
-            @SuppressLint("InflateParams") View view = LayoutInflater.from(act).inflate(R.layout.local_inter_ad, null);
-            dialog.setContentView(view);
-            dialog.setCancelable(false);
-            Window window = dialog.getWindow();
-            Objects.requireNonNull(window).setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-            animZoomIn = AnimationUtils.loadAnimation(act, R.anim.slide_in_bottom);
-            CardView cvTopAd = dialog.findViewById(R.id.cvTopAd);
-            RelativeLayout lat1 = dialog.findViewById(R.id.lat1);
-            TextView install = dialog.findViewById(R.id.install);
-            ImageView ad_close = dialog.findViewById(R.id.ad_close);
-            TextView App_name = dialog.findViewById(R.id.appname);
-            ImageView appicon = dialog.findViewById(R.id.app_icon);
-            ImageView ad_banner = dialog.findViewById(R.id.ad_banner);
-            TextView app_ad_body = dialog.findViewById(R.id.ad_body);
-            cvTopAd.startAnimation(animZoomIn);
-            try {
-                Glide.with(act).load(app_data.get(0).getNew_app_icon()).into(appicon);
-                Glide.with(act).load(app_data.get(0).getNew_app_banner()).into(ad_banner);
-                App_name.setText(app_data.get(0).getNew_app_name());
-                App_name.setSelected(true);
-                app_ad_body.setText(app_data.get(0).getNew_app_body());
-                app_ad_body.setSelected(true);
-                install.setText("Install");
-            } catch (Exception ignored) {
-            }
-            install.setOnClickListener(v -> {
-                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
-                    try {
-                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
-                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
-                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    try {
-                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
-                        activity.startActivity(i);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                dialog.dismiss();
-            });
-
-            lat1.setOnClickListener(v -> {
-                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
-                    try {
-                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
-                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
-                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    try {
-                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
-                        activity.startActivity(i);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                dialog.dismiss();
-            });
-            new Handler().postDelayed(() -> {
-                ad_close.setVisibility(View.VISIBLE);
-                ad_close.setOnClickListener(v -> dialog.dismiss());
-            }, 2500);
-            dialog.setOnDismissListener(dialog1 -> {
-                if (callback != null) {
-                    callback.onClick();
-                    callback = null;
-                }
-            });
-            dialog.show();
         }
     }
 

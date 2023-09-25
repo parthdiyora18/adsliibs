@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 
@@ -38,6 +39,8 @@ import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
 import com.google.android.play.core.review.ReviewManagerFactory;
 import com.google.android.play.core.tasks.Task;
+import com.sanojpunchihewa.updatemanager.UpdateManager;
+import com.sanojpunchihewa.updatemanager.UpdateManagerConstant;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -299,6 +302,39 @@ public class Conts {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         act.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         window.setStatusBarColor(act.getResources().getColor(R.color.white));
+    }
+
+    public static UpdateManager mUpdateManager;
+
+    public static void InAppUpdater(Activity act) {
+        Dialog dialog = new Dialog(act);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.in_app_uodate);
+        dialog.setCancelable(false);
+        mUpdateManager = UpdateManager.Builder((AppCompatActivity) act);
+        TextView txtAvailableVersion = dialog.findViewById(R.id.txt_available_version);
+        dialog.findViewById(R.id.tv_submit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                mUpdateManager.mode(UpdateManagerConstant.IMMEDIATE).start();
+            }
+        });
+        mUpdateManager.addUpdateInfoListener(new UpdateManager.UpdateInfoListener() {
+            @Override
+            public void onReceiveVersionCode(int code) {
+                txtAvailableVersion.setText(String.valueOf(code));
+            }
+
+            @Override
+            public void onReceiveStalenessDays(int days) {
+            }
+        });
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
     }
 
     public static void Hide_StatusBar(Activity act) {
