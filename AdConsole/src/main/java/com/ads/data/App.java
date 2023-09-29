@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import androidx.annotation.Nullable;
 
 import com.applovin.sdk.AppLovinSdk;
+import com.facebook.FacebookSdk;
 import com.facebook.ads.AudienceNetworkAds;
 import com.google.android.gms.ads.MobileAds;
 import com.inmobi.sdk.InMobiSdk;
@@ -27,6 +28,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         _instance = this;
+
         // Admob , adx
         MobileAds.initialize(this, initializationStatus -> {
         });
