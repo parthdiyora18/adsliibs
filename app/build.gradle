@@ -1,10 +1,6 @@
 plugins {
     id 'com.android.application'
 }
-/*apply plugin: 'applovin-quality-service'
-applovin {
-    apiKey "WV9ZbXpKkDZf0xhLJfXQiIZzriHUMlT2whr9-qnPThcH13zaWyXxIinCQ2SebkklzRTUiusDVlRpA9Z_WQyNsG"
-}*/
 
 android {
     namespace 'com.allads.library'
@@ -33,6 +29,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11

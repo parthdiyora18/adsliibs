@@ -438,15 +438,15 @@ public class AdsControl {
                 if (app_data.get(0).isPreload_small_native_banner_ads()) {
                     small_native_banner_Ads();
                 }
+                if (app_data.get(0).isPreload_banner_ads()) {
+                    banner_Ads();
+                }
                 if (app_data.get(0).isPreload_inter_ads()) {
                     if (app_data.get(0).getAd_inter_type().equalsIgnoreCase("appopen")) {
                         appopen_Ads();
                     } else {
                         inter_Ads();
                     }
-                }
-                if (app_data.get(0).isPreload_banner_ads()) {
-                    banner_Ads();
                 }
                 call(activity, myCallback);
             } else {
@@ -4610,6 +4610,12 @@ public class AdsControl {
                                                 Conts.log_debug(TAG, "Local Appopen Show");
                                             }
                                             ad_appopen_inter_network++;
+                                            break;
+                                        case "off":
+                                            if (callback != null) {
+                                                callback.onClick();
+                                                callback = null;
+                                            }
                                         default:
                                     }
                                     if (ad_appopen_inter_network == adnetwork.length) {
@@ -5071,6 +5077,12 @@ public class AdsControl {
                                                 show_local_Inter(act, callback2);
                                             }
                                             ad_inter_network++;
+                                            break;
+                                        case "off":
+                                            if (callback != null) {
+                                                callback.onClick();
+                                                callback = null;
+                                            }
                                         default:
                                     }
                                     if (ad_inter_network == adnetwork.length) {

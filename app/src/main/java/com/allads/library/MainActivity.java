@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Conts.StatusBar(this);
         setContentView(R.layout.activity_main);
-        Conts.InAppUpdater(MainActivity.this);
         // Panal Call
         /*AdsControl.getInstance(this).init_panal(MainActivity.this,
                 getResources().getString(R.string.panal_key), getPackageName(), () -> {

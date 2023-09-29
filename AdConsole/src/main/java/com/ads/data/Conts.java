@@ -317,7 +317,7 @@ public class Conts {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                mUpdateManager.mode(UpdateManagerConstant.IMMEDIATE).start();
+                mUpdateManager.mode(UpdateManagerConstant.FLEXIBLE).start();
             }
         });
         mUpdateManager.addUpdateInfoListener(new UpdateManager.UpdateInfoListener() {
@@ -328,6 +328,12 @@ public class Conts {
 
             @Override
             public void onReceiveStalenessDays(int days) {
+            }
+        });
+        mUpdateManager.addFlexibleUpdateDownloadListener(new UpdateManager.FlexibleUpdateDownloadListener() {
+            @Override
+            public void onDownloadProgress(long bytesDownloaded, long totalBytes) {
+
             }
         });
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
