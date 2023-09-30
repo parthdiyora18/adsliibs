@@ -94,27 +94,6 @@ public class All_File_Data {
     @SerializedName("applovin_medium_rectangle_id")
     @Expose
     private String applovin_medium_rectangle_id;
-    @SerializedName("wortise_app_id")
-    @Expose
-    private String wortiseAppId;
-    @SerializedName("wortise_appopen_id")
-    @Expose
-    private String wortiseAppopenId;
-    @SerializedName("wortise_splash_inter_id")
-    @Expose
-    private String wortise_splash_inter_id;
-    @SerializedName("wortise_inter_id")
-    @Expose
-    private String wortiseInterId;
-    @SerializedName("wortise_banner_id")
-    @Expose
-    private String wortiseBannerId;
-    @SerializedName("wortise_medium_rectangle_id")
-    @Expose
-    private String wortiseMediumRectangleId;
-    @SerializedName("wortise_native_id")
-    @Expose
-    private String wortiseNativeId;
     @SerializedName("inmobi_banner_id")
     @Expose
     private String inmobi_banner_id;
@@ -475,62 +454,6 @@ public class All_File_Data {
 
     public void setApplovin_medium_rectangle_id(String applovin_medium_rectangle_id) {
         this.applovin_medium_rectangle_id = applovin_medium_rectangle_id;
-    }
-
-    public String getWortiseAppId() {
-        return wortiseAppId;
-    }
-
-    public void setWortiseAppId(String wortiseAppId) {
-        this.wortiseAppId = wortiseAppId;
-    }
-
-    public String getWortiseAppopenId() {
-        return wortiseAppopenId;
-    }
-
-    public void setWortiseAppopenId(String wortiseAppopenId) {
-        this.wortiseAppopenId = wortiseAppopenId;
-    }
-
-    public String getWortise_splash_inter_id() {
-        return wortise_splash_inter_id;
-    }
-
-    public void setWortise_splash_inter_id(String wortise_splash_inter_id) {
-        this.wortise_splash_inter_id = wortise_splash_inter_id;
-    }
-
-    public String getWortiseInterId() {
-        return wortiseInterId;
-    }
-
-    public void setWortiseInterId(String wortiseInterId) {
-        this.wortiseInterId = wortiseInterId;
-    }
-
-    public String getWortiseBannerId() {
-        return wortiseBannerId;
-    }
-
-    public void setWortiseBannerId(String wortiseBannerId) {
-        this.wortiseBannerId = wortiseBannerId;
-    }
-
-    public String getWortiseMediumRectangleId() {
-        return wortiseMediumRectangleId;
-    }
-
-    public void setWortiseMediumRectangleId(String wortiseMediumRectangleId) {
-        this.wortiseMediumRectangleId = wortiseMediumRectangleId;
-    }
-
-    public String getWortiseNativeId() {
-        return wortiseNativeId;
-    }
-
-    public void setWortiseNativeId(String wortiseNativeId) {
-        this.wortiseNativeId = wortiseNativeId;
     }
 
     public String getInmobi_banner_id() {

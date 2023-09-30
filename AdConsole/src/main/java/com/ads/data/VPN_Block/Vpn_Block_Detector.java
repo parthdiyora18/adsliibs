@@ -8,7 +8,7 @@ import java.lang.ref.WeakReference;
 
 public class Vpn_Block_Detector {
     WeakReference<Context> context;
-
+    
     public Vpn_Block_Detector(Context context) {
         this.context = new WeakReference<>(context);
     }

@@ -4,7 +4,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Panal_Recover {
-
     @SerializedName("status")
     @Expose
     private String status;

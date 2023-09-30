@@ -82,9 +82,6 @@ import com.inmobi.ads.listeners.InterstitialAdEventListener;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.wortise.ads.WortiseSdk;
-import com.wortise.ads.banner.BannerAd;
-import com.wortise.ads.natives.GoogleNativeAd;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -108,14 +105,12 @@ public class AdsControl {
     boolean isAdxBannerLoaded;
     boolean isFBBannerLoaded;
     boolean isApplovinBannerLoaded;
-    boolean isWortiseBannerLoaded;
     boolean isInmobiBannerLoaded;
     AdView googleBannerAd;
     AdManagerAdView adxBannerAd;
     com.facebook.ads.AdView fbadView;
     @SuppressLint("StaticFieldLeak")
     MaxAdView applovin_banner_ad;
-    BannerAd wBannerAd;
     InMobiBanner InmobiBannerAd;
 
     // Mediam Ragtangal
@@ -123,20 +118,17 @@ public class AdsControl {
     boolean isAdx_Mediam_Ragtangal_Loaded;
     boolean isFB_Mediam_Ragtangal_Loaded;
     boolean isApplovin_Mediam_Ragtangal_Loaded;
-    boolean isWortise_medium_ragtangal_Loaded;
     AdView admobMediam_Ragtangal;
     AdManagerAdView adxMediam_Ragtangal;
     com.facebook.ads.AdView fb_Ragtangal_adView;
     @SuppressLint("StaticFieldLeak")
     MaxAdView applovin_Medium_Ragtangal_adview;
-    BannerAd w_medium_ragtangal;
 
     // Native Ad
     boolean isadmob_native_Loaded;
     boolean isadx_native_Loaded;
     boolean isFB_Native_Loaded;
     boolean isApplovin_Native_Loaded;
-    boolean isWortise_Native_Loaded;
     boolean isLocal_Native_Loaded;
     NativeAd Admob_native_Ad;
     NativeAd Adx_native_Ad;
@@ -144,16 +136,12 @@ public class AdsControl {
     MaxAd Applovin_native_ad;
     @SuppressLint("StaticFieldLeak")
     MaxNativeAdView applovin_maxnativeadview;
-    NativeAd wortise_native_Ad;
-    @SuppressLint("StaticFieldLeak")
-    GoogleNativeAd wortise_google_native_Ad;
 
     // Small Native Ad
     boolean isAdmob_small_native_Loaded;
     boolean isadx_small_native_Loaded;
     boolean isFb_small_native_Loaded;
     boolean isapplovin_small_native_Loaded;
-    boolean isWortise_small_Native_Loaded;
     boolean isLocal_small_Native_Loaded;
     NativeAd Admob_small_native_Ad;
     NativeAd Adx_small_native_Ad;
@@ -161,16 +149,12 @@ public class AdsControl {
     MaxAd Applovin_small_native_Ad;
     @SuppressLint("StaticFieldLeak")
     MaxNativeAdView applovin_small_native_Ad;
-    NativeAd wortise_small_native_Ad;
-    @SuppressLint("StaticFieldLeak")
-    GoogleNativeAd wortise_google_small_native_Ad;
 
     // Small Naitive Banner Ad
     boolean isadmob_small_native_banner_Loaded;
     boolean isadx_small_native_banner_Loaded;
     boolean isFB_small_native_banner_Loaded;
     boolean isApplovin_small_native_banner_Loaded;
-    boolean isWortise_small_Native_banner_Loaded;
     boolean isLocal_small_Native_banner_Loaded;
     NativeAd Admob_small_native_banner_Ad;
     NativeAd Adx_small_native_banner_Ad;
@@ -178,31 +162,24 @@ public class AdsControl {
     MaxAd Applovin_small_native_banner_Ad;
     @SuppressLint("StaticFieldLeak")
     MaxNativeAdView applovin_small_native_banner_Ad;
-    NativeAd wortise_small_native_banner_Ad;
-    @SuppressLint("StaticFieldLeak")
-    GoogleNativeAd wortise_small_google_native_banner_Ad;
 
     // Inter
     boolean isGoogleInterLoaded;
     boolean isAdxInterLoaded;
     boolean isFBInterLoaded;
     boolean isApplovinInterLoaded;
-    boolean isWortiseInterLoaded;
     boolean isInmobiInterLoaded;
     boolean isLocalInterLoaded;
     InterstitialAd ADMOBInterstitialAd;
     AdManagerInterstitialAd ADXInterstitialAd;
     com.facebook.ads.InterstitialAd FB_interstitialAd;
     MaxInterstitialAd Applovin_maxInterstitialAd;
-    com.wortise.ads.interstitial.InterstitialAd Wortise_inter;
     InMobiInterstitial Inmobi_inter;
     // Appopen
     boolean isadmob_appopen_Loaded;
     boolean isadx_appopen_Loaded;
-    boolean iswortise_appopen_Loaded;
     boolean isapplovin_appopen_Loaded;
     boolean islocal_appopen_Loaded;
-    com.wortise.ads.appopen.AppOpenAd wortise_open;
     MaxAppOpenAd applovin_appopen;
     AppOpenAd admob_appOpenAd_inter;
     AppOpenAd adx_appOpenAd_inter;
@@ -288,8 +265,6 @@ public class AdsControl {
                                     app_data.clear();
                                     Conts.log_debug(TAG, "Respons_Data " + response.body().getData());
                                     app_data.add(response.body().getData());
-                                    // Wortise
-                                    WortiseSdk.initialize(act, app_data.get(0).getWortiseAppId());
                                     String ridirect_app = app_data.get(0).getRedirectApp();
                                     if (!ridirect_app.equalsIgnoreCase("")) {
                                         Toast.makeText(activity, "Please use our updated Application.", Toast.LENGTH_SHORT).show();
@@ -362,8 +337,6 @@ public class AdsControl {
                                     app_data.clear();
                                     Conts.log_debug(TAG, "Respons_Data " + response.body().getData());
                                     app_data.addAll(response.body().getData());
-                                    // Wortise
-                                    WortiseSdk.initialize(act, app_data.get(0).getWortiseAppId());
                                     String ridirect_app = app_data.get(0).getRedirectApp();
                                     if (!ridirect_app.equalsIgnoreCase("")) {
                                         Toast.makeText(activity, "Please use our updated Application.", Toast.LENGTH_SHORT).show();
@@ -419,7 +392,6 @@ public class AdsControl {
             Conts.networkinfo(act);
         }
     }
-
 
     // TODO: 8/29/2023  Preload ads
     private void preload_ads_call(Activity activity, OnClickListener myCallback) {
@@ -478,9 +450,6 @@ public class AdsControl {
                             break;
                         case "applovin":
                             AdsControl.getInstance(activity).show_Applovin_Appopen(activity, () -> Next_Call(myCallback));
-                            break;
-                        case "wortise":
-                            AdsControl.getInstance(activity).show_Wortise_Appopen(activity, () -> Next_Call(myCallback));
                             break;
                         case "local":
                             AdsControl.getInstance(activity).show_local_Appopen(activity, () -> Next_Call(myCallback));
@@ -544,9 +513,6 @@ public class AdsControl {
                         case "applovin":
                             AdsControl.getInstance(act).show_Applovin_Appopen(act, () -> Next_Call(callback2));
                             break;
-                        case "wortise":
-                            AdsControl.getInstance(act).show_Wortise_Appopen(act, () -> Next_Call(callback2));
-                            break;
                         case "local":
                             AdsControl.getInstance(act).show_local_Appopen(act, () -> Next_Call(callback2));
                             break;
@@ -576,7 +542,6 @@ public class AdsControl {
     int current_adx_BannerId = 0;
     int current_fb_BannerId = 0;
     int current_applovin_BannerId = 0;
-    int current_wortise_BannerId = 0;
     int current_inmobi_BannerId = 0;
 
     private void banner_Ads() {
@@ -626,17 +591,6 @@ public class AdsControl {
                                     current_applovin_BannerId++;
                                     if (current_applovin_BannerId == applovin_BannerId.length) {
                                         current_applovin_BannerId = 0;
-                                    }
-                                }
-                                ad_banner_network++;
-                                break;
-                            case "wortise":
-                                String[] wortise_BannerId = app_data.get(0).getWortiseBannerId().split(",");
-                                if (current_wortise_BannerId < wortise_BannerId.length) {
-                                    preloadBannerAd_Wortise(wortise_BannerId[current_wortise_BannerId]);
-                                    current_wortise_BannerId++;
-                                    if (current_wortise_BannerId == wortise_BannerId.length) {
-                                        current_wortise_BannerId = 0;
                                     }
                                 }
                                 ad_banner_network++;
@@ -811,37 +765,6 @@ public class AdsControl {
         }
     }
 
-    // Wortise Mode
-    private void preloadBannerAd_Wortise(String placementId) {
-        if (!placementId.equalsIgnoreCase("")) {
-            if (isWortiseBannerLoaded) {
-                return;
-            }
-            final BannerAd wortise_BannerAd = new BannerAd(activity);
-            wortise_BannerAd.setAdSize(com.wortise.ads.AdSize.HEIGHT_50);
-            wortise_BannerAd.setAdUnitId(placementId);
-            wortise_BannerAd.loadAd();
-            wortise_BannerAd.setListener(new BannerAd.Listener() {
-                @Override
-                public void onBannerLoaded(@NonNull BannerAd bannerAd) {
-                    Conts.log_debug(TAG, "Wortise Banner Loadedd ");
-                    wBannerAd = wortise_BannerAd;
-                    isWortiseBannerLoaded = true;
-                }
-
-                @Override
-                public void onBannerClicked(@NonNull BannerAd bannerAd) {
-                }
-
-                @Override
-                public void onBannerFailed(@NonNull BannerAd bannerAd, @NonNull com.wortise.ads.AdError adError) {
-                    Conts.log_debug(TAG, "Wortise banner Failed " + adError);
-                    banner_Ads();
-                }
-            });
-        }
-    }
-
     // Inmobi Mode
     private void preloadBannerAd_Inmobi(Long placementId) {
         if (!(placementId == 0)) {
@@ -930,17 +853,6 @@ public class AdsControl {
                             }
                             banner_container.addView(applovin_banner_ad);
                             isApplovinBannerLoaded = false;
-                            banner_Ads();
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    } else if (isWortiseBannerLoaded) {
-                        try {
-                            if (wBannerAd.getParent() != null) {
-                                ((ViewGroup) wBannerAd.getParent()).removeView(wBannerAd);
-                            }
-                            banner_container.addView(wBannerAd);
-                            isWortiseBannerLoaded = false;
                             banner_Ads();
                         } catch (Exception e) {
                             throw new RuntimeException(e);
@@ -1141,46 +1053,6 @@ public class AdsControl {
                                     }
                                     ad_banner_network++;
                                     break;
-                                case "wortise":
-                                    String[] wortise_BannerId = app_data.get(0).getWortiseBannerId().split(",");
-                                    if (current_wortise_BannerId < wortise_BannerId.length) {
-                                        String placementId = wortise_BannerId[current_wortise_BannerId];
-                                        if (!placementId.equalsIgnoreCase("")) {
-                                            final BannerAd wortise_BannerAd = new BannerAd(activity);
-                                            wortise_BannerAd.setAdSize(com.wortise.ads.AdSize.HEIGHT_50);
-                                            wortise_BannerAd.setAdUnitId(placementId);
-                                            wortise_BannerAd.loadAd();
-                                            wortise_BannerAd.setListener(new BannerAd.Listener() {
-                                                @Override
-                                                public void onBannerLoaded(@NonNull BannerAd bannerAd) {
-                                                    Conts.log_debug(TAG, "Wortise Banner Loadedd ");
-                                                    try {
-                                                        if (wortise_BannerAd.getParent() != null) {
-                                                            ((ViewGroup) wortise_BannerAd.getParent()).removeView(wortise_BannerAd);
-                                                        }
-                                                        banner_container.addView(wortise_BannerAd);
-                                                    } catch (Exception e) {
-                                                        throw new RuntimeException(e);
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onBannerClicked(@NonNull BannerAd bannerAd) {
-                                                }
-
-                                                @Override
-                                                public void onBannerFailed(@NonNull BannerAd bannerAd, @NonNull com.wortise.ads.AdError adError) {
-                                                    Conts.log_debug(TAG, "Wortise banner Failed " + adError);
-                                                }
-                                            });
-                                            current_wortise_BannerId++;
-                                            if (current_wortise_BannerId == wortise_BannerId.length) {
-                                                current_wortise_BannerId = 0;
-                                            }
-                                        }
-                                    }
-                                    ad_banner_network++;
-                                    break;
                                 case "inmobi":
                                     String[] inmobi_BannerId = app_data.get(0).getInmobi_banner_id().split(",");
                                     if (current_inmobi_BannerId < inmobi_BannerId.length) {
@@ -1251,7 +1123,6 @@ public class AdsControl {
     int current_adx_small_native_BannerId = 0;
     int current_fb_small_native_BannerId = 0;
     int current_applovin_small_native_BannerId = 0;
-    int current_wortise_small_native_BannerId = 0;
 
     private void small_native_banner_Ads() {
         try {
@@ -1300,17 +1171,6 @@ public class AdsControl {
                                     current_applovin_small_native_BannerId++;
                                     if (current_applovin_small_native_BannerId == applovin_small_native_banner_id.length) {
                                         current_applovin_small_native_BannerId = 0;
-                                    }
-                                }
-                                ad_small_native_banner_network++;
-                                break;
-                            case "wortise":
-                                String[] wortise_small_native_id = app_data.get(0).getWortiseNativeId().split(",");
-                                if (current_wortise_small_native_BannerId < wortise_small_native_id.length) {
-                                    preload_Wortise_Native_BannerAd(wortise_small_native_id[current_wortise_small_native_BannerId]);
-                                    current_wortise_small_native_BannerId++;
-                                    if (current_wortise_small_native_BannerId == wortise_small_native_id.length) {
-                                        current_wortise_small_native_BannerId = 0;
                                     }
                                 }
                                 ad_small_native_banner_network++;
@@ -1463,39 +1323,6 @@ public class AdsControl {
         }
     }
 
-    // Wortise Mode
-    private void preload_Wortise_Native_BannerAd(String placementId) {
-        if (!placementId.equalsIgnoreCase("")) {
-            if (isWortise_small_Native_banner_Loaded) {
-                return;
-            }
-            final GoogleNativeAd wortise_google_native_banner = new GoogleNativeAd(activity, placementId, new GoogleNativeAd.Listener() {
-                @Override
-                public void onNativeClicked(@NonNull GoogleNativeAd googleNativeAd) {
-                }
-
-                @Override
-                public void onNativeFailed(@NonNull GoogleNativeAd googleNativeAd, @NonNull com.wortise.ads.AdError adError) {
-                    Conts.log_debug(TAG, "Wortise Small Native Banner Ad Failed");
-                    small_native_banner_Ads();
-                }
-
-                @Override
-                public void onNativeImpression(@NonNull GoogleNativeAd googleNativeAd) {
-                }
-
-                @Override
-                public void onNativeLoaded(@NonNull GoogleNativeAd googleNativeAd, @NonNull NativeAd nativeAd) {
-                    Conts.log_debug(TAG, "Wortise Small Naive Banner Loaded");
-                    wortise_small_google_native_banner_Ad = googleNativeAd;
-                    wortise_small_native_banner_Ad = nativeAd;
-                    isWortise_small_Native_banner_Loaded = true;
-                }
-            });
-            wortise_google_native_banner.load();
-        }
-    }
-
     // Local Mode
     private void preload_Local_Native_BannerAd() {
         if (isLocal_small_Native_banner_Loaded) {
@@ -1572,11 +1399,6 @@ public class AdsControl {
                         native_banner_ad.addView(applovin_small_native_banner_Ad);
                         Conts.log_debug(TAG, "Applovin Native Banner ad show");
                         isApplovin_small_native_banner_Loaded = false;
-                        small_native_banner_Ads();
-                    } else if (isWortise_small_Native_banner_Loaded) {
-                        new NativeAds(activity).Admob_Small_Native_Banner_Ad(wortise_small_native_banner_Ad, native_banner_ad);
-                        Conts.log_debug(TAG, "Wortise Native Banner ad show");
-                        isWortise_small_Native_banner_Loaded = false;
                         small_native_banner_Ads();
                     } else if (isLocal_small_Native_banner_Loaded) {
                         @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(activity).inflate(R.layout.local_small_native_banner, null);
@@ -1728,40 +1550,6 @@ public class AdsControl {
                                     }
                                     ad_small_native_banner_network++;
                                     break;
-                                case "wortise":
-                                    String[] wortise_small_native_banner_id = app_data.get(0).getWortiseNativeId().split(",");
-                                    if (current_wortise_small_native_BannerId < wortise_small_native_banner_id.length) {
-                                        String placementId = wortise_small_native_banner_id[current_wortise_small_native_BannerId];
-                                        if (!placementId.equalsIgnoreCase("")) {
-                                            final GoogleNativeAd wortise_google_native_banner = new GoogleNativeAd(activity, placementId, new GoogleNativeAd.Listener() {
-                                                @Override
-                                                public void onNativeClicked(@NonNull GoogleNativeAd googleNativeAd) {
-                                                }
-
-                                                @Override
-                                                public void onNativeFailed(@NonNull GoogleNativeAd googleNativeAd, @NonNull com.wortise.ads.AdError adError) {
-                                                    Conts.log_debug(TAG, "Wortise Small Native Banner Ad Failed" + adError);
-                                                }
-
-                                                @Override
-                                                public void onNativeImpression(@NonNull GoogleNativeAd googleNativeAd) {
-                                                }
-
-                                                @Override
-                                                public void onNativeLoaded(@NonNull GoogleNativeAd googleNativeAd, @NonNull NativeAd nativeAd) {
-                                                    Conts.log_debug(TAG, "Wortise Native Banner ad show");
-                                                    new NativeAds(activity).Admob_Small_Native_Banner_Ad(nativeAd, native_banner_ad);
-                                                }
-                                            });
-                                            wortise_google_native_banner.load();
-                                            current_wortise_small_native_BannerId++;
-                                            if (current_wortise_small_native_BannerId == wortise_small_native_banner_id.length) {
-                                                current_wortise_small_native_BannerId = 0;
-                                            }
-                                        }
-                                    }
-                                    ad_small_native_banner_network++;
-                                    break;
                                 case "local":
                                     @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(activity).inflate(R.layout.local_small_native_banner, null);
                                     native_banner_ad.removeAllViews();
@@ -1812,7 +1600,6 @@ public class AdsControl {
     int current_adx_small_native_Id = 0;
     int current_fb_small_native_Id = 0;
     int current_applovin_small_native_Id = 0;
-    int current_wortise_small_native_Id = 0;
 
     private void small_native_Ads() {
         try {
@@ -1861,17 +1648,6 @@ public class AdsControl {
                                     current_applovin_small_native_Id++;
                                     if (current_applovin_small_native_Id == applovin_small_native_id.length) {
                                         current_applovin_small_native_Id = 0;
-                                    }
-                                }
-                                ad_small_native_network++;
-                                break;
-                            case "wortise":
-                                String[] wortise_small_native_id = app_data.get(0).getWortiseNativeId().split(",");
-                                if (current_wortise_small_native_Id < wortise_small_native_id.length) {
-                                    preload_Wortise_Small_Native_Ad(wortise_small_native_id[current_wortise_small_native_Id]);
-                                    current_wortise_small_native_Id++;
-                                    if (current_wortise_small_native_Id == wortise_small_native_id.length) {
-                                        current_wortise_small_native_Id = 0;
                                     }
                                 }
                                 ad_small_native_network++;
@@ -2022,40 +1798,6 @@ public class AdsControl {
         }
     }
 
-    // Wortise Mode
-    private void preload_Wortise_Small_Native_Ad(String placementId) {
-        if (!placementId.equalsIgnoreCase("")) {
-            if (isWortise_small_Native_Loaded) {
-                return;
-            }
-            final GoogleNativeAd wortise_google_small_native = new GoogleNativeAd(activity, placementId, new GoogleNativeAd.Listener() {
-                @Override
-                public void onNativeClicked(@NonNull GoogleNativeAd googleNativeAd) {
-                }
-
-                @SuppressLint("MissingPermission")
-                @Override
-                public void onNativeFailed(@NonNull GoogleNativeAd googleNativeAd, @NonNull com.wortise.ads.AdError adError) {
-                    Conts.log_debug(TAG, "Wortise Small Native Ad Failed" + adError);
-                    small_native_Ads();
-                }
-
-                @Override
-                public void onNativeImpression(@NonNull GoogleNativeAd googleNativeAd) {
-                }
-
-                @Override
-                public void onNativeLoaded(@NonNull GoogleNativeAd googleNativeAd, @NonNull NativeAd nativeAd) {
-                    Conts.log_debug(TAG, "Wortise Small Native Ad Loaded");
-                    wortise_google_small_native_Ad = googleNativeAd;
-                    wortise_small_native_Ad = nativeAd;
-                    isWortise_small_Native_Loaded = true;
-                }
-            });
-            wortise_google_small_native.load();
-        }
-    }
-
     // Local Mode
     private void preload_Local_Small_Native_Ad() {
         if (isLocal_small_Native_Loaded) {
@@ -2132,11 +1874,6 @@ public class AdsControl {
                         native_banner_ad.addView(applovin_small_native_Ad);
                         Conts.log_debug(TAG, "Applovin Small Native ad show");
                         isapplovin_small_native_Loaded = false;
-                        small_native_Ads();
-                    } else if (isWortise_small_Native_Loaded) {
-                        new NativeAds(activity).Admob_Small_Native_Ad(wortise_small_native_Ad, native_banner_ad);
-                        Conts.log_debug(TAG, "Wortise Small Native ad show");
-                        isWortise_small_Native_Loaded = false;
                         small_native_Ads();
                     } else if (isLocal_small_Native_Loaded) {
                         @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(activity).inflate(R.layout.local_small_native_ad, null);
@@ -2292,41 +2029,6 @@ public class AdsControl {
                                     }
                                     ad_small_native_network++;
                                     break;
-                                case "wortise":
-                                    String[] wortise_small_native_id = app_data.get(0).getWortiseNativeId().split(",");
-                                    if (current_wortise_small_native_Id < wortise_small_native_id.length) {
-                                        String placementId = wortise_small_native_id[current_wortise_small_native_Id];
-                                        if (!placementId.equalsIgnoreCase("")) {
-                                            final GoogleNativeAd wortise_google_small_native = new GoogleNativeAd(activity, placementId, new GoogleNativeAd.Listener() {
-                                                @Override
-                                                public void onNativeClicked(@NonNull GoogleNativeAd googleNativeAd) {
-                                                }
-
-                                                @SuppressLint("MissingPermission")
-                                                @Override
-                                                public void onNativeFailed(@NonNull GoogleNativeAd googleNativeAd, @NonNull com.wortise.ads.AdError adError) {
-                                                    Conts.log_debug(TAG, "Wortise Small Native Ad Failed" + adError);
-                                                }
-
-                                                @Override
-                                                public void onNativeImpression(@NonNull GoogleNativeAd googleNativeAd) {
-                                                }
-
-                                                @Override
-                                                public void onNativeLoaded(@NonNull GoogleNativeAd googleNativeAd, @NonNull NativeAd nativeAd) {
-                                                    Conts.log_debug(TAG, "Wortise Small Native ad show");
-                                                    new NativeAds(activity).Admob_Small_Native_Ad(nativeAd, native_banner_ad);
-                                                }
-                                            });
-                                            wortise_google_small_native.load();
-                                            current_wortise_small_native_Id++;
-                                            if (current_wortise_small_native_Id == wortise_small_native_id.length) {
-                                                current_wortise_small_native_Id = 0;
-                                            }
-                                        }
-                                    }
-                                    ad_small_native_network++;
-                                    break;
                                 case "local":
                                     @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(activity).inflate(R.layout.local_small_native_ad, null);
                                     native_banner_ad.removeAllViews();
@@ -2379,7 +2081,6 @@ public class AdsControl {
     int current_adx_native_Id = 0;
     int current_fb_native_Id = 0;
     int current_applovin_native_Id = 0;
-    int current_wortise_native_Id = 0;
 
     private void native_Ads() {
         try {
@@ -2428,17 +2129,6 @@ public class AdsControl {
                                     current_applovin_native_Id++;
                                     if (current_applovin_native_Id == applovin_native_id.length) {
                                         current_applovin_native_Id = 0;
-                                    }
-                                }
-                                ad_native_network++;
-                                break;
-                            case "wortise":
-                                String[] wortise_native_id = app_data.get(0).getWortiseNativeId().split(",");
-                                if (current_wortise_native_Id < wortise_native_id.length) {
-                                    preload_Wortise_Native_Ad(wortise_native_id[current_wortise_native_Id]);
-                                    current_wortise_native_Id++;
-                                    if (current_wortise_native_Id == wortise_native_id.length) {
-                                        current_wortise_native_Id = 0;
                                     }
                                 }
                                 ad_native_network++;
@@ -2587,40 +2277,6 @@ public class AdsControl {
         }
     }
 
-    // Wortise Mode
-    private void preload_Wortise_Native_Ad(String placementId) {
-        if (!placementId.equalsIgnoreCase("")) {
-            if (isWortise_Native_Loaded) {
-                return;
-            }
-            final GoogleNativeAd wortise_google_native = new GoogleNativeAd(activity, placementId, new GoogleNativeAd.Listener() {
-                @Override
-                public void onNativeClicked(@NonNull GoogleNativeAd googleNativeAd) {
-                }
-
-                @SuppressLint("MissingPermission")
-                @Override
-                public void onNativeFailed(@NonNull GoogleNativeAd googleNativeAd, @NonNull com.wortise.ads.AdError adError) {
-                    Conts.log_debug(TAG, "Wortise Native ad Failed" + adError);
-                    native_Ads();
-                }
-
-                @Override
-                public void onNativeImpression(@NonNull GoogleNativeAd googleNativeAd) {
-                }
-
-                @Override
-                public void onNativeLoaded(@NonNull GoogleNativeAd googleNativeAd, @NonNull NativeAd nativeAd) {
-                    Conts.log_debug(TAG, "Wortise Naive ad Loaded");
-                    wortise_google_native_Ad = googleNativeAd;
-                    wortise_native_Ad = nativeAd;
-                    isWortise_Native_Loaded = true;
-                }
-            });
-            wortise_google_native.load();
-        }
-    }
-
     // Local Mode
     private void preload_local_Native_ad() {
         if (isLocal_Native_Loaded) {
@@ -2678,7 +2334,6 @@ public class AdsControl {
     int current_adx_medium_rectId = 0;
     int current_fb_medium_rectId = 0;
     int current_applovin_medium_rectId = 0;
-    int current_wortise_medium_rectId = 0;
 
     private void medium_rect_Ads() {
         try {
@@ -2729,17 +2384,6 @@ public class AdsControl {
                                         current_applovin_medium_rectId = 0;
                                     }
 
-                                }
-                                ad_medium_network++;
-                                break;
-                            case "wortise":
-                                String[] wortise_mrec_id = app_data.get(0).getWortiseMediumRectangleId().split(",");
-                                if (current_wortise_medium_rectId < wortise_mrec_id.length) {
-                                    preloadmedium_rect_Wortise(wortise_mrec_id[current_wortise_medium_rectId]);
-                                    current_wortise_medium_rectId++;
-                                    if (current_wortise_medium_rectId == wortise_mrec_id.length) {
-                                        current_wortise_medium_rectId = 0;
-                                    }
                                 }
                                 ad_medium_network++;
                                 break;
@@ -2904,37 +2548,6 @@ public class AdsControl {
         }
     }
 
-    // Wortise Mode
-    private void preloadmedium_rect_Wortise(String placmentId) {
-        if (!placmentId.equalsIgnoreCase("")) {
-            if (isWortise_medium_ragtangal_Loaded) {
-                return;
-            }
-            final BannerAd wortise_medium_ragtangal = new BannerAd(activity);
-            wortise_medium_ragtangal.setAdSize(com.wortise.ads.AdSize.HEIGHT_250);
-            wortise_medium_ragtangal.setAdUnitId(placmentId);
-            wortise_medium_ragtangal.loadAd();
-            wortise_medium_ragtangal.setListener(new BannerAd.Listener() {
-                @Override
-                public void onBannerLoaded(@NonNull BannerAd bannerAd) {
-                    Conts.log_debug(TAG, "Wortise Medium Ragtangal Loadedd ");
-                    w_medium_ragtangal = wortise_medium_ragtangal;
-                    isWortise_medium_ragtangal_Loaded = true;
-                }
-
-                @Override
-                public void onBannerClicked(@NonNull BannerAd bannerAd) {
-                }
-
-                @Override
-                public void onBannerFailed(@NonNull BannerAd bannerAd, @NonNull com.wortise.ads.AdError adError) {
-                    Conts.log_debug(TAG, "Wortise Medium Ragtangal failed " + adError);
-                    medium_rect_Ads();
-                }
-            });
-        }
-    }
-
     // TODO: 7/17/2023 Show Native Ads
     @SuppressLint({"MissingPermission", "SetTextI18n"})
     public void show_native_ad(final ViewGroup native_ad) {
@@ -2964,11 +2577,6 @@ public class AdsControl {
                         native_ad.addView(applovin_maxnativeadview);
                         Conts.log_debug(TAG, "Applovin Native ad show");
                         isApplovin_Native_Loaded = false;
-                        native_Ads();
-                    } else if (isWortise_Native_Loaded) {
-                        new NativeAds(activity).Admob_NativeAd(wortise_native_Ad, native_ad);
-                        Conts.log_debug(TAG, "Wortise Native ad show");
-                        isWortise_Native_Loaded = false;
                         native_Ads();
                     } else if (isLocal_Native_Loaded) {
                         @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(activity).inflate(R.layout.local_native_ad, null);
@@ -3018,17 +2626,6 @@ public class AdsControl {
                             }
                             native_ad.addView(applovin_Medium_Ragtangal_adview);
                             isApplovin_Mediam_Ragtangal_Loaded = false;
-                            medium_rect_Ads();
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    } else if (isWortise_medium_ragtangal_Loaded) {
-                        try {
-                            if (w_medium_ragtangal.getParent() != null) {
-                                ((ViewGroup) w_medium_ragtangal.getParent()).removeView(w_medium_ragtangal);
-                            }
-                            native_ad.addView(w_medium_ragtangal);
-                            isWortise_medium_ragtangal_Loaded = false;
                             medium_rect_Ads();
                         } catch (Exception e) {
                             throw new RuntimeException(e);
@@ -3221,46 +2818,6 @@ public class AdsControl {
                                         }
                                         ad_medium_network++;
                                         break;
-                                    case "wortise":
-                                        String[] wortise_mrec_id = app_data.get(0).getWortiseMediumRectangleId().split(",");
-                                        if (current_wortise_medium_rectId < wortise_mrec_id.length) {
-                                            String placmentId = wortise_mrec_id[current_wortise_medium_rectId];
-                                            if (!placmentId.equalsIgnoreCase("")) {
-                                                final BannerAd wortise_medium_ragtangal = new BannerAd(activity);
-                                                wortise_medium_ragtangal.setAdSize(com.wortise.ads.AdSize.HEIGHT_250);
-                                                wortise_medium_ragtangal.setAdUnitId(placmentId);
-                                                wortise_medium_ragtangal.loadAd();
-                                                wortise_medium_ragtangal.setListener(new BannerAd.Listener() {
-                                                    @Override
-                                                    public void onBannerLoaded(@NonNull BannerAd bannerAd) {
-                                                        Conts.log_debug(TAG, "Wortise Medium Ragtangal show");
-                                                        try {
-                                                            if (wortise_medium_ragtangal.getParent() != null) {
-                                                                ((ViewGroup) wortise_medium_ragtangal.getParent()).removeView(wortise_medium_ragtangal);
-                                                            }
-                                                            native_ad.addView(wortise_medium_ragtangal);
-                                                        } catch (Exception e) {
-                                                            throw new RuntimeException(e);
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onBannerClicked(@NonNull BannerAd bannerAd) {
-                                                    }
-
-                                                    @Override
-                                                    public void onBannerFailed(@NonNull BannerAd bannerAd, @NonNull com.wortise.ads.AdError adError) {
-                                                        Conts.log_debug(TAG, "Wortise Medium Ragtangal failed " + adError);
-                                                    }
-                                                });
-                                                current_wortise_medium_rectId++;
-                                                if (current_wortise_medium_rectId == wortise_mrec_id.length) {
-                                                    current_wortise_medium_rectId = 0;
-                                                }
-                                            }
-                                        }
-                                        ad_medium_network++;
-                                        break;
                                     default:
                                 }
                                 if (ad_medium_network == adnetwork.length) {
@@ -3411,41 +2968,6 @@ public class AdsControl {
                                         }
                                         ad_native_network++;
                                         break;
-                                    case "wortise":
-                                        String[] wortise_native_id = app_data.get(0).getWortiseNativeId().split(",");
-                                        if (current_wortise_native_Id < wortise_native_id.length) {
-                                            String placementId = wortise_native_id[current_wortise_native_Id];
-                                            if (!placementId.equalsIgnoreCase("")) {
-                                                final GoogleNativeAd wortise_google_native = new GoogleNativeAd(activity, placementId, new GoogleNativeAd.Listener() {
-                                                    @Override
-                                                    public void onNativeClicked(@NonNull GoogleNativeAd googleNativeAd) {
-                                                    }
-
-                                                    @SuppressLint("MissingPermission")
-                                                    @Override
-                                                    public void onNativeFailed(@NonNull GoogleNativeAd googleNativeAd, @NonNull com.wortise.ads.AdError adError) {
-                                                        Conts.log_debug(TAG, "Wortise Native ad Failed" + adError);
-                                                    }
-
-                                                    @Override
-                                                    public void onNativeImpression(@NonNull GoogleNativeAd googleNativeAd) {
-                                                    }
-
-                                                    @Override
-                                                    public void onNativeLoaded(@NonNull GoogleNativeAd googleNativeAd, @NonNull NativeAd nativeAd) {
-                                                        Conts.log_debug(TAG, "Wortise Native ad show");
-                                                        new NativeAds(activity).Admob_NativeAd(nativeAd, native_ad);
-                                                    }
-                                                });
-                                                wortise_google_native.load();
-                                                current_wortise_native_Id++;
-                                                if (current_wortise_native_Id == wortise_native_id.length) {
-                                                    current_wortise_native_Id = 0;
-                                                }
-                                            }
-                                        }
-                                        ad_native_network++;
-                                        break;
                                     case "local":
                                         @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(activity).inflate(R.layout.local_native_ad, null);
                                         native_ad.removeAllViews();
@@ -3499,7 +3021,6 @@ public class AdsControl {
     int current_adx_IntrId = 0;
     int current_fb_IntrId = 0;
     int current_applovin_IntrId = 0;
-    int current_wortise_IntrId = 0;
     int current_inmobi_IntrId = 0;
     Dialog ad_inter_dialog;
     long ad_dialog_time_in_second = 2;
@@ -3553,17 +3074,6 @@ public class AdsControl {
                                     current_applovin_IntrId++;
                                     if (current_applovin_IntrId == applovin_inter.length) {
                                         current_applovin_IntrId = 0;
-                                    }
-                                }
-                                ad_inter_network++;
-                                break;
-                            case "wortise":
-                                String[] wortise_inter = app_data.get(0).getWortiseInterId().split(",");
-                                if (current_wortise_IntrId < wortise_inter.length) {
-                                    Load_interAds_Wortise(wortise_inter[current_wortise_IntrId]);
-                                    current_wortise_IntrId++;
-                                    if (current_wortise_IntrId == wortise_inter.length) {
-                                        current_wortise_IntrId = 0;
                                     }
                                 }
                                 ad_inter_network++;
@@ -3775,49 +3285,6 @@ public class AdsControl {
                 }
             });
             interstitialAdmax.loadAd();
-        }
-    }
-
-    // Wortise Mode
-    private void Load_interAds_Wortise(String placementId) {
-        if (!placementId.equalsIgnoreCase("")) {
-            if (isWortiseInterLoaded) {
-                return;
-            }
-            final com.wortise.ads.interstitial.InterstitialAd Wortise_inter_ad = new com.wortise.ads.interstitial.InterstitialAd(activity, placementId);
-            Wortise_inter_ad.loadAd();
-            Wortise_inter_ad.setListener(new com.wortise.ads.interstitial.InterstitialAd.Listener() {
-                @Override
-                public void onInterstitialClicked(@NonNull com.wortise.ads.interstitial.InterstitialAd ad) {
-                }
-
-                @Override
-                public void onInterstitialDismissed(@NonNull com.wortise.ads.interstitial.InterstitialAd ad) {
-                    Conts.log_debug(TAG, "Wortise Inter ad Close.");
-                    if (callback != null) {
-                        callback.onClick();
-                        callback = null;
-                    }
-                }
-
-                @Override
-                public void onInterstitialFailed(@NonNull com.wortise.ads.interstitial.InterstitialAd ad, @NonNull com.wortise.ads.AdError error) {
-                    Conts.log_debug(TAG, "Wortise Inter Failed");
-                    inter_Ads();
-                }
-
-                @Override
-                public void onInterstitialLoaded(@NonNull com.wortise.ads.interstitial.InterstitialAd ad) {
-                    Conts.log_debug(TAG, "Wortise Inter ad Loaded.");
-                    Wortise_inter = Wortise_inter_ad;
-                    isWortiseInterLoaded = true;
-                }
-
-                @Override
-                public void onInterstitialShown(@NonNull com.wortise.ads.interstitial.InterstitialAd ad) {
-                    Conts.log_debug(TAG, "Wortise Inter Show");
-                }
-            });
         }
     }
 
@@ -4068,28 +3535,6 @@ public class AdsControl {
                                 isApplovinInterLoaded = false;
                                 inter_Ads();
                             }
-                        } else if (isWortiseInterLoaded) {
-                            if (app_data.get(0).isApp_inter_dialog_show()) {
-                                ad_inter_dialog.show();
-                                new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                    @Override
-                                    public void onTick(long millisUntilFinished) {
-
-                                    }
-
-                                    @Override
-                                    public void onFinish() {
-                                        ad_inter_dialog.dismiss();
-                                        Wortise_inter.showAd();
-                                        isWortiseInterLoaded = false;
-                                        inter_Ads();
-                                    }
-                                }.start();
-                            } else {
-                                Wortise_inter.showAd();
-                                isWortiseInterLoaded = false;
-                                inter_Ads();
-                            }
                         } else if (isInmobiInterLoaded) {
                             if (app_data.get(0).isApp_inter_dialog_show()) {
                                 ad_inter_dialog.show();
@@ -4220,34 +3665,6 @@ public class AdsControl {
                                 Conts.log_debug(TAG, "Adx Appopen Show");
                                 isadx_appopen_Loaded = false;
                                 appopen_Ads();
-                            }
-                        } else if (iswortise_appopen_Loaded) {
-                            if (app_data.get(0).isApp_inter_dialog_show()) {
-                                ad_inter_dialog.show();
-                                new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                    @Override
-                                    public void onTick(long millisUntilFinished) {
-
-                                    }
-
-                                    @Override
-                                    public void onFinish() {
-                                        ad_inter_dialog.dismiss();
-                                        if (wortise_open.isAvailable()) {
-                                            wortise_open.showAd(act);
-                                            Conts.log_debug(TAG, "Wortise Appopen Show");
-                                            iswortise_appopen_Loaded = false;
-                                            appopen_Ads();
-                                        }
-                                    }
-                                }.start();
-                            } else {
-                                if (wortise_open.isAvailable()) {
-                                    wortise_open.showAd(act);
-                                    Conts.log_debug(TAG, "Wortise Appopen Show");
-                                    iswortise_appopen_Loaded = false;
-                                    appopen_Ads();
-                                }
                             }
                         } else if (isapplovin_appopen_Loaded) {
                             if (app_data.get(0).isApp_inter_dialog_show()) {
@@ -4512,73 +3929,6 @@ public class AdsControl {
 
                                                     @Override
                                                     public void onAdDisplayFailed(MaxAd maxAd, MaxError maxError) {
-                                                    }
-                                                });
-                                            } else {
-                                                if (callback != null) {
-                                                    callback.onClick();
-                                                    callback = null;
-                                                }
-                                            }
-                                            ad_appopen_inter_network++;
-                                            break;
-                                        case "wortise":
-                                            String wortise_placement = app_data.get(0).getWortiseAppopenId();
-                                            if (!wortise_placement.equalsIgnoreCase("")) {
-                                                final com.wortise.ads.appopen.AppOpenAd wortise_open_ad = new com.wortise.ads.appopen.AppOpenAd(act, wortise_placement);
-                                                wortise_open_ad.loadAd();
-                                                wortise_open_ad.setListener(new com.wortise.ads.appopen.AppOpenAd.Listener() {
-                                                    @Override
-                                                    public void onAppOpenShown(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd) {
-                                                    }
-
-                                                    @Override
-                                                    public void onAppOpenLoaded(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd) {
-                                                        if (app_data.get(0).isApp_inter_dialog_show()) {
-                                                            ad_inter_dialog.show();
-                                                            new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                                                @Override
-                                                                public void onTick(long millisUntilFinished) {
-
-                                                                }
-
-                                                                @Override
-                                                                public void onFinish() {
-                                                                    ad_inter_dialog.dismiss();
-                                                                    Conts.log_debug(TAG, "Wortise Appopen Show");
-                                                                    if (appOpenAd.isAvailable()) {
-                                                                        appOpenAd.showAd(act);
-                                                                    }
-                                                                }
-                                                            }.start();
-                                                        } else {
-                                                            Conts.log_debug(TAG, "Wortise Appopen Show");
-                                                            if (appOpenAd.isAvailable()) {
-                                                                appOpenAd.showAd(act);
-                                                            }
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onAppOpenFailed(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd, @NonNull com.wortise.ads.AdError adError) {
-                                                        Conts.log_debug(TAG, "Wortise Open Ad Failed " + adError);
-                                                        if (callback != null) {
-                                                            callback.onClick();
-                                                            callback = null;
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onAppOpenDismissed(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd) {
-                                                        Conts.log_debug(TAG, "Wortise Open Ad Close");
-                                                        if (callback != null) {
-                                                            callback.onClick();
-                                                            callback = null;
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onAppOpenClicked(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd) {
                                                     }
                                                 });
                                             } else {
@@ -4919,75 +4269,6 @@ public class AdsControl {
                                             }
                                             ad_inter_network++;
                                             break;
-                                        case "wortise":
-                                            String[] wortise_inter = app_data.get(0).getWortiseInterId().split(",");
-                                            if (current_wortise_IntrId < wortise_inter.length) {
-                                                String wortise_inter_placement = wortise_inter[current_wortise_IntrId];
-                                                if (!wortise_inter_placement.equalsIgnoreCase("")) {
-                                                    final com.wortise.ads.interstitial.InterstitialAd Wortise_inter_ad = new com.wortise.ads.interstitial.InterstitialAd(act, wortise_inter_placement);
-                                                    Wortise_inter_ad.loadAd();
-                                                    Wortise_inter_ad.setListener(new com.wortise.ads.interstitial.InterstitialAd.Listener() {
-                                                        @Override
-                                                        public void onInterstitialClicked(@NonNull com.wortise.ads.interstitial.InterstitialAd ad) {
-                                                        }
-
-                                                        @Override
-                                                        public void onInterstitialDismissed(@NonNull com.wortise.ads.interstitial.InterstitialAd ad) {
-                                                            Conts.log_debug(TAG, "Wortise Inter ad Close");
-                                                            if (callback != null) {
-                                                                callback.onClick();
-                                                                callback = null;
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onInterstitialFailed(@NonNull com.wortise.ads.interstitial.InterstitialAd ad, @NonNull com.wortise.ads.AdError error) {
-                                                            Conts.log_debug(TAG, "Wortise Inter Failed " + error.toString());
-                                                            if (callback != null) {
-                                                                callback.onClick();
-                                                                callback = null;
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onInterstitialLoaded(@NonNull com.wortise.ads.interstitial.InterstitialAd ad) {
-                                                            Conts.log_debug(TAG, "Wortise Inter ad Loaded");
-                                                            if (app_data.get(0).isApp_inter_dialog_show()) {
-                                                                ad_inter_dialog.show();
-                                                                new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                                                    @Override
-                                                                    public void onTick(long millisUntilFinished) {
-                                                                    }
-
-                                                                    @Override
-                                                                    public void onFinish() {
-                                                                        ad_inter_dialog.dismiss();
-                                                                        Wortise_inter_ad.showAd();
-                                                                    }
-                                                                }.start();
-                                                            } else {
-                                                                Wortise_inter_ad.showAd();
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onInterstitialShown(@NonNull com.wortise.ads.interstitial.InterstitialAd ad) {
-                                                            Conts.log_debug(TAG, "Wortise Inter Show");
-                                                        }
-                                                    });
-                                                } else {
-                                                    if (callback != null) {
-                                                        callback.onClick();
-                                                        callback = null;
-                                                    }
-                                                }
-                                                current_wortise_IntrId++;
-                                                if (current_wortise_IntrId == wortise_inter.length) {
-                                                    current_wortise_IntrId = 0;
-                                                }
-                                            }
-                                            ad_inter_network++;
-                                            break;
                                         case "inmobi":
                                             String[] inmobi_inter = app_data.get(0).getInmobi_inter_id().split(",");
                                             if (current_inmobi_IntrId < inmobi_inter.length) {
@@ -5217,58 +4498,6 @@ public class AdsControl {
         }
     }
 
-    // Wortise
-    public void show_Wortise_Appopen(Activity act, OnClickListener callback2) {
-        callback = callback2;
-        if (app_data != null && app_data.size() > 0) {
-            String placement = app_data.get(0).getWortiseAppopenId();
-            if (!placement.equalsIgnoreCase("")) {
-                final com.wortise.ads.appopen.AppOpenAd wortise_open_ad = new com.wortise.ads.appopen.AppOpenAd(act, placement);
-                wortise_open_ad.loadAd();
-                wortise_open_ad.setListener(new com.wortise.ads.appopen.AppOpenAd.Listener() {
-                    @Override
-                    public void onAppOpenShown(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd) {
-                    }
-
-                    @Override
-                    public void onAppOpenLoaded(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd) {
-                        if (appOpenAd.isAvailable()) {
-                            appOpenAd.showAd(act);
-                            Conts.log_debug(TAG, "Wortise Open Ad show");
-                        }
-                    }
-
-                    @Override
-                    public void onAppOpenFailed(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd, @NonNull com.wortise.ads.AdError adError) {
-                        Conts.log_debug(TAG, "Wortise Open Ad Failed " + adError);
-                        if (callback != null) {
-                            callback.onClick();
-                            callback = null;
-                        }
-                    }
-
-                    @Override
-                    public void onAppOpenDismissed(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd) {
-                        Conts.log_debug(TAG, "Wortise Open Ad Close");
-                        if (callback != null) {
-                            callback.onClick();
-                            callback = null;
-                        }
-                    }
-
-                    @Override
-                    public void onAppOpenClicked(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd) {
-                    }
-                });
-            } else {
-                if (callback != null) {
-                    callback.onClick();
-                    callback = null;
-                }
-            }
-        }
-    }
-
     // Applovin Appopen
     public void show_Applovin_Appopen(Activity activity, OnClickListener dataListner) {
         callback = dataListner;
@@ -5438,10 +4667,6 @@ public class AdsControl {
                                 get_applovin_appopen_AdsLoad();
                                 ad_appopen_inter_network++;
                                 break;
-                            case "wortise":
-                                get_wortise_appopen_AdsLoad();
-                                ad_appopen_inter_network++;
-                                break;
                             case "local":
                                 get_local_Appopen_AdLoad();
                                 ad_appopen_inter_network++;
@@ -5508,51 +4733,6 @@ public class AdsControl {
                     }
                 };
                 AppOpenAd.load(activity, placementId, adManagerAdRequest(), loadCallback);
-            }
-        }
-    }
-
-    // Wortise
-    void get_wortise_appopen_AdsLoad() {
-        if (app_data != null && app_data.size() > 0) {
-            String placementId = app_data.get(0).getWortiseAppopenId();
-            if (!placementId.equalsIgnoreCase("")) {
-                if (iswortise_appopen_Loaded) {
-                    return;
-                }
-                final com.wortise.ads.appopen.AppOpenAd wortise_open_ad = new com.wortise.ads.appopen.AppOpenAd(activity, placementId);
-                wortise_open_ad.loadAd();
-                wortise_open_ad.setListener(new com.wortise.ads.appopen.AppOpenAd.Listener() {
-                    @Override
-                    public void onAppOpenShown(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd) {
-                    }
-
-                    @Override
-                    public void onAppOpenLoaded(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd) {
-                        Conts.log_debug(TAG, "Wortise Open Ad loaded");
-                        wortise_open = wortise_open_ad;
-                        iswortise_appopen_Loaded = true;
-                    }
-
-                    @Override
-                    public void onAppOpenFailed(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd, @NonNull com.wortise.ads.AdError adError) {
-                        Conts.log_debug(TAG, "Wortise Open Ad Failed" + adError);
-                        appopen_Ads();
-                    }
-
-                    @Override
-                    public void onAppOpenDismissed(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd) {
-                        Conts.log_debug(TAG, "Wortise Open Ad Close");
-                        if (callback != null) {
-                            callback.onClick();
-                            callback = null;
-                        }
-                    }
-
-                    @Override
-                    public void onAppOpenClicked(@NonNull com.wortise.ads.appopen.AppOpenAd appOpenAd) {
-                    }
-                });
             }
         }
     }
@@ -5698,19 +4878,41 @@ public class AdsControl {
     // TODO: 8/10/2023  Splash Inter Ads
     void show_splash_inter(Activity act, OnClickListener callback3) {
         callback = callback3;
+        ad_inter_dialog = new Dialog(act);
+        ad_inter_dialog.requestWindowFeature(1);
+        this.ad_inter_dialog.setContentView(R.layout.ad_progress_dialog);
+        ad_inter_dialog.setCancelable(false);
+        this.ad_inter_dialog.setCanceledOnTouchOutside(false);
+        Objects.requireNonNull(this.ad_inter_dialog.getWindow()).setSoftInputMode(3);
+        this.ad_inter_dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        this.ad_inter_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         if (app_data != null && app_data.size() > 0) {
             String admob_splash_inter = app_data.get(0).getAdmob_splash_interid();
             String adx_splash_inter = app_data.get(0).getAdx_splash_inter_id();
             String fb_splash_inter = app_data.get(0).getFb_splash_inter_id();
             String applovin_splash_inter = app_data.get(0).getApplovin_splash_interid();
-            String wortise_splash_inter = app_data.get(0).getWortise_splash_inter_id();
             if (!admob_splash_inter.equalsIgnoreCase("")) {
                 final AdRequest adRequest = new AdRequest.Builder().build();
                 InterstitialAd.load(act, admob_splash_inter, adRequest, new InterstitialAdLoadCallback() {
                     @Override
                     public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                         super.onAdLoaded(interstitialAd);
-                        interstitialAd.show(act);
+                        if (app_data.get(0).isApp_inter_dialog_show()) {
+                            ad_inter_dialog.show();
+                            new CountDownTimer(ad_dialog_time_in_second * 1000L, 10) {
+                                @Override
+                                public void onTick(long millisUntilFinished) {
+                                }
+
+                                @Override
+                                public void onFinish() {
+                                    ad_inter_dialog.dismiss();
+                                    interstitialAd.show(act);
+                                }
+                            }.start();
+                        } else {
+                            interstitialAd.show(act);
+                        }
                         interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
                             @Override
                             public void onAdDismissedFullScreenContent() {
@@ -5753,7 +4955,22 @@ public class AdsControl {
                     @Override
                     public void onAdLoaded(@NonNull AdManagerInterstitialAd adManagerInterstitialAd) {
                         super.onAdLoaded(adManagerInterstitialAd);
-                        adManagerInterstitialAd.show(act);
+                        if (app_data.get(0).isApp_inter_dialog_show()) {
+                            ad_inter_dialog.show();
+                            new CountDownTimer(ad_dialog_time_in_second * 1000L, 10) {
+                                @Override
+                                public void onTick(long millisUntilFinished) {
+                                }
+
+                                @Override
+                                public void onFinish() {
+                                    ad_inter_dialog.dismiss();
+                                    adManagerInterstitialAd.show(act);
+                                }
+                            }.start();
+                        } else {
+                            adManagerInterstitialAd.show(act);
+                        }
                         adManagerInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
                             @Override
                             public void onAdDismissedFullScreenContent() {
@@ -5817,7 +5034,22 @@ public class AdsControl {
 
                     @Override
                     public void onAdLoaded(Ad ad) {
-                        FB_interstitial.show();
+                        if (app_data.get(0).isApp_inter_dialog_show()) {
+                            ad_inter_dialog.show();
+                            new CountDownTimer(ad_dialog_time_in_second * 1000L, 10) {
+                                @Override
+                                public void onTick(long millisUntilFinished) {
+                                }
+
+                                @Override
+                                public void onFinish() {
+                                    ad_inter_dialog.dismiss();
+                                    FB_interstitial.show();
+                                }
+                            }.start();
+                        } else {
+                            FB_interstitial.show();
+                        }
                     }
 
                     @Override
@@ -5836,7 +5068,22 @@ public class AdsControl {
                     @Override
                     public void onAdLoaded(MaxAd ad) {
                         Conts.log_debug(TAG, "Applovin Inter Loaded");
-                        interstitialAdmax.showAd();
+                        if (app_data.get(0).isApp_inter_dialog_show()) {
+                            ad_inter_dialog.show();
+                            new CountDownTimer(ad_dialog_time_in_second * 1000L, 10) {
+                                @Override
+                                public void onTick(long millisUntilFinished) {
+                                }
+
+                                @Override
+                                public void onFinish() {
+                                    ad_inter_dialog.dismiss();
+                                    interstitialAdmax.showAd();
+                                }
+                            }.start();
+                        } else {
+                            interstitialAdmax.showAd();
+                        }
                     }
 
                     @Override
@@ -5871,43 +5118,6 @@ public class AdsControl {
                     }
                 });
                 interstitialAdmax.loadAd();
-            } else if (!wortise_splash_inter.equalsIgnoreCase("")) {
-                final com.wortise.ads.interstitial.InterstitialAd Wortise_inter_ad = new com.wortise.ads.interstitial.InterstitialAd(act, wortise_splash_inter);
-                Wortise_inter_ad.loadAd();
-                Wortise_inter_ad.setListener(new com.wortise.ads.interstitial.InterstitialAd.Listener() {
-                    @Override
-                    public void onInterstitialClicked(@NonNull com.wortise.ads.interstitial.InterstitialAd ad) {
-
-                    }
-
-                    @Override
-                    public void onInterstitialDismissed(@NonNull com.wortise.ads.interstitial.InterstitialAd ad) {
-                        if (callback != null) {
-                            callback.onClick();
-                            callback = null;
-                        }
-                    }
-
-                    @Override
-                    public void onInterstitialFailed(@NonNull com.wortise.ads.interstitial.InterstitialAd ad, @NonNull com.wortise.ads.AdError error) {
-                        Conts.log_debug(TAG, "Wortise Inter Failed" + error);
-                        if (callback != null) {
-                            callback.onClick();
-                            callback = null;
-                        }
-                    }
-
-                    @Override
-                    public void onInterstitialLoaded(@NonNull com.wortise.ads.interstitial.InterstitialAd ad) {
-                        Conts.log_debug(TAG, "Wortise Inter ad Loaded.");
-                        Wortise_inter_ad.showAd();
-                    }
-
-                    @Override
-                    public void onInterstitialShown(@NonNull com.wortise.ads.interstitial.InterstitialAd ad) {
-                        Conts.log_debug(TAG, "Wortise Inter Show");
-                    }
-                });
             } else {
                 if (callback != null) {
                     callback.onClick();

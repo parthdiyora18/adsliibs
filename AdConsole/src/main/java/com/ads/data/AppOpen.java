@@ -84,10 +84,6 @@ public class AppOpen implements LifecycleObserver, Application.ActivityLifecycle
                                 AdsControl.getInstance(currentActivity).show_Adx_Appopen(activity, () -> currentActivity = null);
                                 ad_openad_network++;
                                 break;
-                            case "wortise":
-                                AdsControl.getInstance(currentActivity).show_Wortise_Appopen(activity, () -> currentActivity = null);
-                                ad_openad_network++;
-                                break;
                             case "applovin":
                                 AdsControl.getInstance(currentActivity).show_Applovin_Appopen(activity, () -> currentActivity = null);
                                 ad_openad_network++;
