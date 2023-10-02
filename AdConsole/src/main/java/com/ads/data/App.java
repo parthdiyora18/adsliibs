@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.VpnService;
 
 import androidx.annotation.Nullable;
 
@@ -47,14 +48,11 @@ public class App extends Application {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        InMobiSdk.init(this, "b4994419ed5a4683b08df417a0062a0a", consentObject, new SdkInitializationListener() {
-            @Override
-            public void onInitializationComplete(@Nullable Error error) {
-                if (null != error) {
-                    Conts.log_debug("Parth", "InMobi Init failed -" + error.getMessage());
-                } else {
-                    Conts.log_debug("Parth", "InMobi Init Successful");
-                }
+        InMobiSdk.init(this, "b4994419ed5a4683b08df417a0062a0a", consentObject, error -> {
+            if (null != error) {
+                Conts.log_debug("Parth", "InMobi Init failed -" + error.getMessage());
+            } else {
+                Conts.log_debug("Parth", "InMobi Init Successful");
             }
         });
         appOpenManager = new AppOpen(this);

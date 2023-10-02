@@ -130,11 +130,11 @@
                 android:id="@+id/cta_button"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:background="@color/black"
                 android:gravity="center"
                 android:text="Install"
+                android:background="@drawable/round_native_btn"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
         </androidx.cardview.widget.CardView>
 

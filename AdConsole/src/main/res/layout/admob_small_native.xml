@@ -15,7 +15,7 @@
         <com.google.android.gms.ads.nativead.MediaView
             android:id="@+id/ad_app_icon"
             android:layout_width="180dp"
-            android:layout_height="110dp"
+            android:layout_height="match_parent"
             android:scaleType="fitXY" />
 
         <LinearLayout
@@ -60,9 +60,9 @@
                     android:layout_marginEnd="2dp"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:textSize="14sp"
                     android:text="Advertisement"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <TextView
@@ -72,7 +72,7 @@
                 android:layout_marginStart="3dp"
                 android:layout_marginTop="2dp"
                 android:ellipsize="end"
-                android:lines="4"
+                android:lines="5"
                 android:text="Provided by Google AdMob"
                 android:textSize="10sp" />
         </LinearLayout>
@@ -80,7 +80,7 @@
         <TextView
             android:id="@+id/ad_call_to_action"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center"
             android:layout_marginStart="3dp"
@@ -90,7 +90,7 @@
             android:gravity="center"
             android:text="Visit Site"
             android:textColor="@color/white"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/ad_app_icon"
             tools:ignore="SmallSp" />

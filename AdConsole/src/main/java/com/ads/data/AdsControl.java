@@ -100,6 +100,7 @@ public class AdsControl {
     @SuppressLint("StaticFieldLeak")
     static Context activity;
     String TAG = "Parth";
+
     // Banner
     boolean isGoogleBannerLoaded;
     boolean isAdxBannerLoaded;
@@ -175,6 +176,7 @@ public class AdsControl {
     com.facebook.ads.InterstitialAd FB_interstitialAd;
     MaxInterstitialAd Applovin_maxInterstitialAd;
     InMobiInterstitial Inmobi_inter;
+
     // Appopen
     boolean isadmob_appopen_Loaded;
     boolean isadx_appopen_Loaded;
@@ -422,10 +424,10 @@ public class AdsControl {
                 }
                 call(activity, myCallback);
             } else {
-                call(activity, myCallback);
+                Next_Call(myCallback);
             }
         } else {
-            call(activity, myCallback);
+            Next_Call(myCallback);
         }
     }
 
@@ -643,7 +645,7 @@ public class AdsControl {
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError adError) {
                     super.onAdFailedToLoad(adError);
-                    Conts.log_debug(TAG, "Admob Banner Failed" + adError.getMessage());
+                    Conts.log_debug(TAG, "Admob Banner Failed " + adError.getMessage());
                     banner_Ads();
                 }
             });
@@ -674,7 +676,7 @@ public class AdsControl {
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                     super.onAdFailedToLoad(loadAdError);
-                    Conts.log_debug(TAG, "Adx Banner Failed" + loadAdError.getMessage());
+                    Conts.log_debug(TAG, "Adx Banner Failed " + loadAdError.getMessage());
                     banner_Ads();
                 }
             });
@@ -699,7 +701,7 @@ public class AdsControl {
 
                 @Override
                 public void onError(Ad ad, AdError adError) {
-                    Conts.log_debug(TAG, "FB Banner Failed" + adError.getErrorMessage());
+                    Conts.log_debug(TAG, "FB Banner Failed " + adError.getErrorMessage());
                     banner_Ads();
                 }
 
@@ -753,7 +755,7 @@ public class AdsControl {
 
                 @Override
                 public void onAdLoadFailed(String s, MaxError maxError) {
-                    Conts.log_debug(TAG, "Applovin Banner Failed" + maxError.getMessage());
+                    Conts.log_debug(TAG, "Applovin Banner Failed " + maxError.getMessage());
                     banner_Ads();
                 }
 
@@ -887,7 +889,7 @@ public class AdsControl {
                                             admob_Banner.setAdListener(new AdListener() {
                                                 @Override
                                                 public void onAdLoaded() {
-                                                    Conts.log_debug(TAG, "Admob Banner Loadedd ");
+                                                    Conts.log_debug(TAG, "Admob Banner Show");
                                                     try {
                                                         if (admob_Banner.getParent() != null) {
                                                             ((ViewGroup) admob_Banner.getParent()).removeView(admob_Banner);
@@ -901,7 +903,7 @@ public class AdsControl {
                                                 @Override
                                                 public void onAdFailedToLoad(@NonNull LoadAdError adError) {
                                                     super.onAdFailedToLoad(adError);
-                                                    Conts.log_debug(TAG, "Admob Banner Failed" + adError.getMessage());
+                                                    Conts.log_debug(TAG, "Admob Banner Failed " + adError.getMessage());
                                                 }
                                             });
                                             current_admob_BannerId++;
@@ -926,7 +928,7 @@ public class AdsControl {
                                                 @Override
                                                 public void onAdLoaded() {
                                                     super.onAdLoaded();
-                                                    Conts.log_debug(TAG, "Adx Banner Loadedd ");
+                                                    Conts.log_debug(TAG, "Adx Banner Show");
                                                     try {
                                                         if (adx_Banner.getParent() != null) {
                                                             ((ViewGroup) adx_Banner.getParent()).removeView(adx_Banner);
@@ -940,7 +942,7 @@ public class AdsControl {
                                                 @Override
                                                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                                                     super.onAdFailedToLoad(loadAdError);
-                                                    Conts.log_debug(TAG, "Adx Banner Failed" + loadAdError.getMessage());
+                                                    Conts.log_debug(TAG, "Adx Banner Failed " + loadAdError.getMessage());
                                                 }
                                             });
                                             current_adx_BannerId++;
@@ -961,7 +963,7 @@ public class AdsControl {
 
                                                 @Override
                                                 public void onAdLoaded(Ad ad) {
-                                                    Conts.log_debug(TAG, "Fb Banner Loadedd ");
+                                                    Conts.log_debug(TAG, "Fb Banner Show");
                                                     try {
                                                         if (fb_banner.getParent() != null) {
                                                             ((ViewGroup) fb_banner.getParent()).removeView(fb_banner);
@@ -974,7 +976,7 @@ public class AdsControl {
 
                                                 @Override
                                                 public void onError(Ad ad, AdError adError) {
-                                                    Conts.log_debug(TAG, "FB Banner Failed" + adError.getErrorMessage());
+                                                    Conts.log_debug(TAG, "FB Banner Failed " + adError.getErrorMessage());
                                                 }
 
                                                 @Override
@@ -1012,7 +1014,7 @@ public class AdsControl {
 
                                                 @Override
                                                 public void onAdLoaded(MaxAd maxAd) {
-                                                    Conts.log_debug(TAG, "Applovin Banner Loadedd ");
+                                                    Conts.log_debug(TAG, "Applovin Banner Show");
                                                     try {
                                                         if (applo_banner_ad.getParent() != null) {
                                                             ((ViewGroup) applo_banner_ad.getParent()).removeView(applo_banner_ad);
@@ -1037,7 +1039,7 @@ public class AdsControl {
 
                                                 @Override
                                                 public void onAdLoadFailed(String s, MaxError maxError) {
-                                                    Conts.log_debug(TAG, "Applovin Banner Failed" + maxError.getMessage());
+                                                    Conts.log_debug(TAG, "Applovin Banner Failed " + maxError.getMessage());
                                                 }
 
                                                 @Override
@@ -1070,7 +1072,7 @@ public class AdsControl {
 
                                                 public void onAdLoadFailed(@NonNull InMobiBanner inMobiBanner, @NonNull InMobiAdRequestStatus inMobiAdRequestStatus) {
                                                     super.onAdLoadFailed(inMobiBanner, inMobiAdRequestStatus);
-                                                    Conts.log_debug(TAG, "Inmobi banner Failed: " + inMobiAdRequestStatus.getMessage());
+                                                    Conts.log_debug(TAG, "Inmobi banner Failed " + inMobiAdRequestStatus.getMessage());
                                                 }
 
                                                 @Override
@@ -1081,7 +1083,7 @@ public class AdsControl {
                                                 @Override
                                                 public void onAdLoadSucceeded(@NonNull InMobiBanner inMobiBanner, @NonNull AdMetaInfo adMetaInfo) {
                                                     super.onAdLoadSucceeded(inMobiBanner, adMetaInfo);
-                                                    Conts.log_debug(TAG, "Inmobi banner loaded");
+                                                    Conts.log_debug(TAG, "Inmobi banner Show");
                                                     try {
                                                         if (inMobiBanner.getParent() != null) {
                                                             ((ViewGroup) inMobiBanner.getParent()).removeView(inMobiBanner);
@@ -1208,7 +1210,7 @@ public class AdsControl {
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                     super.onAdFailedToLoad(loadAdError);
-                    Conts.log_debug(TAG, "Admob Small Native Banner Ad Failed");
+                    Conts.log_debug(TAG, "Admob Small Native Banner Ad Failed " + loadAdError.getMessage());
                     small_native_banner_Ads();
                 }
 
@@ -1238,7 +1240,7 @@ public class AdsControl {
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                     super.onAdFailedToLoad(loadAdError);
-                    Conts.log_debug(TAG, "Adx Small Native Banner Ad Failed");
+                    Conts.log_debug(TAG, "Adx Small Native Banner Ad Failed " + loadAdError.getMessage());
                     small_native_banner_Ads();
                 }
 
@@ -1259,7 +1261,6 @@ public class AdsControl {
             NativeAdListener nativeAdListener = new NativeAdListener() {
                 @Override
                 public void onMediaDownloaded(Ad ad) {
-                    Conts.log_debug(TAG, "FB Native ad finished downloading all assets.");
                 }
 
                 @Override
@@ -1278,12 +1279,10 @@ public class AdsControl {
 
                 @Override
                 public void onAdClicked(Ad ad) {
-                    Conts.log_debug(TAG, "FB Native ad clicked!");
                 }
 
                 @Override
                 public void onLoggingImpression(Ad ad) {
-                    Conts.log_debug(TAG, "FB Native ad impression logged!");
                 }
             };
             // Request an ad
