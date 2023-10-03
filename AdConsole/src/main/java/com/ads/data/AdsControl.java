@@ -2399,7 +2399,6 @@ public class AdsControl {
         }
     }
 
-
     // Admob Mode
     @SuppressLint("MissingPermission")
     private void preload_medium_rectAd_Admob(String placmentId) {
@@ -3104,7 +3103,6 @@ public class AdsControl {
         }
     }
 
-
     // Admob Mode
     private void Load_interAds_Admob(String placementId) {
         if (!placementId.equalsIgnoreCase("")) {
@@ -3426,6 +3424,11 @@ public class AdsControl {
                 }
             });
             dialog.show();
+        } else {
+            if (callback != null) {
+                callback.onClick();
+                callback = null;
+            }
         }
     }
 
@@ -4446,6 +4449,11 @@ public class AdsControl {
                     callback = null;
                 }
             }
+        } else {
+            if (callback != null) {
+                callback.onClick();
+                callback = null;
+            }
         }
     }
 
@@ -4498,6 +4506,11 @@ public class AdsControl {
                     callback.onClick();
                     callback = null;
                 }
+            }
+        } else {
+            if (callback != null) {
+                callback.onClick();
+                callback = null;
             }
         }
     }
@@ -4556,6 +4569,11 @@ public class AdsControl {
                     callback.onClick();
                     callback = null;
                 }
+            }
+        } else {
+            if (callback != null) {
+                callback.onClick();
+                callback = null;
             }
         }
     }
@@ -4637,6 +4655,11 @@ public class AdsControl {
             });
             dialog.show();
             Conts.log_debug(TAG, "Local Open Ad show");
+        } else {
+            if (callback != null) {
+                callback.onClick();
+                callback = null;
+            }
         }
     }
 
@@ -4876,6 +4899,11 @@ public class AdsControl {
                 }
             });
             dialog.show();
+        } else {
+            if (callback != null) {
+                callback.onClick();
+                callback = null;
+            }
         }
     }
 
@@ -5127,6 +5155,11 @@ public class AdsControl {
                     callback.onClick();
                     callback = null;
                 }
+            }
+        } else {
+            if (callback != null) {
+                callback.onClick();
+                callback = null;
             }
         }
     }
