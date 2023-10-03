@@ -4386,6 +4386,11 @@ public class AdsControl {
                     callback = null;
                 }
             }
+        } else {
+            if (callback != null) {
+                callback.onClick();
+                callback = null;
+            }
         }
     }
 
