@@ -184,6 +184,9 @@ public class All_File_Data {
     @SerializedName("ad_banner")
     @Expose
     private String adBanner;
+    @SerializedName("ad_show_country")
+    @Expose
+    private String ad_show_country;
     @SerializedName("privacy_url")
     @Expose
     private String privacyUrl;
@@ -694,6 +697,14 @@ public class All_File_Data {
 
     public void setAdBanner(String adBanner) {
         this.adBanner = adBanner;
+    }
+
+    public String getAd_show_country() {
+        return ad_show_country;
+    }
+
+    public void setAd_show_country(String ad_show_country) {
+        this.ad_show_country = ad_show_country;
     }
 
     public String getPrivacyUrl() {

@@ -39,6 +39,7 @@ import com.ads.data.Api.APIInterface;
 import com.ads.data.Api.All_File_Data;
 import com.ads.data.Api.File_Recover;
 import com.ads.data.Api.Panal_Recover;
+import com.ads.data.Api.Pro_IPModel;
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdFormat;
 import com.applovin.mediation.MaxAdListener;
@@ -73,12 +74,6 @@ import com.google.android.gms.ads.appopen.AppOpenAd;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.ads.nativead.NativeAd;
-import com.inmobi.ads.AdMetaInfo;
-import com.inmobi.ads.InMobiAdRequestStatus;
-import com.inmobi.ads.InMobiBanner;
-import com.inmobi.ads.InMobiInterstitial;
-import com.inmobi.ads.listeners.BannerAdEventListener;
-import com.inmobi.ads.listeners.InterstitialAdEventListener;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -93,6 +88,7 @@ import java.util.Objects;
 
 import cz.msebera.android.httpclient.entity.mime.Header;
 import retrofit2.Call;
+import retrofit2.Response;
 
 public class AdsControl {
     @SuppressLint("StaticFieldLeak")
@@ -106,13 +102,11 @@ public class AdsControl {
     boolean isAdxBannerLoaded;
     boolean isFBBannerLoaded;
     boolean isApplovinBannerLoaded;
-    boolean isInmobiBannerLoaded;
     AdView googleBannerAd;
     AdManagerAdView adxBannerAd;
     com.facebook.ads.AdView fbadView;
     @SuppressLint("StaticFieldLeak")
     MaxAdView applovin_banner_ad;
-    InMobiBanner InmobiBannerAd;
 
     // Mediam Ragtangal
     boolean isAdmob_Mediam_Ragtangal_Loaded;
@@ -169,13 +163,11 @@ public class AdsControl {
     boolean isAdxInterLoaded;
     boolean isFBInterLoaded;
     boolean isApplovinInterLoaded;
-    boolean isInmobiInterLoaded;
     boolean isLocalInterLoaded;
     InterstitialAd ADMOBInterstitialAd;
     AdManagerInterstitialAd ADXInterstitialAd;
     com.facebook.ads.InterstitialAd FB_interstitialAd;
     MaxInterstitialAd Applovin_maxInterstitialAd;
-    InMobiInterstitial Inmobi_inter;
 
     // Appopen
     boolean isadmob_appopen_Loaded;
@@ -250,6 +242,32 @@ public class AdsControl {
 
     // TODO: 7/17/2023 Main Service Call
     public static ArrayList<All_File_Data> app_data = new ArrayList<>();
+    public static ArrayList<Pro_IPModel> ip_data = new ArrayList<>();
+
+    public void call_file(final Activity act, String file_key, String packagename, String service, OnClickListener Callback) {
+        APIInterface ipInterface = APIClient.get_ip_clint().create(APIInterface.class);
+        ipInterface.getipdata("json/").enqueue(new retrofit2.Callback<Pro_IPModel>() {
+            @Override
+            public void onResponse(Call<Pro_IPModel> call, Response<Pro_IPModel> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Pro_IPModel pro_ipModel = new Pro_IPModel();
+                    ip_data.add(pro_ipModel);
+                    Conts.log_debug(TAG, ip_data.get(0).getCountryCode());
+                    String countryCode = ip_data.get(0).getCountryCode();
+                    init_file(act, file_key, packagename, service, Callback);
+                } else {
+                    Conts.log_debug(TAG, "onResponse: failed");
+                    init_file(act, file_key, packagename, service, Callback);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Pro_IPModel> call, Throwable th) {
+                Conts.log_debug(TAG, "onResponse: failed");
+                init_file(act, file_key, packagename, service, Callback);
+            }
+        });
+    }
 
     @SuppressLint("ObsoleteSdkInt")  // Panal Call
     public void init_panal(final Activity act, String panal_key, String packagename, OnClickListener Callback) {
@@ -370,7 +388,7 @@ public class AdsControl {
                                         }
                                     }
                                 } else {
-                                    Toast.makeText(act, "Server not Response", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(act, "Server Data not Response", Toast.LENGTH_SHORT).show();
                                     Callback.onClick();
                                 }
                             } else {
@@ -380,6 +398,7 @@ public class AdsControl {
 
                         @Override
                         public void onFailure(@NonNull Call<File_Recover> call, @NonNull Throwable t) {
+                            Toast.makeText(act, "Server not Response", Toast.LENGTH_SHORT).show();
                             call.cancel();
                             Callback.onClick();
                         }
@@ -544,7 +563,6 @@ public class AdsControl {
     int current_adx_BannerId = 0;
     int current_fb_BannerId = 0;
     int current_applovin_BannerId = 0;
-    int current_inmobi_BannerId = 0;
 
     private void banner_Ads() {
         try {
@@ -593,17 +611,6 @@ public class AdsControl {
                                     current_applovin_BannerId++;
                                     if (current_applovin_BannerId == applovin_BannerId.length) {
                                         current_applovin_BannerId = 0;
-                                    }
-                                }
-                                ad_banner_network++;
-                                break;
-                            case "inmobi":
-                                String[] inmobi_BannerId = app_data.get(0).getInmobi_banner_id().split(",");
-                                if (current_inmobi_BannerId < inmobi_BannerId.length) {
-                                    preloadBannerAd_Inmobi(Long.valueOf(inmobi_BannerId[current_inmobi_BannerId]));
-                                    current_inmobi_BannerId++;
-                                    if (current_inmobi_BannerId == inmobi_BannerId.length) {
-                                        current_inmobi_BannerId = 0;
                                     }
                                 }
                                 ad_banner_network++;
@@ -767,44 +774,6 @@ public class AdsControl {
         }
     }
 
-    // Inmobi Mode
-    private void preloadBannerAd_Inmobi(Long placementId) {
-        if (!(placementId == 0)) {
-            if (isInmobiBannerLoaded) {
-                return;
-            }
-            final InMobiBanner inMobiBanner = new InMobiBanner(activity, placementId);
-            inMobiBanner.setBannerSize(320, 50);
-            inMobiBanner.load();
-            inMobiBanner.setListener(new BannerAdEventListener() {
-                @Override
-                public void onAdFetchFailed(@NonNull InMobiBanner inMobiBanner, @NonNull InMobiAdRequestStatus inMobiAdRequestStatus) {
-                    super.onAdFetchFailed(inMobiBanner, inMobiAdRequestStatus);
-
-                }
-
-                public void onAdLoadFailed(@NonNull InMobiBanner inMobiBanner, @NonNull InMobiAdRequestStatus inMobiAdRequestStatus) {
-                    super.onAdLoadFailed(inMobiBanner, inMobiAdRequestStatus);
-                    Conts.log_debug(TAG, "Inmobi banner Failed: " + inMobiAdRequestStatus.getMessage());
-                    banner_Ads();
-                }
-
-                @Override
-                public void onAdFetchSuccessful(@NonNull InMobiBanner inMobiBanner, @NonNull AdMetaInfo adMetaInfo) {
-                    super.onAdFetchSuccessful(inMobiBanner, adMetaInfo);
-                }
-
-                @Override
-                public void onAdLoadSucceeded(@NonNull InMobiBanner inMobiBanner, @NonNull AdMetaInfo adMetaInfo) {
-                    super.onAdLoadSucceeded(inMobiBanner, adMetaInfo);
-                    Conts.log_debug(TAG, "Inmobi banner loaded");
-                    InmobiBannerAd = inMobiBanner;
-                    isInmobiBannerLoaded = true;
-                }
-            });
-        }
-    }
-
     // TODO: 7/17/2023  Show Banner Ads
     @SuppressLint("MissingPermission")
     public void show_banner_ad(final ViewGroup banner_container) {
@@ -855,17 +824,6 @@ public class AdsControl {
                             }
                             banner_container.addView(applovin_banner_ad);
                             isApplovinBannerLoaded = false;
-                            banner_Ads();
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    } else if (isInmobiBannerLoaded) {
-                        try {
-                            if (InmobiBannerAd.getParent() != null) {
-                                ((ViewGroup) InmobiBannerAd.getParent()).removeView(InmobiBannerAd);
-                            }
-                            banner_container.addView(InmobiBannerAd);
-                            isInmobiBannerLoaded = false;
                             banner_Ads();
                         } catch (Exception e) {
                             throw new RuntimeException(e);
@@ -1050,53 +1008,6 @@ public class AdsControl {
                                             current_applovin_BannerId++;
                                             if (current_applovin_BannerId == applovin_BannerId.length) {
                                                 current_applovin_BannerId = 0;
-                                            }
-                                        }
-                                    }
-                                    ad_banner_network++;
-                                    break;
-                                case "inmobi":
-                                    String[] inmobi_BannerId = app_data.get(0).getInmobi_banner_id().split(",");
-                                    if (current_inmobi_BannerId < inmobi_BannerId.length) {
-                                        Long placementId = Long.valueOf(inmobi_BannerId[current_inmobi_BannerId]);
-                                        if (!(placementId == 0)) {
-                                            final InMobiBanner inMobiBanner = new InMobiBanner(activity, placementId);
-                                            inMobiBanner.setBannerSize(320, 50);
-                                            inMobiBanner.load();
-                                            inMobiBanner.setListener(new BannerAdEventListener() {
-                                                @Override
-                                                public void onAdFetchFailed(@NonNull InMobiBanner inMobiBanner, @NonNull InMobiAdRequestStatus inMobiAdRequestStatus) {
-                                                    super.onAdFetchFailed(inMobiBanner, inMobiAdRequestStatus);
-
-                                                }
-
-                                                public void onAdLoadFailed(@NonNull InMobiBanner inMobiBanner, @NonNull InMobiAdRequestStatus inMobiAdRequestStatus) {
-                                                    super.onAdLoadFailed(inMobiBanner, inMobiAdRequestStatus);
-                                                    Conts.log_debug(TAG, "Inmobi banner Failed " + inMobiAdRequestStatus.getMessage());
-                                                }
-
-                                                @Override
-                                                public void onAdFetchSuccessful(@NonNull InMobiBanner inMobiBanner, @NonNull AdMetaInfo adMetaInfo) {
-                                                    super.onAdFetchSuccessful(inMobiBanner, adMetaInfo);
-                                                }
-
-                                                @Override
-                                                public void onAdLoadSucceeded(@NonNull InMobiBanner inMobiBanner, @NonNull AdMetaInfo adMetaInfo) {
-                                                    super.onAdLoadSucceeded(inMobiBanner, adMetaInfo);
-                                                    Conts.log_debug(TAG, "Inmobi banner Show");
-                                                    try {
-                                                        if (inMobiBanner.getParent() != null) {
-                                                            ((ViewGroup) inMobiBanner.getParent()).removeView(inMobiBanner);
-                                                        }
-                                                        banner_container.addView(inMobiBanner);
-                                                    } catch (Exception e) {
-                                                        throw new RuntimeException(e);
-                                                    }
-                                                }
-                                            });
-                                            current_inmobi_BannerId++;
-                                            if (current_inmobi_BannerId == inmobi_BannerId.length) {
-                                                current_inmobi_BannerId = 0;
                                             }
                                         }
                                     }
@@ -2382,7 +2293,6 @@ public class AdsControl {
                                     if (current_applovin_medium_rectId == applovin_mrec_id.length) {
                                         current_applovin_medium_rectId = 0;
                                     }
-
                                 }
                                 ad_medium_network++;
                                 break;
@@ -3019,7 +2929,6 @@ public class AdsControl {
     int current_adx_IntrId = 0;
     int current_fb_IntrId = 0;
     int current_applovin_IntrId = 0;
-    int current_inmobi_IntrId = 0;
     Dialog ad_inter_dialog;
     long ad_dialog_time_in_second = 2;
     int countAdds = 0;
@@ -3072,17 +2981,6 @@ public class AdsControl {
                                     current_applovin_IntrId++;
                                     if (current_applovin_IntrId == applovin_inter.length) {
                                         current_applovin_IntrId = 0;
-                                    }
-                                }
-                                ad_inter_network++;
-                                break;
-                            case "inmobi":
-                                String[] inmobi_inter = app_data.get(0).getInmobi_inter_id().split(",");
-                                if (current_inmobi_IntrId < inmobi_inter.length) {
-                                    Load_interAds_Inmobi(Long.valueOf(inmobi_inter[current_inmobi_IntrId]));
-                                    current_inmobi_IntrId++;
-                                    if (current_inmobi_IntrId == inmobi_inter.length) {
-                                        current_inmobi_IntrId = 0;
                                     }
                                 }
                                 ad_inter_network++;
@@ -3282,51 +3180,6 @@ public class AdsControl {
                 }
             });
             interstitialAdmax.loadAd();
-        }
-    }
-
-    // Inmobi Mode
-    private void Load_interAds_Inmobi(Long placementId) {
-        if (!(placementId == 0)) {
-            if (isInmobiInterLoaded) {
-                return;
-            }
-            final InMobiInterstitial inMobiInterstitial = new InMobiInterstitial(activity, placementId, new InterstitialAdEventListener() {
-                @Override
-                public void onAdFetchFailed(@NonNull InMobiInterstitial inMobiInterstitial, @NonNull InMobiAdRequestStatus inMobiAdRequestStatus) {
-                    super.onAdFetchFailed(inMobiInterstitial, inMobiAdRequestStatus);
-                }
-
-                @Override
-                public void onAdFetchSuccessful(@NonNull InMobiInterstitial inMobiInterstitial, @NonNull AdMetaInfo adMetaInfo) {
-                    super.onAdFetchSuccessful(inMobiInterstitial, adMetaInfo);
-                    Conts.log_debug(TAG, "Inmobi Inter Show");
-                }
-
-                public void onAdDismissed(@NonNull InMobiInterstitial ad) {
-                    Conts.log_debug(TAG, "Inmobi Inter ad Close");
-                    if (callback != null) {
-                        callback.onClick();
-                        callback = null;
-                    }
-                }
-
-                @Override
-                public void onAdLoadSucceeded(@NonNull InMobiInterstitial inMobiInterstitial, @NonNull AdMetaInfo adMetaInfo) {
-                    super.onAdLoadSucceeded(inMobiInterstitial, adMetaInfo);
-                    Conts.log_debug(TAG, "Inmobi Inter ad Loaded.");
-                    Inmobi_inter = inMobiInterstitial;
-                    isInmobiInterLoaded = true;
-                }
-
-                @Override
-                public void onAdLoadFailed(@NonNull InMobiInterstitial inMobiInterstitial, @NonNull InMobiAdRequestStatus inMobiAdRequestStatus) {
-                    super.onAdLoadFailed(inMobiInterstitial, inMobiAdRequestStatus);
-                    Conts.log_debug(TAG, "Inmobi Inter ad Failed " + inMobiAdRequestStatus);
-                    inter_Ads();
-                }
-            });
-            inMobiInterstitial.load();
         }
     }
 
@@ -3535,27 +3388,6 @@ public class AdsControl {
                             } else {
                                 Applovin_maxInterstitialAd.showAd();
                                 isApplovinInterLoaded = false;
-                                inter_Ads();
-                            }
-                        } else if (isInmobiInterLoaded) {
-                            if (app_data.get(0).isApp_inter_dialog_show()) {
-                                ad_inter_dialog.show();
-                                new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                    @Override
-                                    public void onTick(long millisUntilFinished) {
-                                    }
-
-                                    @Override
-                                    public void onFinish() {
-                                        ad_inter_dialog.dismiss();
-                                        Inmobi_inter.show();
-                                        isInmobiInterLoaded = false;
-                                        inter_Ads();
-                                    }
-                                }.start();
-                            } else {
-                                Inmobi_inter.show();
-                                isInmobiInterLoaded = false;
                                 inter_Ads();
                             }
                         } else if (isLocalInterLoaded) {
@@ -4267,77 +4099,6 @@ public class AdsControl {
                                                 current_applovin_IntrId++;
                                                 if (current_applovin_IntrId == applovin_inter.length) {
                                                     current_applovin_IntrId = 0;
-                                                }
-                                            }
-                                            ad_inter_network++;
-                                            break;
-                                        case "inmobi":
-                                            String[] inmobi_inter = app_data.get(0).getInmobi_inter_id().split(",");
-                                            if (current_inmobi_IntrId < inmobi_inter.length) {
-                                                Long Inmobi_inter_placement = Long.valueOf(inmobi_inter[current_inmobi_IntrId]);
-                                                if (!(Inmobi_inter_placement == 0)) {
-                                                    final InMobiInterstitial inMobiInterstitial = new InMobiInterstitial(act, Inmobi_inter_placement, new InterstitialAdEventListener() {
-                                                        @Override
-                                                        public void onAdFetchFailed(@NonNull InMobiInterstitial inMobiInterstitial, @NonNull InMobiAdRequestStatus inMobiAdRequestStatus) {
-                                                            super.onAdFetchFailed(inMobiInterstitial, inMobiAdRequestStatus);
-                                                        }
-
-                                                        @Override
-                                                        public void onAdFetchSuccessful(@NonNull InMobiInterstitial inMobiInterstitial, @NonNull AdMetaInfo adMetaInfo) {
-                                                            super.onAdFetchSuccessful(inMobiInterstitial, adMetaInfo);
-                                                            Conts.log_debug(TAG, "Inmobi Inter Show");
-                                                        }
-
-                                                        public void onAdDismissed(@NonNull InMobiInterstitial ad) {
-                                                            Conts.log_debug(TAG, "Inmobi Inter ad Close");
-                                                            if (callback != null) {
-                                                                callback.onClick();
-                                                                callback = null;
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onAdLoadSucceeded(@NonNull InMobiInterstitial inMobiInterstitial, @NonNull AdMetaInfo adMetaInfo) {
-                                                            super.onAdLoadSucceeded(inMobiInterstitial, adMetaInfo);
-                                                            Conts.log_debug(TAG, "Inmobi Inter ad Loaded ");
-                                                            if (app_data.get(0).isApp_inter_dialog_show()) {
-                                                                ad_inter_dialog.show();
-                                                                new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                                                    @Override
-                                                                    public void onTick(long millisUntilFinished) {
-                                                                    }
-
-                                                                    @Override
-                                                                    public void onFinish() {
-                                                                        ad_inter_dialog.dismiss();
-                                                                        inMobiInterstitial.show();
-                                                                    }
-                                                                }.start();
-                                                            } else {
-                                                                inMobiInterstitial.show();
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onAdLoadFailed(@NonNull InMobiInterstitial inMobiInterstitial, @NonNull InMobiAdRequestStatus inMobiAdRequestStatus) {
-                                                            super.onAdLoadFailed(inMobiInterstitial, inMobiAdRequestStatus);
-                                                            Conts.log_debug(TAG, "Inmobi Inter ad Failed " + inMobiAdRequestStatus);
-                                                            if (callback != null) {
-                                                                callback.onClick();
-                                                                callback = null;
-                                                            }
-                                                        }
-                                                    });
-                                                    inMobiInterstitial.load();
-                                                } else {
-                                                    if (callback != null) {
-                                                        callback.onClick();
-                                                        callback = null;
-                                                    }
-                                                }
-                                                current_inmobi_IntrId++;
-                                                if (current_inmobi_IntrId == inmobi_inter.length) {
-                                                    current_inmobi_IntrId = 0;
                                                 }
                                             }
                                             ad_inter_network++;

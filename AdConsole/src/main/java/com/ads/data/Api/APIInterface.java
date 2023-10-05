@@ -3,6 +3,7 @@ package com.ads.data.Api;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Url;
 
@@ -16,4 +17,8 @@ public interface APIInterface {
     @POST("ads")
     @FormUrlEncoded
     Call<Panal_Recover> get_panal_ads_detail(@Field("package_name") String packagename);
+
+    // IpData
+    @GET()
+    Call<Pro_IPModel> getipdata(@Url String url);
 }
