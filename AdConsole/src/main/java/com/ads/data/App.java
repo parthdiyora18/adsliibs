@@ -8,19 +8,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.VpnService;
-
-import androidx.annotation.Nullable;
 
 import com.applovin.sdk.AppLovinSdk;
-import com.facebook.FacebookSdk;
 import com.facebook.ads.AudienceNetworkAds;
 import com.google.android.gms.ads.MobileAds;
-import com.inmobi.sdk.InMobiSdk;
-import com.inmobi.sdk.SdkInitializationListener;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class App extends Application {
     private static App _instance;
@@ -39,21 +30,6 @@ public class App extends Application {
         AppLovinSdk.getInstance(_instance).isInitialized();
         AppLovinSdk.getInstance(_instance).setMediationProvider("max");
         AppLovinSdk.initializeSdk(_instance, configuration -> {
-        });
-        // Inmobi
-        JSONObject consentObject = new JSONObject();
-        try {
-            consentObject.put(InMobiSdk.IM_GDPR_CONSENT_AVAILABLE, true);
-            consentObject.put("gdpr", "1");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        InMobiSdk.init(this, "b4994419ed5a4683b08df417a0062a0a", consentObject, error -> {
-            if (null != error) {
-                Conts.log_debug("Parth", "InMobi Init failed -" + error.getMessage());
-            } else {
-                Conts.log_debug("Parth", "InMobi Init Successful");
-            }
         });
         appOpenManager = new AppOpen(this);
         if (!AdsControl.isOnline(_instance)) {
