@@ -94,12 +94,6 @@ public class All_File_Data {
     @SerializedName("applovin_medium_rectangle_id")
     @Expose
     private String applovin_medium_rectangle_id;
-    @SerializedName("inmobi_banner_id")
-    @Expose
-    private String inmobi_banner_id;
-    @SerializedName("inmobi_inter_id")
-    @Expose
-    private String inmobi_inter_id;
     @SerializedName("new_app_name")
     @Expose
     private String new_app_name;
@@ -184,9 +178,6 @@ public class All_File_Data {
     @SerializedName("ad_banner")
     @Expose
     private String adBanner;
-    @SerializedName("ad_show_country")
-    @Expose
-    private String ad_show_country;
     @SerializedName("privacy_url")
     @Expose
     private String privacyUrl;
@@ -459,22 +450,6 @@ public class All_File_Data {
         this.applovin_medium_rectangle_id = applovin_medium_rectangle_id;
     }
 
-    public String getInmobi_banner_id() {
-        return inmobi_banner_id;
-    }
-
-    public void setInmobi_banner_id(String inmobi_banner_id) {
-        this.inmobi_banner_id = inmobi_banner_id;
-    }
-
-    public String getInmobi_inter_id() {
-        return inmobi_inter_id;
-    }
-
-    public void setInmobi_inter_id(String inmobi_inter_id) {
-        this.inmobi_inter_id = inmobi_inter_id;
-    }
-
     public String getNew_app_name() {
         return new_app_name;
     }
@@ -697,14 +672,6 @@ public class All_File_Data {
 
     public void setAdBanner(String adBanner) {
         this.adBanner = adBanner;
-    }
-
-    public String getAd_show_country() {
-        return ad_show_country;
-    }
-
-    public void setAd_show_country(String ad_show_country) {
-        this.ad_show_country = ad_show_country;
     }
 
     public String getPrivacyUrl() {
