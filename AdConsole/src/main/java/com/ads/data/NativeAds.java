@@ -22,9 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NativeAds {
-
     Context activity;
-
     public NativeAds(Context context) {
         this.activity = context;
     }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="310dp"
+    android:layout_height="wrap_content"
     android:background="@drawable/round_bg"
     android:orientation="vertical">
 
@@ -95,7 +95,7 @@
         <FrameLayout
             android:id="@+id/media_view_container"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:layout_below="@+id/part1"
             android:layout_marginTop="1dp"
             android:layout_marginBottom="3dp"
@@ -116,27 +116,21 @@
             android:textSize="10sp"
             tools:ignore="SmallSp" />
 
-        <androidx.cardview.widget.CardView
+        <Button
+            android:id="@+id/cta_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_below="@+id/body_text_view"
             android:layout_marginStart="3dp"
             android:layout_marginTop="3dp"
             android:layout_marginEnd="3dp"
             android:layout_marginBottom="2dp"
-            app:cardCornerRadius="7dp">
-
-            <Button
-                android:id="@+id/cta_button"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:text="Install"
-                android:background="@drawable/round_native_btn"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-        </androidx.cardview.widget.CardView>
+            android:background="@drawable/round_native_btn"
+            android:gravity="center"
+            android:text="Install"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <FrameLayout
             android:id="@+id/options_view"

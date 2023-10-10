@@ -9,19 +9,19 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="95dp"
         android:layout_margin="5dp">
 
         <FrameLayout
             android:id="@+id/media_view_container"
-            android:layout_width="180dp"
-            android:layout_height="110dp"
+            android:layout_width="190dp"
+            android:layout_height="match_parent"
             android:scaleType="fitXY" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/btn"
+            android:layout_above="@+id/cta_button"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/media_view_container"
             android:orientation="vertical">
@@ -72,34 +72,27 @@
                 android:layout_marginStart="3dp"
                 android:layout_marginTop="2dp"
                 android:ellipsize="end"
-                android:lines="4"
+                android:lines="3"
                 android:text="Provided by Applovin"
                 android:textSize="10sp" />
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/btn"
+        <Button
+            android:id="@+id/cta_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="3dp"
             android:layout_marginTop="3dp"
             android:layout_marginEnd="3dp"
             android:layout_marginBottom="2dp"
             android:layout_toEndOf="@+id/media_view_container"
-            app:cardCornerRadius="7dp">
-
-            <Button
-                android:id="@+id/cta_button"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:background="@drawable/round_native_btn"
-                android:gravity="center"
-                android:text="visit site"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-        </androidx.cardview.widget.CardView>
+            android:background="@drawable/round_native_btn"
+            android:gravity="center"
+            android:text="visit site"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <FrameLayout
             android:id="@+id/options_view"

@@ -116,7 +116,7 @@ public class Conts {
     }
 
     // TODO: 7/17/2023  AppReview
-    public static void show_Inapp_Review(final Activity activity) {
+    public static void Inapp_Review(final Activity activity) {
         ReviewManager create = ReviewManagerFactory.create(activity);
         Task<ReviewInfo> requestReviewFlow = create.requestReviewFlow();
         requestReviewFlow.addOnCompleteListener(task -> {
@@ -353,26 +353,23 @@ public class Conts {
     }
 
     // TODO: 8/17/2023  Exit Dailog
-    Dialog exit_dialog;
-
-    public void Exit_Daillog(Activity activity) {
-        Dialog dialog = new Dialog(activity);
-        exit_dialog = dialog;
-        dialog.requestWindowFeature(1);
-        dialog.setCancelable(false);
-        this.exit_dialog.setContentView(R.layout.exit_dg);
+    public static void Exit_Daillog(Activity activity) {
+        Dialog exit_dialog = new Dialog(activity);
+        exit_dialog.requestWindowFeature(1);
+        exit_dialog.setCancelable(false);
+        exit_dialog.setContentView(R.layout.exit_dg);
         AdsControl.getInstance(activity).show_native_ad(exit_dialog.findViewById(R.id.exit_native));
-        this.exit_dialog.findViewById(R.id.continuee).setOnClickListener(v -> exit_dialog.dismiss());
-        this.exit_dialog.findViewById(R.id.exit).setOnClickListener(v -> {
+        exit_dialog.findViewById(R.id.continuee).setOnClickListener(v -> exit_dialog.dismiss());
+        exit_dialog.findViewById(R.id.exit).setOnClickListener(v -> {
             exit_dialog.dismiss();
             activity.finishAffinity();
         });
-        this.exit_dialog.setCanceledOnTouchOutside(false);
-        this.exit_dialog.setCancelable(false);
-        Objects.requireNonNull(this.exit_dialog.getWindow()).setSoftInputMode(3);
-        this.exit_dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        this.exit_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-        this.exit_dialog.show();
+        exit_dialog.setCanceledOnTouchOutside(false);
+        exit_dialog.setCancelable(false);
+        Objects.requireNonNull(exit_dialog.getWindow()).setSoftInputMode(3);
+        exit_dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        exit_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        exit_dialog.show();
     }
 
     // TODO: 8/19/2023  Qureka Mode
@@ -386,7 +383,6 @@ public class Conts {
             }
         }
     }
-
     public static void openCustomTab(Activity activity, CustomTabsIntent customTabsIntent, Uri uri) {
         String packageName = "com.android.chrome";
         customTabsIntent.intent.setPackage(packageName);

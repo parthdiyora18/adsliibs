@@ -49,6 +49,7 @@ public class PolicyActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             }
+
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 Toast.makeText(PolicyActivity.this, description, Toast.LENGTH_SHORT).show();
             }
@@ -57,6 +58,7 @@ public class PolicyActivity extends AppCompatActivity {
             webPrivacyPolicy.loadUrl(app_data.get(0).getPrivacyUrl());
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);

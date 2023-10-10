@@ -59,6 +59,16 @@ public class AppOpen implements LifecycleObserver, Application.ActivityLifecycle
         appopen_Ads(currentActivity);
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void onResume() {
+//        IronSource.onResume(currentActivity);
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    public void onPause() {
+//        IronSource.onPause(currentActivity);
+    }
+
     int ad_openad_network = 0;
 
     public void appopen_Ads(Activity activity) {
@@ -88,11 +98,14 @@ public class AppOpen implements LifecycleObserver, Application.ActivityLifecycle
                                 AdsControl.getInstance(currentActivity).show_Applovin_Appopen(activity, () -> currentActivity = null);
                                 ad_openad_network++;
                                 break;
-                            case "local":
-                                AdsControl.getInstance(currentActivity).show_local_Appopen(activity, () -> currentActivity = null);
-                                ad_openad_network++;
+                            case "off":
+                                currentActivity = null;
+                                break;
+                            case "":
+                                currentActivity = null;
                                 break;
                             default:
+                                break;
                         }
                         if (ad_openad_network == adnetwork.length) {
                             ad_openad_network = 0;
@@ -101,30 +114,29 @@ public class AppOpen implements LifecycleObserver, Application.ActivityLifecycle
                 } else {
                     currentActivity = null;
                 }
+            } else {
+                currentActivity = null;
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    Dialog ad_dialog;
-
     void Native_Ads(Activity act) {
         Dialog dialog = new Dialog(act);
-        ad_dialog = dialog;
         dialog.requestWindowFeature(1);
         dialog.setCancelable(false);
-        this.ad_dialog.setContentView(R.layout.open_native);
+        dialog.setContentView(R.layout.open_native);
         AdsControl.getInstance(act).show_native_ad(dialog.findViewById(R.id.ad_native));
-        ImageView continuee = ad_dialog.findViewById(R.id.continuee);
+        ImageView continuee = dialog.findViewById(R.id.continuee);
         new Handler().postDelayed(() -> {
             continuee.setVisibility(View.VISIBLE);
-            continuee.setOnClickListener(v -> ad_dialog.dismiss());
+            continuee.setOnClickListener(v -> dialog.dismiss());
         }, 2500);
-        this.ad_dialog.setCanceledOnTouchOutside(false);
-        Objects.requireNonNull(this.ad_dialog.getWindow()).setSoftInputMode(3);
-        this.ad_dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        this.ad_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-        this.ad_dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
+        Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(3);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        dialog.show();
     }
 }

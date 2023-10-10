@@ -98,13 +98,12 @@
                         android:textSize="12sp" />
                 </RelativeLayout>
             </RelativeLayout>
-
         </RelativeLayout>
 
         <ImageView
             android:id="@+id/ad_banner"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:layout_below="@+id/part1"
             android:layout_marginBottom="2dp"
             android:scaleType="fitXY" />

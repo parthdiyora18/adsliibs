@@ -4,21 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/custm_small_native_ad"
     android:layout_width="wrap_content"
-    android:layout_height="@dimen/_110sdp"
+    android:layout_height="100dp"
     android:background="@drawable/round_bg">
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/_110sdp"
+        android:layout_height="100dp"
         android:layout_gravity="center"
         android:layout_margin="3dp"
         android:background="?attr/selectableItemBackground">
 
         <ImageView
-            android:id="@+id/ad_app_icon"
-            android:layout_width="150dp"
-            android:layout_height="135dp"
+            android:id="@+id/app_icon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_centerVertical="true"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
             android:scaleType="fitXY" />
 
         <LinearLayout
@@ -30,7 +34,7 @@
             android:layout_marginStart="3dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="3dp"
-            android:layout_toEndOf="@+id/ad_app_icon"
+            android:layout_toEndOf="@+id/app_icon"
             android:orientation="vertical">
 
             <TextView
@@ -85,6 +89,7 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="3dp"
                 android:ellipsize="end"
+                android:lines="1"
                 android:text="Install Our App For social Use"
                 android:textColor="#918F8F"
                 android:textSize="12sp" />
@@ -93,17 +98,17 @@
         <TextView
             android:id="@+id/ad_call_to_action"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="3dp"
             android:layout_marginTop="3dp"
             android:layout_marginEnd="3dp"
-            android:layout_toEndOf="@+id/ad_app_icon"
+            android:layout_toEndOf="@+id/app_icon"
             android:background="@drawable/round_native_btn"
             android:gravity="center"
             android:text="Install"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             tools:ignore="SmallSp" />
 

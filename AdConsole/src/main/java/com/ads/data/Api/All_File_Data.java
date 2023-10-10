@@ -106,9 +106,9 @@ public class All_File_Data {
     @SerializedName("new_app_body")
     @Expose
     private String new_app_body;
-    @SerializedName("new_app_link")
+    @SerializedName("new_app_pakg")
     @Expose
-    private String new_app_link;
+    private String new_app_pakg;
     @SerializedName("inter_count")
     @Expose
     private int interCount;
@@ -187,6 +187,9 @@ public class All_File_Data {
     @SerializedName("qureka_url")
     @Expose
     private String Qureka_url;
+    @SerializedName("local_ad_url")
+    @Expose
+    private String local_ad_url;
     @SerializedName("live_mode")
     @Expose
     private String live_mode;
@@ -208,6 +211,14 @@ public class All_File_Data {
     @SerializedName("redirect_app")
     @Expose
     private String redirectApp;
+
+    public String getLocal_ad_url() {
+        return local_ad_url;
+    }
+
+    public void setLocal_ad_url(String local_ad_url) {
+        this.local_ad_url = local_ad_url;
+    }
 
     public String getAdmob_splash_interid() {
         return admob_splash_interid;
@@ -482,12 +493,12 @@ public class All_File_Data {
         this.new_app_body = new_app_body;
     }
 
-    public String getNew_app_link() {
-        return new_app_link;
+    public String getNew_app_pakg() {
+        return new_app_pakg;
     }
 
-    public void setNew_app_link(String new_app_link) {
-        this.new_app_link = new_app_link;
+    public void setNew_app_pakg(String new_app_pakg) {
+        this.new_app_pakg = new_app_pakg;
     }
 
     public int getInterCount() {

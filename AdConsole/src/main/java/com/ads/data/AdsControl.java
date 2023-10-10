@@ -16,23 +16,13 @@ import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.provider.Settings;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 
 import com.ads.data.Api.APIClient;
 import com.ads.data.Api.APIInterface;
@@ -40,6 +30,7 @@ import com.ads.data.Api.All_File_Data;
 import com.ads.data.Api.File_Recover;
 import com.ads.data.Api.Panal_Recover;
 import com.ads.data.Api.Pro_IPModel;
+import com.ads.data.Local_ads.MyLocalAds;
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdFormat;
 import com.applovin.mediation.MaxAdListener;
@@ -52,7 +43,6 @@ import com.applovin.mediation.nativeAds.MaxNativeAdListener;
 import com.applovin.mediation.nativeAds.MaxNativeAdLoader;
 import com.applovin.mediation.nativeAds.MaxNativeAdView;
 import com.applovin.sdk.AppLovinSdkUtils;
-import com.bumptech.glide.Glide;
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
 import com.facebook.ads.InterstitialAdListener;
@@ -74,19 +64,13 @@ import com.google.android.gms.ads.appopen.AppOpenAd;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.ads.nativead.NativeAd;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import cz.msebera.android.httpclient.entity.mime.Header;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -102,6 +86,7 @@ public class AdsControl {
     boolean isAdxBannerLoaded;
     boolean isFBBannerLoaded;
     boolean isApplovinBannerLoaded;
+
     AdView googleBannerAd;
     AdManagerAdView adxBannerAd;
     com.facebook.ads.AdView fbadView;
@@ -180,6 +165,7 @@ public class AdsControl {
     AppOpenAd admob_appOpenAd;
     AppOpenAd adx_appOpenAd;
     SharedPreferences prefs;
+    MyLocalAds myAdsAdder;
 
     public AdsControl(Context context) {
         activity = context;
@@ -202,30 +188,8 @@ public class AdsControl {
 
     // --------------------------------------------------- Service -----------------------------------------------------------
 
-    AsyncHttpClient downloadcount = new AsyncHttpClient();
-    int success = 0;
-
-    public void installcounter(String key, String packagename) {
-        RequestParams params = new RequestParams();
-        params.put("package_name", packagename);
-        downloadcount.post(key + "appInstall", params, new JsonHttpResponseHandler() {
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Conts.log_debug(TAG, response.toString());
-                try {
-                    JSONObject jsonObject = new JSONObject(String.valueOf(response));
-                    success = jsonObject.getInt("success");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            public void onFailure(int statusCode, Header[] headers, String res, Throwable t) {
-            }
-        });
-    }
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+    private boolean isNetworkAvailable(Activity act) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) act.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
@@ -272,7 +236,7 @@ public class AdsControl {
     @SuppressLint("ObsoleteSdkInt")  // Panal Call
     public void init_panal(final Activity act, String panal_key, String packagename, OnClickListener Callback) {
         boolean isBeingDebugged = Settings.Secure.getInt(act.getContentResolver(), Settings.Global.ADB_ENABLED, 0) == 1;
-        if (isNetworkAvailable()) {
+        if (isNetworkAvailable(act)) {
             try {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                     APIInterface apiInterface = APIClient.get_panal_Client(panal_key).create(APIInterface.class);
@@ -344,7 +308,7 @@ public class AdsControl {
     @SuppressLint("ObsoleteSdkInt")  // FileZilla Call
     public void init_file(final Activity act, String file_key, String packagename, String service, OnClickListener Callback) {
         boolean isBeingDebugged = Settings.Secure.getInt(act.getContentResolver(), Settings.Global.ADB_ENABLED, 0) == 1;
-        if (isNetworkAvailable()) {
+        if (isNetworkAvailable(act)) {
             try {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                     APIInterface apiInterface = APIClient.get_file_Client(file_key).create(APIInterface.class);
@@ -359,8 +323,8 @@ public class AdsControl {
                                     app_data.addAll(response.body().getData());
                                     String ridirect_app = app_data.get(0).getRedirectApp();
                                     if (!ridirect_app.equalsIgnoreCase("")) {
-                                        Toast.makeText(activity, "Please use our updated Application.", Toast.LENGTH_SHORT).show();
-                                        boolean isAppInstalled = isPackageInstalled(activity, ridirect_app);
+                                        Toast.makeText(act, "Please use our updated Application.", Toast.LENGTH_SHORT).show();
+                                        boolean isAppInstalled = isPackageInstalled(act, ridirect_app);
                                         if (isAppInstalled) {
                                             Intent LaunchIntent = act.getPackageManager().getLaunchIntentForPackage(ridirect_app);
                                             act.startActivity(LaunchIntent);
@@ -418,6 +382,10 @@ public class AdsControl {
     private void preload_ads_call(Activity activity, OnClickListener myCallback) {
         if (app_data != null && app_data.size() > 0) {
             if (app_data.get(0).isAds_show()) {
+                String local_url = app_data.get(0).getLocal_ad_url();
+                if (!local_url.equalsIgnoreCase("")) {
+                    myAdsAdder = new MyLocalAds(activity, local_url);
+                }
                 if (app_data.get(0).isPreload_native_ads()) {
                     if (app_data.get(0).getAd_native_type().equalsIgnoreCase("mrec")) {
                         medium_rect_Ads();
@@ -472,10 +440,12 @@ public class AdsControl {
                         case "applovin":
                             AdsControl.getInstance(activity).show_Applovin_Appopen(activity, () -> Next_Call(myCallback));
                             break;
-                        case "local":
-                            AdsControl.getInstance(activity).show_local_Appopen(activity, () -> Next_Call(myCallback));
-                            break;
                         case "off":
+                            new Handler().postDelayed(() -> {
+                                Next_Call(myCallback);
+                            }, 2500);
+                            break;
+                        case "":
                             new Handler().postDelayed(() -> {
                                 Next_Call(myCallback);
                             }, 2500);
@@ -534,10 +504,10 @@ public class AdsControl {
                         case "applovin":
                             AdsControl.getInstance(act).show_Applovin_Appopen(act, () -> Next_Call(callback2));
                             break;
-                        case "local":
-                            AdsControl.getInstance(act).show_local_Appopen(act, () -> Next_Call(callback2));
-                            break;
                         case "off":
+                            Next_Call(callback2);
+                            break;
+                        case "":
                             Next_Call(callback2);
                             break;
                         default:
@@ -1241,45 +1211,6 @@ public class AdsControl {
         isLocal_small_Native_banner_Loaded = true;
     }
 
-    @SuppressLint("SetTextI18n")
-    private void show_local_native_banner_ad(ViewGroup native_banner_ad) {
-        if (app_data != null && app_data.size() > 0) {
-            RelativeLayout custm_native = native_banner_ad.findViewById(R.id.custm_native_ad);
-            ImageView app_icon_native = native_banner_ad.findViewById(R.id.ad_app_icon);
-            TextView app_name_native = native_banner_ad.findViewById(R.id.ad_headline);
-            TextView app_ad_body = native_banner_ad.findViewById(R.id.ad_body);
-            TextView ad_call_to_action = native_banner_ad.findViewById(R.id.ad_call_to_action);
-            try {
-                Glide.with(activity).load(app_data.get(0).getNew_app_icon()).into(app_icon_native);
-                app_name_native.setText(app_data.get(0).getNew_app_name());
-                app_name_native.setSelected(true);
-                app_ad_body.setText(app_data.get(0).getNew_app_body());
-                app_ad_body.setSelected(true);
-                ad_call_to_action.setText("Install");
-            } catch (Exception ignored) {
-            }
-            custm_native.setOnClickListener(view -> {
-                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
-                    try {
-                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
-                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
-                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    try {
-                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
-                        activity.startActivity(i);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
-    }
-
     // TODO: 7/17/2023 Show Small Native Banner Ads
     @SuppressLint("SetTextI18n")
     public void show_small_native_banner_ad(final ViewGroup native_banner_ad) {
@@ -1311,10 +1242,7 @@ public class AdsControl {
                         isApplovin_small_native_banner_Loaded = false;
                         small_native_banner_Ads();
                     } else if (isLocal_small_Native_banner_Loaded) {
-                        @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(activity).inflate(R.layout.local_small_native_banner, null);
-                        native_banner_ad.removeAllViews();
-                        native_banner_ad.addView(viewGroup);
-                        show_local_native_banner_ad(native_banner_ad);
+                        myAdsAdder.small_local_Native_Banner(native_banner_ad);
                         Conts.log_debug(TAG, "Local Native Banner ad show");
                         isLocal_small_Native_banner_Loaded = false;
                         small_native_banner_Ads();
@@ -1461,31 +1389,7 @@ public class AdsControl {
                                     ad_small_native_banner_network++;
                                     break;
                                 case "local":
-                                    @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(activity).inflate(R.layout.local_small_native_banner, null);
-                                    native_banner_ad.removeAllViews();
-                                    native_banner_ad.addView(viewGroup);
-                                    RelativeLayout custm_native = native_banner_ad.findViewById(R.id.custm_native_ad);
-                                    ImageView app_icon_native = native_banner_ad.findViewById(R.id.ad_app_icon);
-                                    TextView app_name_native = native_banner_ad.findViewById(R.id.ad_headline);
-                                    TextView app_ad_body = native_banner_ad.findViewById(R.id.ad_body);
-                                    TextView ad_call_to_action = native_banner_ad.findViewById(R.id.ad_call_to_action);
-                                    try {
-                                        Glide.with(activity).load(app_data.get(0).getNew_app_icon()).into(app_icon_native);
-                                        app_name_native.setText(app_data.get(0).getNew_app_name());
-                                        app_name_native.setSelected(true);
-                                        app_ad_body.setText(app_data.get(0).getNew_app_body());
-                                        app_ad_body.setSelected(true);
-                                        ad_call_to_action.setText("Install");
-                                    } catch (Exception ignored) {
-                                    }
-                                    custm_native.setOnClickListener(view -> {
-                                        try {
-                                            Intent intent = new Intent("android.intent.action.VIEW").setData(Uri.parse(app_data.get(0).getNew_app_link()));
-                                            activity.startActivity(intent);
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    });
+                                    myAdsAdder.small_local_Native_Banner(native_banner_ad);
                                     ad_small_native_banner_network++;
                                     break;
                                 default:
@@ -1716,45 +1620,6 @@ public class AdsControl {
         isLocal_small_Native_Loaded = true;
     }
 
-    @SuppressLint("SetTextI18n")
-    private void show_local_small_native(ViewGroup native_banner_ad) {
-        if (app_data != null && app_data.size() > 0) {
-            RelativeLayout custm_native = native_banner_ad.findViewById(R.id.custm_small_native_ad);
-            ImageView app_icon_native = native_banner_ad.findViewById(R.id.ad_app_icon);
-            TextView app_name_native = native_banner_ad.findViewById(R.id.ad_Tital);
-            TextView app_ad_body = native_banner_ad.findViewById(R.id.ad_body);
-            TextView ad_call_to_action = native_banner_ad.findViewById(R.id.ad_call_to_action);
-            try {
-                Glide.with(activity).load(app_data.get(0).getNew_app_icon()).into(app_icon_native);
-                app_name_native.setText(app_data.get(0).getNew_app_name());
-                app_name_native.setSelected(true);
-                app_ad_body.setText(app_data.get(0).getNew_app_body());
-                app_ad_body.setSelected(true);
-                ad_call_to_action.setText("Install");
-            } catch (Exception ignored) {
-            }
-            custm_native.setOnClickListener(view -> {
-                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
-                    try {
-                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
-                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
-                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    try {
-                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
-                        activity.startActivity(i);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
-    }
-
     // TODO: 7/17/2023  Show Small Native Ads
     @SuppressLint({"MissingPermission", "SetTextI18n"})
     public void show_small_native_ad(final ViewGroup native_banner_ad) {
@@ -1786,10 +1651,7 @@ public class AdsControl {
                         isapplovin_small_native_Loaded = false;
                         small_native_Ads();
                     } else if (isLocal_small_Native_Loaded) {
-                        @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(activity).inflate(R.layout.local_small_native_ad, null);
-                        show_local_small_native(viewGroup);
-                        native_banner_ad.removeAllViews();
-                        native_banner_ad.addView(viewGroup);
+                        myAdsAdder.small_local_Native(native_banner_ad);
                         Conts.log_debug(TAG, "Local Small Native ad show");
                         isLocal_small_Native_Loaded = false;
                         small_native_Ads();
@@ -1940,32 +1802,7 @@ public class AdsControl {
                                     ad_small_native_network++;
                                     break;
                                 case "local":
-                                    @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(activity).inflate(R.layout.local_small_native_ad, null);
-                                    native_banner_ad.removeAllViews();
-                                    native_banner_ad.addView(viewGroup);
-                                    Conts.log_debug(TAG, "Local Small Native ad show");
-                                    RelativeLayout custm_native = native_banner_ad.findViewById(R.id.custm_small_native_ad);
-                                    ImageView app_icon_native = native_banner_ad.findViewById(R.id.ad_app_icon);
-                                    TextView app_name_native = native_banner_ad.findViewById(R.id.ad_Tital);
-                                    TextView app_ad_body = native_banner_ad.findViewById(R.id.ad_body);
-                                    TextView ad_call_to_action = native_banner_ad.findViewById(R.id.ad_call_to_action);
-                                    try {
-                                        Glide.with(activity).load(app_data.get(0).getNew_app_icon()).into(app_icon_native);
-                                        app_name_native.setText(app_data.get(0).getNew_app_name());
-                                        app_name_native.setSelected(true);
-                                        app_ad_body.setText(app_data.get(0).getNew_app_body());
-                                        app_ad_body.setSelected(true);
-                                        ad_call_to_action.setText("Install");
-                                    } catch (Exception ignored) {
-                                    }
-                                    custm_native.setOnClickListener(view -> {
-                                        try {
-                                            Intent intent = new Intent("android.intent.action.VIEW").setData(Uri.parse(app_data.get(0).getNew_app_link()));
-                                            activity.startActivity(intent);
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    });
+                                    myAdsAdder.small_local_Native(native_banner_ad);
                                     ad_small_native_network++;
                                     break;
                                 default:
@@ -2193,49 +2030,6 @@ public class AdsControl {
             return;
         }
         isLocal_Native_Loaded = true;
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void show_local_native(ViewGroup banner_container) {
-        if (app_data != null && app_data.size() > 0) {
-            if (isLocal_Native_Loaded) {
-                RelativeLayout custm_native = banner_container.findViewById(R.id.custm_native_ad);
-                ImageView app_icon_native = banner_container.findViewById(R.id.ad_app_icon);
-                TextView app_name_native = banner_container.findViewById(R.id.ad_headline);
-                ImageView app_banner = banner_container.findViewById(R.id.ad_banner);
-                TextView app_ad_body = banner_container.findViewById(R.id.ad_body);
-                TextView ad_call_to_action = banner_container.findViewById(R.id.ad_call_to_action);
-                try {
-                    Glide.with(activity).load(app_data.get(0).getNew_app_icon()).into(app_icon_native);
-                    Glide.with(activity).load(app_data.get(0).getNew_app_banner()).into(app_banner);
-                    app_name_native.setText(app_data.get(0).getNew_app_name());
-                    app_name_native.setSelected(true);
-                    app_ad_body.setText(app_data.get(0).getNew_app_body());
-                    app_ad_body.setSelected(true);
-                    ad_call_to_action.setText("Install");
-                } catch (Exception ignored) {
-                }
-                custm_native.setOnClickListener(view -> {
-                    if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
-                        try {
-                            CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
-                            customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
-                            Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    } else {
-                        try {
-                            Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                            i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
-                            activity.startActivity(i);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-            }
-        }
     }
 
     // TODO: 8/3/2023  Medium Rect Ad
@@ -2487,10 +2281,7 @@ public class AdsControl {
                         isApplovin_Native_Loaded = false;
                         native_Ads();
                     } else if (isLocal_Native_Loaded) {
-                        @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(activity).inflate(R.layout.local_native_ad, null);
-                        show_local_native(viewGroup);
-                        native_ad.removeAllViews();
-                        native_ad.addView(viewGroup);
+                        myAdsAdder.local_Native(native_ad);
                         Conts.log_debug(TAG, "Local Native ad show");
                         isLocal_Native_Loaded = false;
                         native_Ads();
@@ -2877,37 +2668,11 @@ public class AdsControl {
                                         ad_native_network++;
                                         break;
                                     case "local":
-                                        @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(activity).inflate(R.layout.local_native_ad, null);
-                                        native_ad.removeAllViews();
-                                        native_ad.addView(viewGroup);
-                                        Conts.log_debug(TAG, "Local Native ad show");
-                                        RelativeLayout custm_native = viewGroup.findViewById(R.id.custm_native_ad);
-                                        ImageView app_icon_native = viewGroup.findViewById(R.id.ad_app_icon);
-                                        TextView app_name_native = viewGroup.findViewById(R.id.ad_headline);
-                                        ImageView app_banner = viewGroup.findViewById(R.id.ad_banner);
-                                        TextView app_ad_body = viewGroup.findViewById(R.id.ad_body);
-                                        TextView ad_call_to_action = viewGroup.findViewById(R.id.ad_call_to_action);
-                                        try {
-                                            Glide.with(activity).load(app_data.get(0).getNew_app_icon()).into(app_icon_native);
-                                            Glide.with(activity).load(app_data.get(0).getNew_app_banner()).into(app_banner);
-                                            app_name_native.setText(app_data.get(0).getNew_app_name());
-                                            app_name_native.setSelected(true);
-                                            app_ad_body.setText(app_data.get(0).getNew_app_body());
-                                            app_ad_body.setSelected(true);
-                                            ad_call_to_action.setText("Install");
-                                        } catch (Exception ignored) {
-                                        }
-                                        custm_native.setOnClickListener(view -> {
-                                            try {
-                                                Intent intent = new Intent("android.intent.action.VIEW").setData(Uri.parse(app_data.get(0).getNew_app_link()));
-                                                activity.startActivity(intent);
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-                                        });
+                                        myAdsAdder.local_Native(native_ad);
                                         ad_native_network++;
                                         break;
                                     default:
+                                        break;
                                 }
                                 if (ad_native_network == adnetwork.length) {
                                     ad_native_network = 0;
@@ -3082,7 +2847,7 @@ public class AdsControl {
 
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                    Conts.log_debug(TAG, "Adx Inter Failed");
+                    Conts.log_debug(TAG, "Adx Inter Failed " + loadAdError.getMessage());
                     inter_Ads();
                 }
             });
@@ -3113,7 +2878,7 @@ public class AdsControl {
 
                 @Override
                 public void onError(Ad ad, AdError adError) {
-                    Conts.log_debug(TAG, "FB Inter Failed");
+                    Conts.log_debug(TAG, "FB Inter Failed " + adError.getErrorMessage());
                     inter_Ads();
                 }
 
@@ -3171,7 +2936,7 @@ public class AdsControl {
 
                 @Override
                 public void onAdLoadFailed(String adUnitId, MaxError error) {
-                    Conts.log_debug(TAG, "Applovin Inter Failed");
+                    Conts.log_debug(TAG, "Applovin Inter Failed " + error.getMessage());
                     inter_Ads();
                 }
 
@@ -3189,100 +2954,6 @@ public class AdsControl {
             return;
         }
         isLocalInterLoaded = true;
-    }
-
-    // Local Mode
-    static Animation animZoomIn;
-
-    @SuppressLint("SetTextI18n")
-    private void show_local_Inter(Activity act, OnClickListener myCallback2) {
-        callback = myCallback2;
-        if (app_data != null && app_data.size() > 0) {
-            Dialog dialog = new Dialog(act, R.style.FullWidth_Dialog);
-            @SuppressLint("InflateParams") View view = LayoutInflater.from(act).inflate(R.layout.local_inter_ad, null);
-            dialog.setContentView(view);
-            dialog.setCancelable(false);
-            Window window = dialog.getWindow();
-            Objects.requireNonNull(window).setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-            animZoomIn = AnimationUtils.loadAnimation(act, R.anim.slide_in_bottom);
-            CardView cvTopAd = dialog.findViewById(R.id.cvTopAd);
-            RelativeLayout lat1 = dialog.findViewById(R.id.lat1);
-            TextView install = dialog.findViewById(R.id.install);
-            ImageView ad_close = dialog.findViewById(R.id.ad_close);
-            TextView App_name = dialog.findViewById(R.id.appname);
-            ImageView appicon = dialog.findViewById(R.id.app_icon);
-            ImageView ad_banner = dialog.findViewById(R.id.ad_banner);
-            TextView app_ad_body = dialog.findViewById(R.id.ad_body);
-            cvTopAd.startAnimation(animZoomIn);
-            try {
-                Glide.with(act).load(app_data.get(0).getNew_app_icon()).into(appicon);
-                Glide.with(act).load(app_data.get(0).getNew_app_banner()).into(ad_banner);
-                App_name.setText(app_data.get(0).getNew_app_name());
-                App_name.setSelected(true);
-                app_ad_body.setText(app_data.get(0).getNew_app_body());
-                app_ad_body.setSelected(true);
-                install.setText("Install");
-            } catch (Exception ignored) {
-            }
-            install.setOnClickListener(v -> {
-                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
-                    try {
-                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
-                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
-                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    try {
-                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
-                        activity.startActivity(i);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                dialog.dismiss();
-            });
-
-            lat1.setOnClickListener(v -> {
-                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
-                    try {
-                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
-                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
-                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    try {
-                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
-                        activity.startActivity(i);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                dialog.dismiss();
-            });
-            new Handler().postDelayed(() -> {
-                ad_close.setVisibility(View.VISIBLE);
-                ad_close.setOnClickListener(v -> dialog.dismiss());
-            }, 2500);
-            dialog.setOnDismissListener(dialog1 -> {
-                if (callback != null) {
-                    callback.onClick();
-                    callback = null;
-                }
-            });
-            dialog.show();
-        } else {
-            if (callback != null) {
-                callback.onClick();
-                callback = null;
-            }
-        }
     }
 
     // TODO: 7/17/2023 Show Inter Ads
@@ -3402,13 +3073,13 @@ public class AdsControl {
                                     @Override
                                     public void onFinish() {
                                         ad_inter_dialog.dismiss();
-                                        show_local_Inter(act, callback2);
+                                        myAdsAdder.show_local_InterAd(act, callback2);
                                         isLocalInterLoaded = false;
                                         inter_Ads();
                                     }
                                 }.start();
                             } else {
-                                show_local_Inter(act, callback2);
+                                myAdsAdder.show_local_InterAd(act, callback2);
                                 isLocalInterLoaded = false;
                                 inter_Ads();
                             }
@@ -3540,14 +3211,14 @@ public class AdsControl {
                                     @Override
                                     public void onFinish() {
                                         ad_inter_dialog.dismiss();
-                                        show_local_Appopen_inter(callback2);
+                                        myAdsAdder.show_local_Appopen(act, callback2);
                                         Conts.log_debug(TAG, "Local Appopen Show");
                                         islocal_appopen_Loaded = false;
                                         appopen_Ads();
                                     }
                                 }.start();
                             } else {
-                                show_local_Appopen_inter(callback2);
+                                myAdsAdder.show_local_Appopen(act, callback2);
                                 Conts.log_debug(TAG, "Local Appopen Show");
                                 islocal_appopen_Loaded = false;
                                 appopen_Ads();
@@ -3785,12 +3456,12 @@ public class AdsControl {
                                                     @Override
                                                     public void onFinish() {
                                                         ad_inter_dialog.dismiss();
-                                                        show_local_Appopen_inter(callback2);
+                                                        myAdsAdder.show_local_Appopen(act, callback2);
                                                         Conts.log_debug(TAG, "Local Appopen Show");
                                                     }
                                                 }.start();
                                             } else {
-                                                show_local_Appopen_inter(callback2);
+                                                myAdsAdder.show_local_Appopen(act, callback2);
                                                 Conts.log_debug(TAG, "Local Appopen Show");
                                             }
                                             ad_appopen_inter_network++;
@@ -3800,7 +3471,15 @@ public class AdsControl {
                                                 callback.onClick();
                                                 callback = null;
                                             }
+                                            break;
+                                        case "":
+                                            if (callback != null) {
+                                                callback.onClick();
+                                                callback = null;
+                                            }
+                                            break;
                                         default:
+                                            break;
                                     }
                                     if (ad_appopen_inter_network == adnetwork.length) {
                                         ad_appopen_inter_network = 0;
@@ -4114,11 +3793,11 @@ public class AdsControl {
                                                     @Override
                                                     public void onFinish() {
                                                         ad_inter_dialog.dismiss();
-                                                        show_local_Inter(act, callback2);
+                                                        myAdsAdder.show_local_InterAd(act, callback2);
                                                     }
                                                 }.start();
                                             } else {
-                                                show_local_Inter(act, callback2);
+                                                myAdsAdder.show_local_InterAd(act, callback2);
                                             }
                                             ad_inter_network++;
                                             break;
@@ -4127,6 +3806,13 @@ public class AdsControl {
                                                 callback.onClick();
                                                 callback = null;
                                             }
+                                            break;
+                                        case "":
+                                            if (callback != null) {
+                                                callback.onClick();
+                                                callback = null;
+                                            }
+                                            break;
                                         default:
                                     }
                                     if (ad_inter_network == adnetwork.length) {
@@ -4339,91 +4025,6 @@ public class AdsControl {
         }
     }
 
-    // Local Appopen
-    @SuppressLint("SetTextI18n")
-    public void show_local_Appopen(Activity act, OnClickListener callback2) {
-        callback = callback2;
-        if (app_data != null && app_data.size() > 0) {
-            Dialog dialog = new Dialog(act, android.R.style.Theme_Translucent_NoTitleBar);
-            @SuppressLint("InflateParams") View view = LayoutInflater.from(act).inflate(R.layout.local_appopen, null);
-            dialog.setContentView(view);
-            dialog.setCancelable(false);
-            Window window = dialog.getWindow();
-            Objects.requireNonNull(window).setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-            RelativeLayout lay1 = dialog.findViewById(R.id.llPersonalAd);
-            TextView install = dialog.findViewById(R.id.install);
-            LinearLayout linearLayout = dialog.findViewById(R.id.ll_continue_app);
-            TextView App_name = dialog.findViewById(R.id.txt_appname);
-            ImageView appicon = dialog.findViewById(R.id.app_icon);
-            ImageView ad_banner = dialog.findViewById(R.id.ad_banner);
-            TextView app_ad_body = dialog.findViewById(R.id.ad_body);
-            try {
-                Glide.with(act).load(app_data.get(0).getNew_app_icon()).into(appicon);
-                Glide.with(act).load(app_data.get(0).getNew_app_banner()).into(ad_banner);
-                App_name.setText(app_data.get(0).getNew_app_name());
-                App_name.setSelected(true);
-                app_ad_body.setText(app_data.get(0).getNew_app_body());
-                app_ad_body.setSelected(true);
-                install.setText("Install");
-            } catch (Exception ignored) {
-            }
-            install.setOnClickListener(v -> {
-                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
-                    try {
-                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
-                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
-                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    try {
-                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
-                        activity.startActivity(i);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-            lay1.setOnClickListener(v -> {
-                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
-                    try {
-                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
-                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
-                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    try {
-                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
-                        activity.startActivity(i);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            linearLayout.setOnClickListener(v -> dialog.dismiss());
-            dialog.setOnDismissListener(dialog1 -> {
-                if (callback != null) {
-                    callback.onClick();
-                    callback = null;
-                }
-            });
-            dialog.show();
-            Conts.log_debug(TAG, "Local Open Ad show");
-        } else {
-            if (callback != null) {
-                callback.onClick();
-                callback = null;
-            }
-        }
-    }
-
     private AdRequest getAdRequest() {
         return new AdRequest.Builder().build();
     }
@@ -4580,92 +4181,6 @@ public class AdsControl {
             return;
         }
         islocal_appopen_Loaded = true;
-    }
-
-    // Local Appopen
-    @SuppressLint("SetTextI18n")
-    private void show_local_Appopen_inter(OnClickListener callback2) {
-        callback = callback2;
-        if (app_data != null && app_data.size() > 0) {
-            Dialog dialog = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar);
-            @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.local_appopen, null);
-            dialog.setContentView(view);
-            dialog.setCancelable(false);
-            Window window = dialog.getWindow();
-            Objects.requireNonNull(window).setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-            RelativeLayout lay1 = dialog.findViewById(R.id.llPersonalAd);
-            TextView install = dialog.findViewById(R.id.install);
-            LinearLayout linearLayout = dialog.findViewById(R.id.ll_continue_app);
-            TextView App_name = dialog.findViewById(R.id.txt_appname);
-            ImageView appicon = dialog.findViewById(R.id.app_icon);
-            ImageView ad_banner = dialog.findViewById(R.id.ad_banner);
-            TextView app_ad_body = dialog.findViewById(R.id.ad_body);
-            try {
-                Glide.with(activity).load(app_data.get(0).getNew_app_icon()).into(appicon);
-                Glide.with(activity).load(app_data.get(0).getNew_app_banner()).into(ad_banner);
-                App_name.setText(app_data.get(0).getNew_app_name());
-                App_name.setSelected(true);
-                app_ad_body.setText(app_data.get(0).getNew_app_body());
-                app_ad_body.setSelected(true);
-                install.setText("Install");
-            } catch (Exception ignored) {
-            }
-            install.setOnClickListener(v -> {
-                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
-                    try {
-                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
-                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
-                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    try {
-                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
-                        activity.startActivity(i);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-            lay1.setOnClickListener(v -> {
-                if (app_data.get(0).getNew_app_link().equals(app_data.get(0).getQureka_url())) {
-                    try {
-                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
-                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
-                        Conts.openCustomTab((Activity) activity, customIntent.build(), Uri.parse(app_data.get(0).getNew_app_link()));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    try {
-                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + app_data.get(0).getNew_app_link()));
-                        activity.startActivity(i);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-            linearLayout.setOnClickListener(v -> dialog.dismiss());
-
-            dialog.setOnDismissListener(dialog1 -> {
-                if (callback != null) {
-                    callback.onClick();
-                    callback = null;
-                }
-            });
-            dialog.show();
-        } else {
-            if (callback != null) {
-                callback.onClick();
-                callback = null;
-            }
-        }
     }
 
     // TODO: 8/10/2023  Splash Inter Ads
@@ -4912,6 +4427,7 @@ public class AdsControl {
                 });
                 interstitialAdmax.loadAd();
             } else {
+
                 if (callback != null) {
                     callback.onClick();
                     callback = null;
