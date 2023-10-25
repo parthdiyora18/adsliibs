@@ -17,7 +17,7 @@
             android:layout_height="35dp"
             android:layout_gravity="end"
             android:padding="5dp"
-            android:background="@drawable/round_bg"
+            android:background="@drawable/ad_bg"
             android:src="@drawable/ic_close_white"
             app:tint="#000"
             android:visibility="invisible"

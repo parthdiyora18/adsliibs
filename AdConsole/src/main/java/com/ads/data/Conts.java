@@ -32,7 +32,6 @@ import androidx.core.content.ContextCompat;
 import com.ads.data.Api.APIClient;
 import com.ads.data.Api.APIInterface;
 import com.ads.data.Api.File_Recover;
-import com.ads.data.Api.Panal_Recover;
 import com.ads.data.VPN_Block.Vpn_Block_Detector;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.play.core.review.ReviewInfo;
@@ -383,6 +382,7 @@ public class Conts {
             }
         }
     }
+
     public static void openCustomTab(Activity activity, CustomTabsIntent customTabsIntent, Uri uri) {
         String packageName = "com.android.chrome";
         customTabsIntent.intent.setPackage(packageName);
@@ -418,11 +418,6 @@ public class Conts {
     String Key;
     String Service;
 
-    public void App_Data_Panal(Activity activity, String panalkey, String packagename) {
-        activity1 = activity;
-        Key = panalkey;
-        paksg = packagename;
-    }
 
     public void App_Data_File(Activity activity, String fileKey, String packagename, String service) {
         activity1 = activity;
@@ -431,32 +426,8 @@ public class Conts {
         Service = service;
     }
 
-    public void App_Data_panal() {
-        APIInterface apiInterface = APIClient.get_panal_Client(Key).create(APIInterface.class);
-        Call<Panal_Recover> call1 = apiInterface.get_panal_ads_detail(paksg);
-        call1.enqueue(new retrofit2.Callback<>() {
-            @Override
-            public void onResponse(@NotNull Call<Panal_Recover> call, @NotNull retrofit2.Response<Panal_Recover> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    if (response.body().getData() != null) {
-                        app_data.clear();
-                        log_debug("Parth", "Parth_Diyora " + response.body().getData());
-                        app_data.add(response.body().getData());
-                    } else {
-                        Toast.makeText(activity1, "Server not Response", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Panal_Recover> call, Throwable t) {
-                call.cancel();
-            }
-        });
-    }
-
     public void App_Data_File_Zilla() {
-        APIInterface apiInterface = APIClient.get_file_Client(Key).create(APIInterface.class);
+        APIInterface apiInterface = APIClient.get_file_Client(Key + "Ads/").create(APIInterface.class);
         Call<File_Recover> call1 = apiInterface.get_file_ads_detail(paksg, Service);
         call1.enqueue(new retrofit2.Callback<>() {
             @Override

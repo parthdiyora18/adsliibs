@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 public class FayazSP {
     public static SharedPreferences sharedPreferences;
-     static Context context;
+    static Context context;
 
     public static SharedPreferences init(Context context) {
         FayazSP.context = context;

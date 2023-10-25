@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-public class JsonObjectGetter extends AsyncTask<Void, Void, MyAd[]> {
+public class JsonObjectGetter extends AsyncTask<Void, Void, Appdetail[]> {
     private String TAG = getClass().getSimpleName();
 
     private Context context;
@@ -30,10 +30,12 @@ public class JsonObjectGetter extends AsyncTask<Void, Void, MyAd[]> {
         this.listener = listener;
     }
 
+    /**
+     * @noinspection deprecation
+     */
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
         if (context == null || listener == null || jsonUrl == null) {
             Log.d(TAG, "onPreExecute: context == null || listener == null || jsonUrl == null");
             cancel(true);
@@ -46,8 +48,11 @@ public class JsonObjectGetter extends AsyncTask<Void, Void, MyAd[]> {
         }
     }
 
+    /**
+     * @noinspection deprecation
+     */
     @Override
-    protected MyAd[] doInBackground(Void... voids) {
+    protected Appdetail[] doInBackground(Void... voids) {
         try {
             URL url = new URL(jsonUrl);
             InputStream is = url.openStream();
@@ -60,11 +65,11 @@ public class JsonObjectGetter extends AsyncTask<Void, Void, MyAd[]> {
             }
 
             JSONArray jsonArray = new JSONArray(sb.toString());
-            MyAd[] myAd = new MyAd[jsonArray.length()];
+            Appdetail[] appdetail = new Appdetail[jsonArray.length()];
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
-                myAd[i] = new MyAd(
+                appdetail[i] = new Appdetail(
                         object.getString("app_name"),
                         object.getString("app_banner"),
                         object.getString("app_icon"),
@@ -72,19 +77,21 @@ public class JsonObjectGetter extends AsyncTask<Void, Void, MyAd[]> {
                         object.getString("pakage")
                 );
             }
-            return myAd;
+            return appdetail;
         } catch (Exception e) {
             this.exception = e;
         }
-
         return null;
     }
 
+    /**
+     * @noinspection deprecation
+     */
     @Override
-    protected void onPostExecute(MyAd[] myAds) {
-        super.onPostExecute(myAds);
-        if (listener != null && myAds != null) {
-            listener.onSuccess(myAds);
+    protected void onPostExecute(Appdetail[] appdetails) {
+        super.onPostExecute(appdetails);
+        if (listener != null && appdetails != null) {
+            listener.onSuccess(appdetails);
         } else {
             listener.onError(exception.toString());
         }

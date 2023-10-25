@@ -85,15 +85,6 @@ public class App extends Application {
                     if (AdsControl.isOnline(context)) {
                         check = false;
                         Conts conts = new Conts(context);
-                        conts.App_Data_panal();
-                    }
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    if (AdsControl.isOnline(context)) {
-                        check = false;
-                        Conts conts = new Conts(context);
                         conts.App_Data_File_Zilla();
                     }
                 } catch (Exception e) {

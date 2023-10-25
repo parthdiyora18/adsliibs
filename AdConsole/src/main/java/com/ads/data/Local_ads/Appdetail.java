@@ -1,13 +1,13 @@
 package com.ads.data.Local_ads;
 
-public class MyAd {
+public class Appdetail {
     String app_name;
     String app_banner;
     String app_icon;
     String app_body;
     String pakag;
 
-    public MyAd(String appName, String appBanner, String appIcon, String appBody, String pakage) {
+    public Appdetail(String appName, String appBanner, String appIcon, String appBody, String pakage) {
         this.app_name = appName;
         this.app_banner = appBanner;
         this.app_icon = appIcon;

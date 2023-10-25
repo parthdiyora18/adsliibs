@@ -3,8 +3,7 @@ package com.ads.data.Api;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Pro_IPModel {
-
+public class IPModel {
     @SerializedName("status")
     @Expose
     private String status;

@@ -29,7 +29,7 @@ import java.util.Objects;
 public class MyAppopen {
     static OnClickListener callback;
 
-    public MyAppopen(final Activity activity, final MyAd myAd, OnClickListener callback2) {
+    public MyAppopen(final Activity activity, final Appdetail appdetail, OnClickListener callback2) {
         callback = callback2;
         if (app_data != null && app_data.size() > 0) {
             Dialog dialog = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar);
@@ -47,51 +47,61 @@ public class MyAppopen {
             ImageView ad_banner = dialog.findViewById(R.id.ad_banner);
             TextView app_ad_body = dialog.findViewById(R.id.ad_body);
             try {
-                Glide.with(activity).load(myAd.getApp_icon()).into(appicon);
-                Glide.with(activity).load(myAd.getApp_banner()).into(ad_banner);
-                App_name.setText(myAd.getApp_name());
+                Glide.with(activity).load(appdetail.getApp_icon()).into(appicon);
+                Glide.with(activity).load(appdetail.getApp_banner()).into(ad_banner);
+                App_name.setText(appdetail.getApp_name());
                 App_name.setSelected(true);
-                app_ad_body.setText(myAd.getApp_body());
+                app_ad_body.setText(appdetail.getApp_body());
                 app_ad_body.setSelected(true);
-                install.setText("Install");
+                if (app_data != null && app_data.size() > 0) {
+                    if (appdetail.getPakag().equals(app_data.get(0).getQureka_url())) {
+                        install.setText("Play Now");
+                    } else {
+                        install.setText("Install");
+                    }
+                }
             } catch (Exception ignored) {
             }
             install.setOnClickListener(v -> {
-                if (myAd.getPakag().equals(app_data.get(0).getQureka_url())) {
-                    try {
-                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
-                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
-                        Conts.openCustomTab(activity, customIntent.build(), Uri.parse(myAd.getPakag()));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    try {
-                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + myAd.getPakag()));
-                        activity.startActivity(i);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                if (app_data != null && app_data.size() > 0) {
+                    if (appdetail.getPakag().equals(app_data.get(0).getQureka_url())) {
+                        try {
+                            CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
+                            customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
+                            Conts.openCustomTab(activity, customIntent.build(), Uri.parse(appdetail.getPakag()));
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else {
+                        try {
+                            Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+                            i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + appdetail.getPakag()));
+                            activity.startActivity(i);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
 
             lay1.setOnClickListener(v -> {
-                if (myAd.getPakag().equals(app_data.get(0).getQureka_url())) {
-                    try {
-                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
-                        customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
-                        Conts.openCustomTab(activity, customIntent.build(), Uri.parse(myAd.getPakag()));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    try {
-                        Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + myAd.getPakag()));
-                        activity.startActivity(i);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                if (app_data != null && app_data.size() > 0) {
+                    if (appdetail.getPakag().equals(app_data.get(0).getQureka_url())) {
+                        try {
+                            CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
+                            customIntent.setToolbarColor(ContextCompat.getColor(activity, R.color.first_color));
+                            Conts.openCustomTab(activity, customIntent.build(), Uri.parse(appdetail.getPakag()));
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else {
+                        try {
+                            Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+                            i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + appdetail.getPakag()));
+                            activity.startActivity(i);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });

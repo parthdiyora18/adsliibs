@@ -13,12 +13,7 @@ public interface APIInterface {
     @FormUrlEncoded
     Call<File_Recover> get_file_ads_detail(@Field("packagename") String packagename, @Url String url);
 
-    // Panal
-    @POST("ads")
-    @FormUrlEncoded
-    Call<Panal_Recover> get_panal_ads_detail(@Field("package_name") String packagename);
-
     // IpData
     @GET()
-    Call<Pro_IPModel> getipdata(@Url String url);
+    Call<IPModel> getipdata(@Url String url);
 }

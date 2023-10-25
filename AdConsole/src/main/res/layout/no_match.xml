@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@drawable/round_bg"
+        android:background="@drawable/ad_bg"
         android:orientation="vertical">
 
         <LinearLayout
@@ -97,7 +97,7 @@
                 android:id="@+id/tv_submit"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:background="@drawable/round_native_btn"
+                android:background="@drawable/native_ad_btn"
                 android:backgroundTint="@color/first_color"
                 android:gravity="center"
                 android:text="I will do"

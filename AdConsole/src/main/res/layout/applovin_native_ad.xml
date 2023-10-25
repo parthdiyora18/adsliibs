@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/round_bg"
+    android:background="@drawable/ad_bg"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -51,7 +51,8 @@
                         android:lines="1"
                         android:text="@string/app_name"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <androidx.cardview.widget.CardView
@@ -95,41 +96,43 @@
         <FrameLayout
             android:id="@+id/media_view_container"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="150dp"
             android:layout_below="@+id/part1"
             android:layout_marginTop="1dp"
-            android:layout_marginBottom="3dp"
+            android:layout_marginBottom="2dp"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/body_text_view"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/media_view_container"
+            android:layout_alignParentStart="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:ellipsize="end"
             android:lines="3"
             android:text="Provided by Applovin"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@color/black"
             android:textSize="10sp"
             tools:ignore="SmallSp" />
 
         <Button
             android:id="@+id/cta_button"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:layout_below="@+id/body_text_view"
+            android:layout_alignParentEnd="true"
             android:layout_marginStart="3dp"
             android:layout_marginTop="3dp"
             android:layout_marginEnd="3dp"
             android:layout_marginBottom="2dp"
-            android:background="@drawable/round_native_btn"
+            android:background="@drawable/native_ad_btn"
             android:gravity="center"
             android:text="Install"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <FrameLayout

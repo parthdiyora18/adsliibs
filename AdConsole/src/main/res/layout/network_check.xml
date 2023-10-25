@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:background="@drawable/round_bg"
+    android:background="@drawable/ad_bg"
     android:orientation="vertical">
 
     <LinearLayout
@@ -66,7 +66,7 @@
                 android:layout_height="35dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:background="@drawable/round_native_btn"
+                android:background="@drawable/native_ad_btn"
                 android:backgroundTint="#388E3C"
                 android:gravity="center"
                 android:lineSpacingExtra="3dp"

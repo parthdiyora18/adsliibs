@@ -94,21 +94,6 @@ public class All_File_Data {
     @SerializedName("applovin_medium_rectangle_id")
     @Expose
     private String applovin_medium_rectangle_id;
-    @SerializedName("new_app_name")
-    @Expose
-    private String new_app_name;
-    @SerializedName("new_app_icon")
-    @Expose
-    private String new_app_icon;
-    @SerializedName("new_app_banner")
-    @Expose
-    private String new_app_banner;
-    @SerializedName("new_app_body")
-    @Expose
-    private String new_app_body;
-    @SerializedName("new_app_pakg")
-    @Expose
-    private String new_app_pakg;
     @SerializedName("inter_count")
     @Expose
     private int interCount;
@@ -187,6 +172,12 @@ public class All_File_Data {
     @SerializedName("qureka_url")
     @Expose
     private String Qureka_url;
+    @SerializedName("Country_Add")
+    @Expose
+    private String Country_Add;
+    @SerializedName("local_ad_mode")
+    @Expose
+    private boolean local_ad_mode;
     @SerializedName("local_ad_url")
     @Expose
     private String local_ad_url;
@@ -211,14 +202,6 @@ public class All_File_Data {
     @SerializedName("redirect_app")
     @Expose
     private String redirectApp;
-
-    public String getLocal_ad_url() {
-        return local_ad_url;
-    }
-
-    public void setLocal_ad_url(String local_ad_url) {
-        this.local_ad_url = local_ad_url;
-    }
 
     public String getAdmob_splash_interid() {
         return admob_splash_interid;
@@ -275,7 +258,6 @@ public class All_File_Data {
     public void setAdmobNativeid(String admobNativeid) {
         this.admobNativeid = admobNativeid;
     }
-
 
     public String getAdmobAppopenid() {
         return admobAppopenid;
@@ -459,46 +441,6 @@ public class All_File_Data {
 
     public void setApplovin_medium_rectangle_id(String applovin_medium_rectangle_id) {
         this.applovin_medium_rectangle_id = applovin_medium_rectangle_id;
-    }
-
-    public String getNew_app_name() {
-        return new_app_name;
-    }
-
-    public void setNew_app_name(String new_app_name) {
-        this.new_app_name = new_app_name;
-    }
-
-    public String getNew_app_icon() {
-        return new_app_icon;
-    }
-
-    public void setNew_app_icon(String new_app_icon) {
-        this.new_app_icon = new_app_icon;
-    }
-
-    public String getNew_app_banner() {
-        return new_app_banner;
-    }
-
-    public void setNew_app_banner(String new_app_banner) {
-        this.new_app_banner = new_app_banner;
-    }
-
-    public String getNew_app_body() {
-        return new_app_body;
-    }
-
-    public void setNew_app_body(String new_app_body) {
-        this.new_app_body = new_app_body;
-    }
-
-    public String getNew_app_pakg() {
-        return new_app_pakg;
-    }
-
-    public void setNew_app_pakg(String new_app_pakg) {
-        this.new_app_pakg = new_app_pakg;
     }
 
     public int getInterCount() {
@@ -707,6 +649,30 @@ public class All_File_Data {
 
     public void setQureka_url(String qureka_url) {
         Qureka_url = qureka_url;
+    }
+
+    public String getCountry_Add() {
+        return Country_Add;
+    }
+
+    public void setCountry_Add(String country_Add) {
+        Country_Add = country_Add;
+    }
+
+    public boolean isLocal_ad_mode() {
+        return local_ad_mode;
+    }
+
+    public void setLocal_ad_mode(boolean local_ad_mode) {
+        this.local_ad_mode = local_ad_mode;
+    }
+
+    public String getLocal_ad_url() {
+        return local_ad_url;
+    }
+
+    public void setLocal_ad_url(String local_ad_url) {
+        this.local_ad_url = local_ad_url;
     }
 
     public String getLive_mode() {

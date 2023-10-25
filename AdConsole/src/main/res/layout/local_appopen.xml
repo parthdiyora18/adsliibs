@@ -265,8 +265,7 @@
                                             android:layout_height="12dp"
                                             android:layout_gravity="center"
                                             android:layout_marginLeft="@dimen/_3sdp"
-                                            android:src="@drawable/star"
-                                            app:tint="#787777" />
+                                            android:src="@drawable/star" />
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -294,7 +293,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_35sdp"
                             android:layout_gravity="center"
-                            android:background="@drawable/round_native_btn"
+                            android:background="@drawable/native_ad_btn"
                             android:gravity="center"
                             android:text="Install"
                             android:textColor="@color/white"

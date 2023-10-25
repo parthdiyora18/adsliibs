@@ -1,7 +1,8 @@
 package com.ads.data.Local_ads;
 
 public interface JsonObjectGetListener {
-    void onSuccess(MyAd[] myAds);
+    void onSuccess(Appdetail[] appdetails);
 
     void onError(String error);
 }
+

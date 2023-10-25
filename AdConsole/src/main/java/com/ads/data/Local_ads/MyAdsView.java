@@ -24,6 +24,7 @@ public class MyAdsView extends RelativeLayout {
     ImageView ad_banner;
     TextView textViewAppName;
     TextView ad_body;
+    TextView ad_call_to_action;
     private String url;
 
     public MyAdsView(Context context) {
@@ -31,41 +32,65 @@ public class MyAdsView extends RelativeLayout {
         this.context = context;
     }
 
-    public void set_small_native_banner_Values(final MyAd myAd) {
+    public void set_small_native_banner_Values(final Appdetail appdetail) {
         inflate(context, R.layout.local_small_native_banner, this);
         AppIcon = findViewById(R.id.ad_app_icon);
         textViewAppName = findViewById(R.id.ad_headline);
         ad_body = findViewById(R.id.ad_body);
-        Picasso.get().load(myAd.getApp_icon()).into(AppIcon);
-        textViewAppName.setText(myAd.getApp_name());
-        ad_body.setText(myAd.getApp_body());
-        this.url = myAd.getPakag();
+        ad_call_to_action = findViewById(R.id.ad_call_to_action);
+        Picasso.get().load(appdetail.getApp_icon()).into(AppIcon);
+        textViewAppName.setText(appdetail.getApp_name());
+        ad_body.setText(appdetail.getApp_body());
+        this.url = appdetail.getPakag();
+        if (app_data != null && app_data.size() > 0) {
+            if (appdetail.getPakag().equals(app_data.get(0).getQureka_url())) {
+                ad_call_to_action.setText("Play Now");
+            } else {
+                ad_call_to_action.setText("Install");
+            }
+        }
         setOnClick();
     }
 
-    public void set_small_native_Values(final MyAd myAd) {
+    public void set_small_native_Values(final Appdetail appdetail) {
         inflate(context, R.layout.local_small_native_ad, this);
         AppIcon = findViewById(R.id.app_icon);
         textViewAppName = findViewById(R.id.ad_Tital);
         ad_body = findViewById(R.id.ad_body);
-        Picasso.get().load(myAd.getApp_icon()).into(AppIcon);
-        textViewAppName.setText(myAd.getApp_name());
-        ad_body.setText(myAd.getApp_body());
-        this.url = myAd.getPakag();
+        ad_call_to_action = findViewById(R.id.ad_call_to_action);
+        Picasso.get().load(appdetail.getApp_icon()).into(AppIcon);
+        textViewAppName.setText(appdetail.getApp_name());
+        ad_body.setText(appdetail.getApp_body());
+        this.url = appdetail.getPakag();
+        if (app_data != null && app_data.size() > 0) {
+            if (appdetail.getPakag().equals(app_data.get(0).getQureka_url())) {
+                ad_call_to_action.setText("Play Now");
+            } else {
+                ad_call_to_action.setText("Install");
+            }
+        }
         setOnClick();
     }
 
-    public void set_big_native_Values(final MyAd myAd) {
+    public void set_big_native_Values(final Appdetail appdetail) {
         inflate(context, R.layout.local_native_ad, this);
         AppIcon = findViewById(R.id.ad_app_icon);
         ad_banner = findViewById(R.id.ad_banner);
         textViewAppName = findViewById(R.id.ad_headline);
         ad_body = findViewById(R.id.ad_body);
-        Picasso.get().load(myAd.getApp_icon()).into(AppIcon);
-        Picasso.get().load(myAd.getApp_banner()).into(ad_banner);
-        textViewAppName.setText(myAd.getApp_name());
-        ad_body.setText(myAd.getApp_body());
-        this.url = myAd.getPakag();
+        ad_call_to_action = findViewById(R.id.ad_call_to_action);
+        Picasso.get().load(appdetail.getApp_icon()).into(AppIcon);
+        Picasso.get().load(appdetail.getApp_banner()).into(ad_banner);
+        textViewAppName.setText(appdetail.getApp_name());
+        ad_body.setText(appdetail.getApp_body());
+        this.url = appdetail.getPakag();
+        if (app_data != null && app_data.size() > 0) {
+            if (appdetail.getPakag().equals(app_data.get(0).getQureka_url())) {
+                ad_call_to_action.setText("Play Now");
+            } else {
+                ad_call_to_action.setText("Install");
+            }
+        }
         setOnClick();
     }
 
@@ -73,20 +98,22 @@ public class MyAdsView extends RelativeLayout {
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (url.equals(app_data.get(0).getQureka_url())) {
-                    try {
-                        CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
-                        customIntent.setToolbarColor(ContextCompat.getColor(context, R.color.first_color));
-                        Conts.openCustomTab((Activity) context, customIntent.build(), Uri.parse(url));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    try {
-                        Intent browse = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + url));
-                        context.startActivity(browse);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                if (app_data != null && app_data.size() > 0) {
+                    if (url.equals(app_data.get(0).getQureka_url())) {
+                        try {
+                            CustomTabsIntent.Builder customIntent = new CustomTabsIntent.Builder();
+                            customIntent.setToolbarColor(ContextCompat.getColor(context, R.color.first_color));
+                            Conts.openCustomTab((Activity) context, customIntent.build(), Uri.parse(url));
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else {
+                        try {
+                            Intent browse = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + url));
+                            context.startActivity(browse);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }

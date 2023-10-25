@@ -25,6 +25,7 @@ public class AppOpen implements LifecycleObserver, Application.ActivityLifecycle
     static App blueApp;
 
     public void onActivityCreated(@NonNull Activity activity, Bundle bundle) {
+        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
 
     public void onActivityPaused(@NonNull Activity activity) {
@@ -59,16 +60,6 @@ public class AppOpen implements LifecycleObserver, Application.ActivityLifecycle
         appopen_Ads(currentActivity);
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    public void onResume() {
-//        IronSource.onResume(currentActivity);
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    public void onPause() {
-//        IronSource.onPause(currentActivity);
-    }
-
     int ad_openad_network = 0;
 
     public void appopen_Ads(Activity activity) {
@@ -83,19 +74,23 @@ public class AppOpen implements LifecycleObserver, Application.ActivityLifecycle
                                 ad_openad_network++;
                                 break;
                             case "inter":
-                                AdsControl.getInstance(currentActivity).show_splash_inter(activity, () -> currentActivity = null);
+                                AdsControl.getInstance(activity).show_splash_inter(activity, () -> currentActivity = null);
                                 ad_openad_network++;
                                 break;
                             case "admob":
-                                AdsControl.getInstance(currentActivity).show_Admob_Appopen(activity, () -> currentActivity = null);
+                                AdsControl.getInstance(activity).show_Admob_Appopen(activity, () -> currentActivity = null);
                                 ad_openad_network++;
                                 break;
                             case "adx":
-                                AdsControl.getInstance(currentActivity).show_Adx_Appopen(activity, () -> currentActivity = null);
+                                AdsControl.getInstance(activity).show_Adx_Appopen(activity, () -> currentActivity = null);
                                 ad_openad_network++;
                                 break;
                             case "applovin":
-                                AdsControl.getInstance(currentActivity).show_Applovin_Appopen(activity, () -> currentActivity = null);
+                                AdsControl.getInstance(activity).show_Applovin_Appopen(activity, () -> currentActivity = null);
+                                ad_openad_network++;
+                                break;
+                            case "local":
+                                AdsControl.getInstance(activity).myAdsAdder.show_local_Appopen(activity, () -> currentActivity = null);
                                 ad_openad_network++;
                                 break;
                             case "off":
