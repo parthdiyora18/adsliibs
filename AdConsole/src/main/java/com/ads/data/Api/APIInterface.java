@@ -12,8 +12,4 @@ public interface APIInterface {
     @POST()
     @FormUrlEncoded
     Call<File_Recover> get_file_ads_detail(@Field("packagename") String packagename, @Url String url);
-
-    // IpData
-    @GET()
-    Call<IPModel> getipdata(@Url String url);
 }

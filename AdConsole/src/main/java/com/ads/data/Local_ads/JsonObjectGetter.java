@@ -17,7 +17,6 @@ import java.nio.charset.Charset;
 
 public class JsonObjectGetter extends AsyncTask<Void, Void, Appdetail[]> {
     private String TAG = getClass().getSimpleName();
-
     private Context context;
     private String jsonUrl;
     private JsonObjectGetListener listener;

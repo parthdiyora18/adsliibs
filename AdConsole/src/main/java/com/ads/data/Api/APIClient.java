@@ -7,24 +7,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class APIClient {
     static Retrofit retrofit = null;
-    private static final String ip_url = "http://ip-api.com/";
-    private static final String pro_ip_url = "https://pro.ip-api.com/json/";
 
     public static Retrofit get_file_Client(String key) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
         retrofit = new Retrofit.Builder().baseUrl(key).addConverterFactory(GsonConverterFactory.create()).client(client).build();
-        return retrofit;
-    }
-
-    public static Retrofit get_pro_ip_clint() {
-        retrofit = new Retrofit.Builder().baseUrl(pro_ip_url).addConverterFactory(GsonConverterFactory.create()).build();
-        return retrofit;
-    }
-
-    public static Retrofit get_ip_clint() {
-        retrofit = new Retrofit.Builder().baseUrl(ip_url).addConverterFactory(GsonConverterFactory.create()).build();
         return retrofit;
     }
 }

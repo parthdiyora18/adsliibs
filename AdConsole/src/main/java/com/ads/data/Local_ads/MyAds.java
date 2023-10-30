@@ -68,7 +68,7 @@ public class MyAds {
         }
     }
 
-    public void show_local_Appopen(Activity activity, OnClickListener callback) {
+    public void local_Appopen_show(Activity activity, OnClickListener callback) {
         if (appdetails != null) {
             Conts.log_debug("Parth", "local appopen ad show");
             new MyAppopen(activity, appdetails[aNumber], callback);

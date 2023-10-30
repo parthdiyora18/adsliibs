@@ -115,7 +115,7 @@
                 <ImageView
                     android:id="@+id/ad_banner"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="170dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="0dp"
@@ -129,7 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="230dp"
+                    android:layout_marginTop="200dp"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="7dp">
 
@@ -256,7 +256,7 @@
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
                                             android:gravity="center"
-                                            android:text="4.7"
+                                            android:text="4.5"
                                             android:textColor="#787777"
                                             android:textSize="12sp" />
 

@@ -228,12 +228,6 @@ public class Conts {
         }
     }
 
-    // TODO: 7/17/2023 Don't Click Screen Short
-    public static void IsScreenshort(Activity mContext) {
-        Window window = mContext.getWindow();
-        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-    }
-
     // TODO: 7/24/2023  Debuug Mode
     @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
     public void Debugging(OnClickListener callback) {

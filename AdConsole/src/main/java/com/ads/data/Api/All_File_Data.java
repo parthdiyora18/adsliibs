@@ -172,33 +172,9 @@ public class All_File_Data {
     @SerializedName("qureka_url")
     @Expose
     private String Qureka_url;
-    @SerializedName("Country_Add")
-    @Expose
-    private String Country_Add;
-    @SerializedName("local_ad_mode")
-    @Expose
-    private boolean local_ad_mode;
     @SerializedName("local_ad_url")
     @Expose
     private String local_ad_url;
-    @SerializedName("live_mode")
-    @Expose
-    private String live_mode;
-    @SerializedName("Download")
-    @Expose
-    private String Download;
-    @SerializedName("Backgraound")
-    @Expose
-    private String Backgraound;
-    @SerializedName("Popup")
-    @Expose
-    private String Popup;
-    @SerializedName("Popup_click")
-    @Expose
-    private String Popup_click;
-    @SerializedName("Main_click")
-    @Expose
-    private String Main_click;
     @SerializedName("redirect_app")
     @Expose
     private String redirectApp;
@@ -651,76 +627,12 @@ public class All_File_Data {
         Qureka_url = qureka_url;
     }
 
-    public String getCountry_Add() {
-        return Country_Add;
-    }
-
-    public void setCountry_Add(String country_Add) {
-        Country_Add = country_Add;
-    }
-
-    public boolean isLocal_ad_mode() {
-        return local_ad_mode;
-    }
-
-    public void setLocal_ad_mode(boolean local_ad_mode) {
-        this.local_ad_mode = local_ad_mode;
-    }
-
     public String getLocal_ad_url() {
         return local_ad_url;
     }
 
     public void setLocal_ad_url(String local_ad_url) {
         this.local_ad_url = local_ad_url;
-    }
-
-    public String getLive_mode() {
-        return live_mode;
-    }
-
-    public void setLive_mode(String live_mode) {
-        this.live_mode = live_mode;
-    }
-
-    public String getDownload() {
-        return Download;
-    }
-
-    public void setDownload(String download) {
-        Download = download;
-    }
-
-    public String getBackgraound() {
-        return Backgraound;
-    }
-
-    public void setBackgraound(String backgraound) {
-        Backgraound = backgraound;
-    }
-
-    public String getPopup() {
-        return Popup;
-    }
-
-    public void setPopup(String popup) {
-        Popup = popup;
-    }
-
-    public String getPopup_click() {
-        return Popup_click;
-    }
-
-    public void setPopup_click(String popup_click) {
-        Popup_click = popup_click;
-    }
-
-    public String getMain_click() {
-        return Main_click;
-    }
-
-    public void setMain_click(String main_click) {
-        Main_click = main_click;
     }
 
     public String getRedirectApp() {
