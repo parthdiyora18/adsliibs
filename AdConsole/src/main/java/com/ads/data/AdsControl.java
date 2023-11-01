@@ -3720,8 +3720,8 @@ public class AdsControl {
     }
 
     // TODO: 8/10/2023  Splash Inter Ads
-    void show_splash_inter(Activity act, OnClickListener callback3) {
-        callback = callback3;
+    void show_splash_inter(Activity act, OnClickListener splash_callback) {
+        callback = splash_callback;
         if (app_data != null && app_data.size() > 0) {
             String admob_splash_inter = app_data.get(0).getAdmob_splash_interid();
             String adx_splash_inter = app_data.get(0).getAdx_splash_inter_id();
@@ -3780,7 +3780,7 @@ public class AdsControl {
                         adManagerInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
                             @Override
                             public void onAdDismissedFullScreenContent() {
-                                Conts.log_debug(TAG, "Admob Inter Close");
+                                Conts.log_debug(TAG, "Adx Inter Close");
                                 if (callback != null) {
                                     callback.onClick();
                                     callback = null;
@@ -3798,6 +3798,7 @@ public class AdsControl {
 
                             @Override
                             public void onAdShowedFullScreenContent() {
+                                Conts.log_debug(TAG, "Adx Inter Show");
                             }
                         });
                     }
@@ -3822,6 +3823,7 @@ public class AdsControl {
 
                     @Override
                     public void onInterstitialDismissed(Ad ad) {
+                        Conts.log_debug(TAG, "Fb Inter Close");
                         if (callback != null) {
                             callback.onClick();
                             callback = null;
