@@ -118,9 +118,6 @@ public class All_File_Data {
     @SerializedName("app_inter_dialog_show")
     @Expose
     private boolean app_inter_dialog_show;
-    @SerializedName("tap_to_start_mode")
-    @Expose
-    private String tap_to_start_mode;
     @SerializedName("dev_option")
     @Expose
     private boolean dev_option;
@@ -178,11 +175,9 @@ public class All_File_Data {
     @SerializedName("redirect_app")
     @Expose
     private String redirectApp;
-
     public String getAdmob_splash_interid() {
         return admob_splash_interid;
     }
-
     public void setAdmob_splash_interid(String admob_splash_interid) {
         this.admob_splash_interid = admob_splash_interid;
     }
@@ -481,14 +476,6 @@ public class All_File_Data {
 
     public void setApp_inter_dialog_show(boolean app_inter_dialog_show) {
         this.app_inter_dialog_show = app_inter_dialog_show;
-    }
-
-    public String getTap_to_start_mode() {
-        return tap_to_start_mode;
-    }
-
-    public void setTap_to_start_mode(String tap_to_start_mode) {
-        this.tap_to_start_mode = tap_to_start_mode;
     }
 
     public boolean isDev_option() {

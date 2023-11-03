@@ -5,4 +5,3 @@ public interface JsonObjectGetListener {
 
     void onError(String error);
 }
-
