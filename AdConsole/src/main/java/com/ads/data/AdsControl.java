@@ -160,13 +160,11 @@ public class AdsControl {
     AppOpenAd adx_appOpenAd_inter;
     AppOpenAd admob_appOpenAd;
     AppOpenAd adx_appOpenAd;
-    //    SharedPreferences prefs;
     MyAds myAdsAdder;
     ViewGroup view_group = null;
 
     public AdsControl(Context context) {
         activity = context;
-//        prefs = activity.getSharedPreferences(activity.getPackageName(), 0);
     }
 
     public static AdsControl getInstance(Context context) {
