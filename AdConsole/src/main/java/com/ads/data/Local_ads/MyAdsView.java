@@ -54,10 +54,10 @@ public class MyAdsView extends RelativeLayout {
 
     public void set_small_native_Values(final Appdetail appdetail) {
         inflate(context, R.layout.local_small_native_ad, this);
-        AppIcon = findViewById(R.id.app_icon);
+        AppIcon = findViewById(R.id.small_native_ad_app_icon);
         textViewAppName = findViewById(R.id.ad_Tital);
-        ad_body = findViewById(R.id.ad_body);
-        ad_call_to_action = findViewById(R.id.ad_call_to_action);
+        ad_body = findViewById(R.id.small_native_ad_body);
+        ad_call_to_action = findViewById(R.id.small_native_ad_call_to_action);
         Picasso.get().load(appdetail.getApp_icon()).into(AppIcon);
         textViewAppName.setText(appdetail.getApp_name());
         ad_body.setText(appdetail.getApp_body());
