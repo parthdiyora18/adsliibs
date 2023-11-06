@@ -9,18 +9,15 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="3dp"
-        android:layout_marginBottom="3dp">
+        android:layout_margin="5dp">
 
         <RelativeLayout
+            android:id="@+id/data"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/cta_button"
-            android:layout_marginBottom="2dp">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp">
 
             <ImageView
                 android:id="@+id/media_view_container"
@@ -100,9 +97,9 @@
                 android:layout_marginTop="2dp"
                 android:layout_toEndOf="@+id/media_view_container"
                 android:ellipsize="end"
-                android:textColor="@color/black"
                 android:lines="2"
                 android:text="Provided by Applovin"
+                android:textColor="@color/black"
                 android:textSize="10sp" />
 
         </RelativeLayout>
@@ -111,15 +108,13 @@
             android:id="@+id/cta_button"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/data"
             android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="2dp"
             android:background="@drawable/native_ad_btn"
             android:gravity="center"
             android:text="visit site"
             android:textColor="@color/white"
-            android:textSize="10sp"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <FrameLayout

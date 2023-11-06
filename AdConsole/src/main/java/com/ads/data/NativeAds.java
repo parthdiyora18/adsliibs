@@ -74,11 +74,11 @@ public class NativeAds {
         native_ad.removeAllViews();
         native_ad.addView(adView);
 
-        adView.setIconView((ImageView) adView.findViewById(R.id.ad_app_icon));
-        adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
-        adView.setBodyView(adView.findViewById(R.id.ad_body));
-        adView.setPriceView(adView.findViewById(R.id.secondary));
-        adView.setCallToActionView((TextView) adView.findViewById(R.id.ad_call_to_action));
+        adView.setIconView((ImageView) adView.findViewById(R.id.small_native_ad_app_icon));
+        adView.setHeadlineView(adView.findViewById(R.id.small_native_ad_headline));
+        adView.setBodyView(adView.findViewById(R.id.small_native_ad_body));
+        adView.setPriceView(adView.findViewById(R.id.small_native_ad_secondary));
+        adView.setCallToActionView((TextView) adView.findViewById(R.id.small_native_ad_call_to_action));
 
         ((TextView) adView.getHeadlineView()).setText(nativeAd.getHeadline());
         if (nativeAd.getIcon() == null) {
@@ -198,12 +198,12 @@ public class NativeAds {
         adChoicesContainer.addView(adOptionsView, 0);
 
         // Create native UI using the ad metadata.
-        ImageView nativeAdIcon = adView.findViewById(R.id.native_ad_icon);
-        TextView nativeAdTitle = adView.findViewById(R.id.native_ad_title);
-        TextView nativeAdSocialContext = adView.findViewById(R.id.native_ad_social_context);
-        TextView nativeAdBody = adView.findViewById(R.id.native_ad_body);
-        TextView sponsoredLabel = adView.findViewById(R.id.native_ad_sponsored_label);
-        TextView nativeAdCallToAction = adView.findViewById(R.id.native_ad_call_to_action);
+        ImageView nativeAdIcon = adView.findViewById(R.id.small_native_ad_icon);
+        TextView nativeAdTitle = adView.findViewById(R.id.small_native_ad_title);
+        TextView nativeAdSocialContext = adView.findViewById(R.id.small_native_ad_social_context);
+        TextView nativeAdBody = adView.findViewById(R.id.small_native_ad_body);
+        TextView sponsoredLabel = adView.findViewById(R.id.small_native_ad_sponsored_label);
+        TextView nativeAdCallToAction = adView.findViewById(R.id.small_native_ad_call_to_action);
 
         nativeAdTitle.setText(nativeBannerAd.getAdvertiserName());
         nativeAdBody.setText(nativeBannerAd.getAdBodyText());

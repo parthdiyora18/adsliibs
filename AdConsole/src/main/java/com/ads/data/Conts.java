@@ -83,8 +83,21 @@ public class Conts {
             for (NetworkInterface networkInst : Collections.list(NetworkInterface.getNetworkInterfaces())) {
                 if (networkInst.isUp()) iface = networkInst.getName();
                 if (iface.contains("tun") || iface.contains("ppp") || iface.contains("pptp")) {
-                    Conts conts = new Conts(mContext);
-                    conts.showVpnDialog();
+                    Dialog dialog = new Dialog(mContext);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.all_app_dailog);
+                    dialog.setCancelable(false);
+                    LottieAnimationView lotti = dialog.findViewById(R.id.icon);
+                    lotti.setAnimation(R.raw.warning);
+                    lotti.loop(true);
+                    lotti.playAnimation();
+                    dialog.findViewById(R.id.iv_vpn_close).setOnClickListener(view -> finishActivity((Activity) mContext));
+                    dialog.findViewById(R.id.tv_vpn_submit).setOnClickListener(view -> finishActivity((Activity) mContext));
+                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+                    dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+                    dialog.show();
+                    Window window = dialog.getWindow();
+                    window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
                 }
             }
         } catch (SocketException e) {
@@ -92,30 +105,12 @@ public class Conts {
         }
     }
 
-    private void showVpnDialog() {
-        Dialog dialog = new Dialog(ctx);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.all_app_dailog);
-        dialog.setCancelable(false);
-        LottieAnimationView lotti = dialog.findViewById(R.id.icon);
-        lotti.setAnimation(R.raw.warning);
-        lotti.loop(true);
-        lotti.playAnimation();
-        dialog.findViewById(R.id.iv_vpn_close).setOnClickListener(view -> finishActivity((Activity) ctx));
-        dialog.findViewById(R.id.tv_vpn_submit).setOnClickListener(view -> finishActivity((Activity) ctx));
-        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.show();
-        Window window = dialog.getWindow();
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-    }
-
-    private void finishActivity(Activity activity) {
+    private static void finishActivity(Activity activity) {
         activity.finish();
     }
 
     // TODO: 7/17/2023  AppReview
-    public static void Inapp_Review(final Activity activity) {
+    public static void inapp_Review(final Activity activity) {
         ReviewManager create = ReviewManagerFactory.create(activity);
         Task<ReviewInfo> requestReviewFlow = create.requestReviewFlow();
         requestReviewFlow.addOnCompleteListener(task -> {
@@ -406,12 +401,11 @@ public class Conts {
         }
     }
 
-    // TODO: 8/15/2023  Net Lost Service Call
+    // TODO: 8/15/2023  Recall Net Service
     Activity activity1;
     String paksg;
     String Key;
     String Service;
-
 
     public void App_Data_File(Activity activity, String fileKey, String packagename, String service) {
         activity1 = activity;
@@ -429,7 +423,7 @@ public class Conts {
                 if (response.isSuccessful() && response.body() != null) {
                     if (response.body().getData() != null) {
                         app_data.clear();
-                        log_debug("Parth", "Parth_Diyora " + response.body().getData());
+                        log_debug("Parth", "Data Restart Call " + response.body().getData());
                         app_data.addAll(response.body().getData());
                     } else {
                         Toast.makeText(activity1, "Server not Response", Toast.LENGTH_SHORT).show();

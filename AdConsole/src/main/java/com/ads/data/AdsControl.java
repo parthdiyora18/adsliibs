@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.ColorDrawable;
@@ -84,7 +83,6 @@ public class AdsControl {
     boolean isAdxBannerLoaded;
     boolean isFBBannerLoaded;
     boolean isApplovinBannerLoaded;
-
     AdView admob_banner_ad;
     AdManagerAdView adx_banner_ad;
     com.facebook.ads.AdView fb_banner_ad;
@@ -162,13 +160,13 @@ public class AdsControl {
     AppOpenAd adx_appOpenAd_inter;
     AppOpenAd admob_appOpenAd;
     AppOpenAd adx_appOpenAd;
-    SharedPreferences prefs;
+    //    SharedPreferences prefs;
     MyAds myAdsAdder;
     ViewGroup view_group = null;
 
     public AdsControl(Context context) {
         activity = context;
-        prefs = activity.getSharedPreferences(activity.getPackageName(), 0);
+//        prefs = activity.getSharedPreferences(activity.getPackageName(), 0);
     }
 
     public static AdsControl getInstance(Context context) {

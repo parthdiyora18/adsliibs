@@ -22,10 +22,11 @@ import java.util.Objects;
 
 public class AppOpen implements LifecycleObserver, Application.ActivityLifecycleCallbacks {
     private Activity currentActivity;
-    static App blueApp;
+    static App appcontrol;
 
     public void onActivityCreated(@NonNull Activity activity, Bundle bundle) {
         activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        Conts.VPN(activity);
     }
 
     public void onActivityPaused(@NonNull Activity activity) {
@@ -50,7 +51,7 @@ public class AppOpen implements LifecycleObserver, Application.ActivityLifecycle
     }
 
     public AppOpen(App mapp) {
-        blueApp = mapp;
+        appcontrol = mapp;
         mapp.registerActivityLifecycleCallbacks(this);
         ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
     }
