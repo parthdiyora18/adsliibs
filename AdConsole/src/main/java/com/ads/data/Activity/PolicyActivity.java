@@ -20,7 +20,6 @@ import com.ads.data.R;
 
 public class PolicyActivity extends AppCompatActivity {
     WebView webPrivacyPolicy;
-
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
