@@ -120,7 +120,7 @@
             android:ellipsize="end"
             android:lines="3"
             android:text="Provided by Google"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@color/black"
             android:textSize="10sp"
             android:visibility="visible"
             tools:ignore="SmallSp" />

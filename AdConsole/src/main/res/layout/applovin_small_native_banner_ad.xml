@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="55dp"
+    android:layout_height="wrap_content"
     android:layout_margin="2dp"
     android:background="@drawable/ad_bg">
 
@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/icon_image_view"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="55dp"
             android:layout_centerVertical="true"
             android:scaleType="fitXY"
             android:visibility="visible"
@@ -99,7 +99,7 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="1dp"
                 android:ellipsize="end"
-                android:lines="1"
+                android:lines="2"
                 android:text="Provided by Applovin"
                 android:textColor="@color/black"
                 android:textSize="10sp"
@@ -109,7 +109,7 @@
         <TextView
             android:id="@+id/ad_call_to_action"
             android:layout_width="100dp"
-            android:layout_height="30dp"
+            android:layout_height="35dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center"
