@@ -45,7 +45,7 @@ dependencies {
     implementation 'com.github.SanojPunchihewa:InAppUpdater:1.0.5'
     implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
     // Admob, Adx
-    implementation 'com.google.android.gms:play-services-ads:22.5.0'
+    implementation 'com.google.android.gms:play-services-ads:22.6.0'
     implementation 'com.google.ads.mediation:facebook:6.16.0.0'
     implementation 'com.google.ads.mediation:applovin:11.11.3.0'
     // Fb

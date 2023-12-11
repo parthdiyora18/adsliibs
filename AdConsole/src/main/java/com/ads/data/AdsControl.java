@@ -540,7 +540,7 @@ public class AdsControl {
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError adError) {
                     super.onAdFailedToLoad(adError);
-                    Conts.log_debug(TAG, "Admob Banner Failed " + adError.getMessage());
+                    Conts.log_debug(TAG, "Admob Banner Failed:==>> " + adError.getCode());
                     if (app_data.get(0).isPreload_banner_ads()) {
                         banner_Ads();
                     } else {
@@ -588,7 +588,7 @@ public class AdsControl {
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                     super.onAdFailedToLoad(loadAdError);
-                    Conts.log_debug(TAG, "Adx Banner Failed " + loadAdError.getMessage());
+                    Conts.log_debug(TAG, "Adx Banner Failed:==>> " + loadAdError.getCode());
                     if (app_data.get(0).isPreload_banner_ads()) {
                         banner_Ads();
                     } else {
@@ -630,7 +630,7 @@ public class AdsControl {
 
                 @Override
                 public void onError(Ad ad, AdError adError) {
-                    Conts.log_debug(TAG, "FB Banner Failed " + adError.getErrorMessage());
+                    Conts.log_debug(TAG, "FB Banner Failed " + adError.getErrorCode());
                     if (app_data.get(0).isPreload_banner_ads()) {
                         banner_Ads();
                     } else {
@@ -836,7 +836,7 @@ public class AdsControl {
         }
     }
 
-    //---------------------------------------------Small Native banner type Ads ----------------------------------------------
+    //--------------------------------------------- Small Native banner type Ads ----------------------------------------------
 
     // TODO: 7/17/2023  Preload Small NAtive Banner Ads
     int ad_small_native_banner_network = 0;
@@ -936,7 +936,7 @@ public class AdsControl {
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                     super.onAdFailedToLoad(loadAdError);
-                    Conts.log_debug(TAG, "Admob Small Native Banner Ad Failed " + loadAdError.getMessage());
+                    Conts.log_debug(TAG, "Admob Small Native Banner Ad Failed:==>> " + loadAdError.getCode());
                     if (app_data.get(0).isPreload_small_native_banner_ads()) {
                         small_native_banner_Ads();
                     } else {
@@ -971,7 +971,7 @@ public class AdsControl {
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                     super.onAdFailedToLoad(loadAdError);
-                    Conts.log_debug(TAG, "Adx Small Native Banner Ad Failed " + loadAdError.getMessage());
+                    Conts.log_debug(TAG, "Adx Small Native Banner Ad Failed " + loadAdError.getCode());
                     if (app_data.get(0).isPreload_small_native_banner_ads()) {
                         small_native_banner_Ads();
                     } else {
@@ -997,7 +997,7 @@ public class AdsControl {
 
                 @Override
                 public void onError(Ad ad, AdError adError) {
-                    Conts.log_debug(TAG, "FB Native ad failed to load: " + adError.getErrorMessage());
+                    Conts.log_debug(TAG, "FB Native ad failed to load: " + adError.getErrorCode());
                     if (app_data.get(0).isPreload_small_native_banner_ads()) {
                         small_native_banner_Ads();
                     } else {
@@ -1290,7 +1290,7 @@ public class AdsControl {
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                     super.onAdFailedToLoad(loadAdError);
-                    Conts.log_debug(TAG, "Admob Small Native Ad Failed " + loadAdError.getMessage());
+                    Conts.log_debug(TAG, "Admob Small Native Ad Failed:==>> " + loadAdError.getCode());
                     if (app_data.get(0).isPreload_small_native_ads()) {
                         small_native_Ads();
                     } else {
@@ -1324,7 +1324,7 @@ public class AdsControl {
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                     super.onAdFailedToLoad(loadAdError);
-                    Conts.log_debug(TAG, "Adx Small Native Ad Failed" + loadAdError.getMessage());
+                    Conts.log_debug(TAG, "Adx Small Native Ad Failed:==>> " + loadAdError.getCode());
                     if (app_data.get(0).isPreload_small_native_ads()) {
                         small_native_Ads();
                     } else {
@@ -1343,7 +1343,6 @@ public class AdsControl {
             }
             final NativeBannerAd fb_small_native = new NativeBannerAd(activity, placementId);
             NativeAdListener nativeAdListener = new NativeAdListener() {
-
                 @Override
                 public void onAdLoaded(Ad ad) {
                     if (app_data.get(0).isPreload_small_native_ads()) {
@@ -1365,7 +1364,7 @@ public class AdsControl {
                 @SuppressLint("MissingPermission")
                 @Override
                 public void onError(Ad ad, AdError adError) {
-                    Conts.log_debug(TAG, "FB Small Native ad failed to load: " + adError.getErrorMessage());
+                    Conts.log_debug(TAG, "FB Small Native ad failed to load: " + adError.getErrorCode());
                     if (app_data.get(0).isPreload_small_native_ads()) {
                         small_native_Ads();
                     } else {
@@ -1649,7 +1648,7 @@ public class AdsControl {
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                     super.onAdFailedToLoad(loadAdError);
-                    Conts.log_debug(TAG, "Admob Native Ad Failed " + loadAdError.getMessage());
+                    Conts.log_debug(TAG, "Admob Native Ad Failed:==>> " + loadAdError.getCode());
                     if (app_data.get(0).isPreload_native_ads()) {
                         native_Ads();
                     } else {
@@ -1685,7 +1684,7 @@ public class AdsControl {
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                     super.onAdFailedToLoad(loadAdError);
-                    Conts.log_debug(TAG, "Adx Native Ad Failed " + loadAdError.getMessage());
+                    Conts.log_debug(TAG, "Adx Native Ad Failed:==>> " + loadAdError.getCode());
                     if (app_data.get(0).isPreload_native_ads()) {
                         native_Ads();
                     } else {
@@ -1712,7 +1711,7 @@ public class AdsControl {
                 @SuppressLint("MissingPermission")
                 @Override
                 public void onError(Ad ad, AdError adError) {
-                    Conts.log_debug(TAG, "FB Native ad Failed " + adError.getErrorMessage());
+                    Conts.log_debug(TAG, "FB Native ad Failed " + adError.getErrorCode());
                     if (app_data.get(0).isPreload_native_ads()) {
                         native_Ads();
                     } else {
@@ -1908,7 +1907,7 @@ public class AdsControl {
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError adError) {
                     super.onAdFailedToLoad(adError);
-                    Conts.log_debug(TAG, "admob mediam ragtangal failed " + adError.getMessage());
+                    Conts.log_debug(TAG, "admob mediam ragtangal failed " + adError.getCode());
                     if (app_data.get(0).isPreload_native_ads()) {
                         medium_rect_Ads();
                     } else {
@@ -1956,7 +1955,7 @@ public class AdsControl {
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                     super.onAdFailedToLoad(loadAdError);
-                    Conts.log_debug(TAG, "adx mediam ragtangal failed " + loadAdError.getMessage());
+                    Conts.log_debug(TAG, "adx mediam ragtangal failed " + loadAdError.getCode());
                     if (app_data.get(0).isPreload_native_ads()) {
                         medium_rect_Ads();
                     } else {
@@ -1998,7 +1997,7 @@ public class AdsControl {
 
                 @Override
                 public void onError(Ad ad, AdError adError) {
-                    Conts.log_debug(TAG, "FB mediam ragtangal Failed " + adError.getErrorMessage());
+                    Conts.log_debug(TAG, "FB mediam ragtangal Failed " + adError.getErrorCode());
                     if (app_data.get(0).isPreload_native_ads()) {
                         medium_rect_Ads();
                     } else {
@@ -2442,7 +2441,7 @@ public class AdsControl {
 
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                    Conts.log_debug(TAG, "Admob Inter Failed " + loadAdError.getMessage());
+                    Conts.log_debug(TAG, "Admob Inter Failed " + loadAdError.getCode());
                     if (app_data.get(0).isPreload_inter_ads()) {
                         inter_Ads(act);
                     } else {
@@ -2525,7 +2524,7 @@ public class AdsControl {
 
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                    Conts.log_debug(TAG, "Adx Inter Failed " + loadAdError.getMessage());
+                    Conts.log_debug(TAG, "Adx Inter Failed:==>> " + loadAdError.getCode());
                     if (app_data.get(0).isPreload_inter_ads()) {
                         inter_Ads(act);
                     } else {
@@ -2571,7 +2570,7 @@ public class AdsControl {
 
                 @Override
                 public void onError(Ad ad, AdError adError) {
-                    Conts.log_debug(TAG, "FB Inter Failed " + adError.getErrorMessage());
+                    Conts.log_debug(TAG, "FB Inter Failed " + adError.getErrorCode());
                     if (app_data.get(0).isPreload_inter_ads()) {
                         inter_Ads(act);
                     } else {
@@ -3257,7 +3256,11 @@ public class AdsControl {
 
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         super.onAdFailedToLoad(loadAdError);
-                        Conts.log_debug(TAG, "Admob Open Failed " + loadAdError.getMessage());
+                        Conts.log_debug(TAG, "Admob Open Failed " + loadAdError.getCode());
+                        if (callback != null) {
+                            callback.onClick();
+                            callback = null;
+                        }
                     }
                 };
                 AppOpenAd.load(activity, placement, getAdRequest(), loadCallback);
@@ -3315,7 +3318,11 @@ public class AdsControl {
 
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         super.onAdFailedToLoad(loadAdError);
-                        Conts.log_debug(TAG, "Adx Open Ad Failed " + loadAdError.getMessage());
+                        Conts.log_debug(TAG, "Adx Open Ad Failed:==>> " + loadAdError.getCode());
+                        if (callback != null) {
+                            callback.onClick();
+                            callback = null;
+                        }
                     }
                 };
                 AppOpenAd.load(act, placement, adManagerAdRequest(), loadCallback);
@@ -3370,7 +3377,7 @@ public class AdsControl {
 
                     @Override
                     public void onAdLoadFailed(String s, MaxError maxError) {
-                        Conts.log_debug(TAG, "Applovin Failed Open Ad " + maxError.getMessage());
+                        Conts.log_debug(TAG, "Applovin Failed Open Ad " + maxError.getCode());
                         if (callback != null) {
                             callback.onClick();
                             callback = null;
@@ -3508,7 +3515,7 @@ public class AdsControl {
 
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         super.onAdFailedToLoad(loadAdError);
-                        Conts.log_debug(TAG, "Admob Open Failed " + loadAdError.getMessage());
+                        Conts.log_debug(TAG, "Admob Open Failed " + loadAdError.getCode());
                         if (app_data.get(0).isPreload_inter_ads()) {
                             appopen_Ads(act);
                         } else {
@@ -3590,7 +3597,7 @@ public class AdsControl {
 
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         super.onAdFailedToLoad(loadAdError);
-                        Conts.log_debug(TAG, "Adx Open Failed " + loadAdError.getMessage());
+                        Conts.log_debug(TAG, "Adx Open Failed " + loadAdError.getCode());
                         if (app_data.get(0).isPreload_inter_ads()) {
                             appopen_Ads(act);
                         } else {
@@ -3678,7 +3685,7 @@ public class AdsControl {
 
                     @Override
                     public void onAdLoadFailed(String s, MaxError maxError) {
-                        Conts.log_debug(TAG, "Applovin Failed Open Ad " + maxError.getMessage());
+                        Conts.log_debug(TAG, "Applovin Failed Open Ad " + maxError.getCode());
                         if (app_data.get(0).isPreload_inter_ads()) {
                             appopen_Ads(act);
                         } else {
@@ -3742,7 +3749,7 @@ public class AdsControl {
 
                             @Override
                             public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
-                                Conts.log_debug(TAG, "Admob Inter failed to show" + adError.getMessage());
+                                Conts.log_debug(TAG, "Admob Inter failed to show" + adError.getCode());
                                 if (callback != null) {
                                     callback.onClick();
                                     callback = null;
@@ -3759,7 +3766,7 @@ public class AdsControl {
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         super.onAdFailedToLoad(loadAdError);
-                        Conts.log_debug(TAG, "Admob Inter Failed " + loadAdError);
+                        Conts.log_debug(TAG, "Admob Inter Failed " + loadAdError.getCode());
                         if (callback != null) {
                             callback.onClick();
                             callback = null;
@@ -3785,7 +3792,7 @@ public class AdsControl {
 
                             @Override
                             public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
-                                Conts.log_debug(TAG, "Admob Inter failed to show" + adError.getMessage());
+                                Conts.log_debug(TAG, "Admob Inter failed to show" + adError.getCode());
                                 if (callback != null) {
                                     callback.onClick();
                                     callback = null;
@@ -3802,7 +3809,7 @@ public class AdsControl {
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         super.onAdFailedToLoad(loadAdError);
-                        Conts.log_debug(TAG, "Adx Inter Failed " + loadAdError);
+                        Conts.log_debug(TAG, "Adx Inter Failed " + loadAdError.getCode());
                         if (callback != null) {
                             callback.onClick();
                             callback = null;
@@ -3828,7 +3835,7 @@ public class AdsControl {
 
                     @Override
                     public void onError(Ad ad, AdError adError) {
-                        Conts.log_debug(TAG, "Fb Inter Failed " + adError);
+                        Conts.log_debug(TAG, "Fb Inter Failed " + adError.getErrorCode());
                         if (callback != null) {
                             callback.onClick();
                             callback = null;
@@ -3879,7 +3886,7 @@ public class AdsControl {
 
                     @Override
                     public void onAdLoadFailed(String adUnitId, MaxError error) {
-                        Conts.log_debug(TAG, "Applovin Inter Failed " + error);
+                        Conts.log_debug(TAG, "Applovin Inter Failed " + error.getCode());
                         if (callback != null) {
                             callback.onClick();
                             callback = null;
