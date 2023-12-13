@@ -292,45 +292,6 @@ public class Conts {
         window.setStatusBarColor(act.getResources().getColor(R.color.white));
     }
 
-    public static UpdateManager mUpdateManager;
-
-    public static void InAppUpdater(Activity act) {
-        Dialog dialog = new Dialog(act);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.in_app_uodate);
-        dialog.setCancelable(false);
-        mUpdateManager = UpdateManager.Builder((AppCompatActivity) act);
-        TextView txtAvailableVersion = dialog.findViewById(R.id.txt_available_version);
-        dialog.findViewById(R.id.tv_submit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                mUpdateManager.mode(UpdateManagerConstant.FLEXIBLE).start();
-            }
-        });
-        mUpdateManager.addUpdateInfoListener(new UpdateManager.UpdateInfoListener() {
-            @Override
-            public void onReceiveVersionCode(int code) {
-                txtAvailableVersion.setText(String.valueOf(code));
-            }
-
-            @Override
-            public void onReceiveStalenessDays(int days) {
-            }
-        });
-        mUpdateManager.addFlexibleUpdateDownloadListener(new UpdateManager.FlexibleUpdateDownloadListener() {
-            @Override
-            public void onDownloadProgress(long bytesDownloaded, long totalBytes) {
-
-            }
-        });
-        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.show();
-        Window window = dialog.getWindow();
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-    }
-
     public static void Hide_StatusBar(Activity act) {
         act.requestWindowFeature(Window.FEATURE_NO_TITLE);
         act.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
