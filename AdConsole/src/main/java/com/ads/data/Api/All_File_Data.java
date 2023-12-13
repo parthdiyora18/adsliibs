@@ -160,6 +160,18 @@ public class All_File_Data {
     @SerializedName("ad_banner")
     @Expose
     private String adBanner;
+    @SerializedName("live_mode")
+    @Expose
+    private String live_mode;
+    @SerializedName("teamURL")
+    @Expose
+    private String teamURL;
+    @SerializedName("baseURL")
+    @Expose
+    private String baseURL;
+    @SerializedName("imageURL")
+    @Expose
+    private String imageURL;
     @SerializedName("privacy_url")
     @Expose
     private String privacyUrl;
@@ -175,9 +187,11 @@ public class All_File_Data {
     @SerializedName("redirect_app")
     @Expose
     private String redirectApp;
+
     public String getAdmob_splash_interid() {
         return admob_splash_interid;
     }
+
     public void setAdmob_splash_interid(String admob_splash_interid) {
         this.admob_splash_interid = admob_splash_interid;
     }
@@ -588,6 +602,38 @@ public class All_File_Data {
 
     public void setAdBanner(String adBanner) {
         this.adBanner = adBanner;
+    }
+
+    public String getLive_mode() {
+        return live_mode;
+    }
+
+    public void setLive_mode(String live_mode) {
+        this.live_mode = live_mode;
+    }
+
+    public String getTeamURL() {
+        return teamURL;
+    }
+
+    public void setTeamURL(String teamURL) {
+        this.teamURL = teamURL;
+    }
+
+    public String getBaseURL() {
+        return baseURL;
+    }
+
+    public void setBaseURL(String baseURL) {
+        this.baseURL = baseURL;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public String getPrivacyUrl() {
