@@ -83,6 +83,7 @@ public class AdsControl {
     boolean isAdxBannerLoaded;
     boolean isFBBannerLoaded;
     boolean isApplovinBannerLoaded;
+    boolean isLocal_banner_Loaded;
     AdView admob_banner_ad;
     AdManagerAdView adx_banner_ad;
     com.facebook.ads.AdView fb_banner_ad;
@@ -182,7 +183,6 @@ public class AdsControl {
     }
 
     // --------------------------------------------------- Service -----------------------------------------------------------
-
     private boolean isNetworkAvailable(Activity act) {
         ConnectivityManager connectivityManager = (ConnectivityManager) act.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -490,6 +490,10 @@ public class AdsControl {
                                 }
                                 ad_banner_network++;
                                 break;
+                            case "local":
+                                Local_Banner_Ad();
+                                ad_banner_network++;
+                                break;
                             default:
                                 break;
                         }
@@ -544,7 +548,7 @@ public class AdsControl {
                     if (app_data.get(0).isPreload_banner_ads()) {
                         banner_Ads();
                     } else {
-                        Admob_Banner_Ad(placementId, banner_ad);
+                        myAdsAdder.local_Banner(banner_ad);
                     }
                 }
             });
@@ -592,7 +596,7 @@ public class AdsControl {
                     if (app_data.get(0).isPreload_banner_ads()) {
                         banner_Ads();
                     } else {
-                        Adx_Banner_Ad(placementId, banner_ad);
+                        myAdsAdder.local_Banner(banner_ad);
                     }
                 }
             });
@@ -634,7 +638,7 @@ public class AdsControl {
                     if (app_data.get(0).isPreload_banner_ads()) {
                         banner_Ads();
                     } else {
-                        Fb_Banner_Ad(placementId, banner_ad);
+                        myAdsAdder.local_Banner(banner_ad);
                     }
                 }
 
@@ -705,7 +709,7 @@ public class AdsControl {
                     if (app_data.get(0).isPreload_banner_ads()) {
                         banner_Ads();
                     } else {
-                        Applovin_Banner_Ad(placementId, banner_ad);
+                        myAdsAdder.local_Banner(banner_ad);
                     }
                 }
 
@@ -715,6 +719,14 @@ public class AdsControl {
             });
             applo_banner_ad.loadAd();
         }
+    }
+
+    // Local Mode
+    private void Local_Banner_Ad() {
+        if (isLocal_banner_Loaded) {
+            return;
+        }
+        isLocal_banner_Loaded = true;
     }
 
     // TODO: 7/17/2023  Show Banner Ads
@@ -771,6 +783,14 @@ public class AdsControl {
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
+                    } else if (isLocal_banner_Loaded) {
+                        myAdsAdder.local_Banner(banner_container);
+                        Conts.log_debug(TAG, "Local Banner ad show");
+                        isLocal_banner_Loaded = false;
+                        banner_Ads();
+                    } else {
+                        myAdsAdder.local_Banner(banner_container);
+                        banner_Ads();
                     }
                 } else {
                     try {
@@ -819,6 +839,10 @@ public class AdsControl {
                                             current_applovin_BannerId = 0;
                                         }
                                     }
+                                    ad_banner_network++;
+                                    break;
+                                case "local":
+                                    myAdsAdder.local_Banner(banner_container);
                                     ad_banner_network++;
                                     break;
                                 default:
@@ -940,7 +964,7 @@ public class AdsControl {
                     if (app_data.get(0).isPreload_small_native_banner_ads()) {
                         small_native_banner_Ads();
                     } else {
-                        Admob_Native_Banner_Ad(placementId, native_ad);
+                        myAdsAdder.small_local_Native_Banner(native_ad);
                     }
                 }
             }).build().loadAd(new AdRequest.Builder().build());
@@ -975,7 +999,7 @@ public class AdsControl {
                     if (app_data.get(0).isPreload_small_native_banner_ads()) {
                         small_native_banner_Ads();
                     } else {
-                        Adx_Native_Banner_Ad(placementId, native_ad);
+                        myAdsAdder.small_local_Native_Banner(native_ad);
                     }
                 }
             }).build().loadAd(new AdManagerAdRequest.Builder().build());
@@ -1001,7 +1025,7 @@ public class AdsControl {
                     if (app_data.get(0).isPreload_small_native_banner_ads()) {
                         small_native_banner_Ads();
                     } else {
-                        Fb_Native_Banner_Ad(placementId, native_ad);
+                        myAdsAdder.small_local_Native_Banner(native_ad);
                     }
                 }
 
@@ -1064,7 +1088,7 @@ public class AdsControl {
                     if (app_data.get(0).isPreload_small_native_banner_ads()) {
                         small_native_banner_Ads();
                     } else {
-                        Applovin_Native_Banner_Ad(placementId, native_ad);
+                        myAdsAdder.small_local_Native_Banner(native_ad);
                     }
                 }
 
@@ -1294,7 +1318,7 @@ public class AdsControl {
                     if (app_data.get(0).isPreload_small_native_ads()) {
                         small_native_Ads();
                     } else {
-                        Admob_Small_Native_Ad(placementId, small_native);
+                        myAdsAdder.small_local_Native(small_native);
                     }
                 }
             }).build().loadAd(new AdRequest.Builder().build());
@@ -1328,7 +1352,7 @@ public class AdsControl {
                     if (app_data.get(0).isPreload_small_native_ads()) {
                         small_native_Ads();
                     } else {
-                        Adx_Small_Native_Ad(placementId, small_native);
+                        myAdsAdder.small_local_Native(small_native);
                     }
                 }
             }).build().loadAd(new AdManagerAdRequest.Builder().build());
@@ -1368,7 +1392,7 @@ public class AdsControl {
                     if (app_data.get(0).isPreload_small_native_ads()) {
                         small_native_Ads();
                     } else {
-                        Fb_Small_Native_Ad(placementId, small_native);
+                        myAdsAdder.small_local_Native(small_native);
                     }
                 }
 
@@ -1419,7 +1443,7 @@ public class AdsControl {
                     if (app_data.get(0).isPreload_small_native_ads()) {
                         small_native_Ads();
                     } else {
-                        Applovin_Small_NativeAd(placementId, small_native);
+                        myAdsAdder.small_local_Native(small_native);
                     }
                 }
 
@@ -1652,7 +1676,7 @@ public class AdsControl {
                     if (app_data.get(0).isPreload_native_ads()) {
                         native_Ads();
                     } else {
-                        Admob_Native_Ad(placementId, native_ad);
+                        myAdsAdder.local_Native(native_ad);
                     }
                 }
             });
@@ -1688,7 +1712,7 @@ public class AdsControl {
                     if (app_data.get(0).isPreload_native_ads()) {
                         native_Ads();
                     } else {
-                        Adx_Native_Ad(placementId, native_ad);
+                        myAdsAdder.local_Native(native_ad);
                     }
                 }
             });
@@ -1715,7 +1739,7 @@ public class AdsControl {
                     if (app_data.get(0).isPreload_native_ads()) {
                         native_Ads();
                     } else {
-                        Fb_Native_Ad(placementId, native_ad);
+                        myAdsAdder.local_Native(native_ad);
                     }
                 }
 
@@ -1779,7 +1803,7 @@ public class AdsControl {
                     if (app_data.get(0).isPreload_native_ads()) {
                         native_Ads();
                     } else {
-                        Applovin_Native_Ad(placementId, native_ad);
+                        myAdsAdder.local_Native(native_ad);
                     }
                 }
 
@@ -1910,8 +1934,6 @@ public class AdsControl {
                     Conts.log_debug(TAG, "admob mediam ragtangal failed " + adError.getCode());
                     if (app_data.get(0).isPreload_native_ads()) {
                         medium_rect_Ads();
-                    } else {
-                        Admob_mrec_Ad(placmentId, mrec_ad);
                     }
                 }
             });
@@ -1958,8 +1980,6 @@ public class AdsControl {
                     Conts.log_debug(TAG, "adx mediam ragtangal failed " + loadAdError.getCode());
                     if (app_data.get(0).isPreload_native_ads()) {
                         medium_rect_Ads();
-                    } else {
-                        Adx_mrec_Ad(placmentId, mrec_ad);
                     }
                 }
 
@@ -2000,8 +2020,6 @@ public class AdsControl {
                     Conts.log_debug(TAG, "FB mediam ragtangal Failed " + adError.getErrorCode());
                     if (app_data.get(0).isPreload_native_ads()) {
                         medium_rect_Ads();
-                    } else {
-                        FB_mrec_Ad(placmentId, mrec_ad);
                     }
                 }
 
@@ -2074,8 +2092,6 @@ public class AdsControl {
                     Conts.log_debug(TAG, "Applovin mediam ragtangal Failed " + maxError.getMessage());
                     if (app_data.get(0).isPreload_native_ads()) {
                         medium_rect_Ads();
-                    } else {
-                        Applovin_mrec_Ad(placmentId, mrec_ad);
                     }
                 }
 
@@ -2453,13 +2469,9 @@ public class AdsControl {
                 }
             });
         } else {
-            if (app_data.get(0).isPreload_inter_ads()) {
-                inter_Ads(act);
-            } else {
-                if (callback != null) {
-                    callback.onClick();
-                    callback = null;
-                }
+            if (callback != null) {
+                callback.onClick();
+                callback = null;
             }
         }
     }
@@ -2536,13 +2548,9 @@ public class AdsControl {
                 }
             });
         } else {
-            if (app_data.get(0).isPreload_inter_ads()) {
-                inter_Ads(act);
-            } else {
-                if (callback != null) {
-                    callback.onClick();
-                    callback = null;
-                }
+            if (callback != null) {
+                callback.onClick();
+                callback = null;
             }
         }
     }
@@ -2621,13 +2629,9 @@ public class AdsControl {
             };
             FB_interstitial.loadAd(FB_interstitial.buildLoadAdConfig().withAdListener(interstitialAdListener).build());
         } else {
-            if (app_data.get(0).isPreload_inter_ads()) {
-                inter_Ads(act);
-            } else {
-                if (callback != null) {
-                    callback.onClick();
-                    callback = null;
-                }
+            if (callback != null) {
+                callback.onClick();
+                callback = null;
             }
         }
     }
@@ -2706,13 +2710,9 @@ public class AdsControl {
             });
             interstitialAdmax.loadAd();
         } else {
-            if (app_data.get(0).isPreload_inter_ads()) {
-                inter_Ads(act);
-            } else {
-                if (callback != null) {
-                    callback.onClick();
-                    callback = null;
-                }
+            if (callback != null) {
+                callback.onClick();
+                callback = null;
             }
         }
     }

@@ -16,7 +16,6 @@ public class File_Recover {
     public Integer getSuccess() {
         return success;
     }
-
     public void setSuccess(Integer success) {
         this.success = success;
     }

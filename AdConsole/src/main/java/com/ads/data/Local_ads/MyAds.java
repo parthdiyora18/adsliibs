@@ -30,7 +30,14 @@ public class MyAds {
             }
         }).execute();
     }
-
+    public void local_Banner(ViewGroup banner_ad) {
+        Conts.log_debug("Parth", "local banner ad show");
+        MyAdsView myAdsView = new MyAdsView(banner_ad.getContext());
+        myAdsView.set_small_native_banner_Values(appdetails[aNumber]);
+        banner_ad.removeAllViews();
+        banner_ad.addView(myAdsView);
+        setaNumber();
+    }
     public void small_local_Native_Banner(ViewGroup small_native_banner_ad) {
         Conts.log_debug("Parth", "local small native banner ad show");
         MyAdsView myAdsView = new MyAdsView(small_native_banner_ad.getContext());

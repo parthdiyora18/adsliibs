@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
         Conts.StatusBar(this);
         setContentView(R.layout.activity_main);
 
-
         AdsControl.getInstance(MainActivity.this).file(MainActivity.this, getResources().getString(R.string.file_key),
                 getPackageName(), getResources().getString(R.string.service), () -> {
                     Intent intent = new Intent(MainActivity.this, Secound_Activity.class);
