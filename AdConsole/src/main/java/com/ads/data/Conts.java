@@ -373,7 +373,7 @@ public class Conts {
     }
 
     public void App_Data_File_Zilla() {
-        APIInterface apiInterface = APIClient.get_file_Client(Key + "Ads/").create(APIInterface.class);
+        APIInterface apiInterface = APIClient.get_file_Client(Key).create(APIInterface.class);
         Call<File_Recover> call1 = apiInterface.get_file_ads_detail(paksg, Service);
         call1.enqueue(new retrofit2.Callback<>() {
             @Override

@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Ads Library</string>
-    <string name="file_key">https://uniqstarinfotech.com/</string>
+    <string name="file_key">https://uniqstarinfotech.com/Ads/</string>
     <string name="service">get_Test.php</string>
 </resources>

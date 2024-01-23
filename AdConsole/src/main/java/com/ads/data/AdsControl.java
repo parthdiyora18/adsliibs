@@ -173,7 +173,7 @@ public class AdsControl {
         boolean isBeingDebugged = Settings.Secure.getInt(act.getContentResolver(), Settings.Global.ADB_ENABLED, 0) == 1;
         if (isNetworkAvailable(act)) {
             try {
-                APIInterface apiInterface = APIClient.get_file_Client(file_key + "Ads/").create(APIInterface.class);
+                APIInterface apiInterface = APIClient.get_file_Client(file_key).create(APIInterface.class);
                 Call<File_Recover> call1 = apiInterface.get_file_ads_detail(packagename, service);
                 call1.enqueue(new retrofit2.Callback<>() {
                     @Override
