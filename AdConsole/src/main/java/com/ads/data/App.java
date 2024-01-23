@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.applovin.sdk.AppLovinSdk;
 import com.facebook.ads.AudienceNetworkAds;
 import com.google.android.gms.ads.MobileAds;
 
@@ -26,11 +25,6 @@ public class App extends Application {
         });
         // Fb
         AudienceNetworkAds.initialize(_instance);
-        // Applovin
-        AppLovinSdk.getInstance(_instance).isInitialized();
-        AppLovinSdk.getInstance(_instance).setMediationProvider("max");
-        AppLovinSdk.initializeSdk(_instance, configuration -> {
-        });
         appOpenManager = new AppOpen(this);
         if (!AdsControl.isOnline(_instance)) {
             brodCarst(_instance);

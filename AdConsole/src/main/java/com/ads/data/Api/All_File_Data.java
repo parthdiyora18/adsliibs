@@ -70,30 +70,6 @@ public class All_File_Data {
     @SerializedName("fb_native_banner_id")
     @Expose
     private String fbNativeBannerId;
-    @SerializedName("applovin_appopen_id")
-    @Expose
-    private String applovin_appopen_id;
-    @SerializedName("applovin_splash_interid")
-    @Expose
-    private String applovin_splash_interid;
-    @SerializedName("applovin_interid")
-    @Expose
-    private String applovin_interid;
-    @SerializedName("applovin_nativeid")
-    @Expose
-    private String applovin_nativeid;
-    @SerializedName("applovin_small_nativeid")
-    @Expose
-    private String applovin_small_nativeid;
-    @SerializedName("applovin_small_native_bannerid")
-    @Expose
-    private String applovin_small_native_bannerid;
-    @SerializedName("applovin_banner_id")
-    @Expose
-    private String applovin_banner_id;
-    @SerializedName("applovin_medium_rectangle_id")
-    @Expose
-    private String applovin_medium_rectangle_id;
     @SerializedName("inter_count")
     @Expose
     private int interCount;
@@ -362,70 +338,6 @@ public class All_File_Data {
 
     public void setFbNativeBannerId(String fbNativeBannerId) {
         this.fbNativeBannerId = fbNativeBannerId;
-    }
-
-    public String getApplovin_appopen_id() {
-        return applovin_appopen_id;
-    }
-
-    public void setApplovin_appopen_id(String applovin_appopen_id) {
-        this.applovin_appopen_id = applovin_appopen_id;
-    }
-
-    public String getApplovin_splash_interid() {
-        return applovin_splash_interid;
-    }
-
-    public void setApplovin_splash_interid(String applovin_splash_interid) {
-        this.applovin_splash_interid = applovin_splash_interid;
-    }
-
-    public String getApplovin_interid() {
-        return applovin_interid;
-    }
-
-    public void setApplovin_interid(String applovin_interid) {
-        this.applovin_interid = applovin_interid;
-    }
-
-    public String getApplovin_nativeid() {
-        return applovin_nativeid;
-    }
-
-    public void setApplovin_nativeid(String applovin_nativeid) {
-        this.applovin_nativeid = applovin_nativeid;
-    }
-
-    public String getApplovin_small_nativeid() {
-        return applovin_small_nativeid;
-    }
-
-    public void setApplovin_small_nativeid(String applovin_small_nativeid) {
-        this.applovin_small_nativeid = applovin_small_nativeid;
-    }
-
-    public String getApplovin_small_native_bannerid() {
-        return applovin_small_native_bannerid;
-    }
-
-    public void setApplovin_small_native_bannerid(String applovin_small_native_bannerid) {
-        this.applovin_small_native_bannerid = applovin_small_native_bannerid;
-    }
-
-    public String getApplovin_banner_id() {
-        return applovin_banner_id;
-    }
-
-    public void setApplovin_banner_id(String applovin_banner_id) {
-        this.applovin_banner_id = applovin_banner_id;
-    }
-
-    public String getApplovin_medium_rectangle_id() {
-        return applovin_medium_rectangle_id;
-    }
-
-    public void setApplovin_medium_rectangle_id(String applovin_medium_rectangle_id) {
-        this.applovin_medium_rectangle_id = applovin_medium_rectangle_id;
     }
 
     public int getInterCount() {

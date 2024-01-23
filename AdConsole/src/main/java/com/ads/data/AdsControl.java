@@ -27,18 +27,6 @@ import com.ads.data.Api.APIInterface;
 import com.ads.data.Api.All_File_Data;
 import com.ads.data.Api.File_Recover;
 import com.ads.data.Local_ads.MyAds;
-import com.applovin.mediation.MaxAd;
-import com.applovin.mediation.MaxAdFormat;
-import com.applovin.mediation.MaxAdListener;
-import com.applovin.mediation.MaxAdViewAdListener;
-import com.applovin.mediation.MaxError;
-import com.applovin.mediation.ads.MaxAdView;
-import com.applovin.mediation.ads.MaxAppOpenAd;
-import com.applovin.mediation.ads.MaxInterstitialAd;
-import com.applovin.mediation.nativeAds.MaxNativeAdListener;
-import com.applovin.mediation.nativeAds.MaxNativeAdLoader;
-import com.applovin.mediation.nativeAds.MaxNativeAdView;
-import com.applovin.sdk.AppLovinSdkUtils;
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
 import com.facebook.ads.InterstitialAdListener;
@@ -82,81 +70,60 @@ public class AdsControl {
     boolean isGoogleBannerLoaded;
     boolean isAdxBannerLoaded;
     boolean isFBBannerLoaded;
-    boolean isApplovinBannerLoaded;
     boolean isLocal_banner_Loaded;
     AdView admob_banner_ad;
     AdManagerAdView adx_banner_ad;
     com.facebook.ads.AdView fb_banner_ad;
-    @SuppressLint("StaticFieldLeak")
-    MaxAdView applovin_banner_ad;
 
     // Mediam Ragtangal
     boolean isAdmob_Mrec_loaded;
     boolean isAdx_Mrec_loaded;
     boolean isFB_Mrec_loaded;
-    boolean isApplovin_Mrec_loaded;
     AdView admob_Mrec_view;
     AdManagerAdView adx_Mrec_view;
     com.facebook.ads.AdView fb_Mrec_view;
-    @SuppressLint("StaticFieldLeak")
-    MaxAdView applovin_Mrec_view;
 
     // Native Ad
     boolean isadmob_native_Loaded;
     boolean isadx_native_Loaded;
     boolean isFB_Native_Loaded;
-    boolean isApplovin_Native_Loaded;
     boolean isLocal_Native_Loaded;
     NativeAd Admob_native_Ad;
     NativeAd Adx_native_Ad;
     com.facebook.ads.NativeAd fb_native_Ad;
-    MaxAd Applovin_native_ad;
-    @SuppressLint("StaticFieldLeak")
-    MaxNativeAdView applovin_maxnativeadview;
 
     // Small Native Ad
     boolean isAdmob_small_native_Loaded;
     boolean isadx_small_native_Loaded;
     boolean isFb_small_native_Loaded;
-    boolean isapplovin_small_native_Loaded;
     boolean isLocal_small_Native_Loaded;
     NativeAd Admob_small_native_Ad;
     NativeAd Adx_small_native_Ad;
     NativeBannerAd fb_small_native_Ad;
-    MaxAd Applovin_small_native_Ad;
-    @SuppressLint("StaticFieldLeak")
-    MaxNativeAdView applovin_small_native_Ad;
 
     // Small Naitive Banner Ad
     boolean isadmob_small_native_banner_Loaded;
     boolean isadx_small_native_banner_Loaded;
     boolean isFB_small_native_banner_Loaded;
-    boolean isApplovin_small_native_banner_Loaded;
     boolean isLocal_small_Native_banner_Loaded;
     NativeAd Admob_small_native_banner_Ad;
     NativeAd Adx_small_native_banner_Ad;
     NativeBannerAd fb_small_native_banner_Ad;
-    MaxAd Applovin_small_native_banner_Ad;
-    @SuppressLint("StaticFieldLeak")
-    MaxNativeAdView applovin_small_native_banner_Ad;
 
     // Inter
     boolean isAdmobInterLoaded;
     boolean isAdxInterLoaded;
     boolean isFBInterLoaded;
-    boolean isApplovinInterLoaded;
     boolean isLocalInterLoaded;
     InterstitialAd ADMOB_InterstitialAd;
     AdManagerInterstitialAd ADX_InterstitialAd;
     com.facebook.ads.InterstitialAd FB_interstitialAd;
-    MaxInterstitialAd Applovin_maxInterstitialAd;
 
     // Appopen
     boolean isadmob_appopen_Loaded;
     boolean isadx_appopen_Loaded;
-    boolean isapplovin_appopen_Loaded;
     boolean islocal_appopen_Loaded;
-    MaxAppOpenAd applovin_appopen;
+
     AppOpenAd admob_appOpenAd_inter;
     AppOpenAd adx_appOpenAd_inter;
     AppOpenAd admob_appOpenAd;
@@ -335,9 +302,6 @@ public class AdsControl {
                         case "adx":
                             AdsControl.getInstance(activity).Adx_Appopen_Show(activity, myCallback);
                             break;
-                        case "applovin":
-                            AdsControl.getInstance(activity).Applovin_Appopen_Show(activity, myCallback);
-                            break;
                         case "local":
                             new Handler().postDelayed(() -> {
                                 AdsControl.getInstance(activity).myAdsAdder.local_Appopen_show(activity, myCallback);
@@ -402,9 +366,6 @@ public class AdsControl {
                         case "adx":
                             AdsControl.getInstance(act).Adx_Appopen_Show(act, callback2);
                             break;
-                        case "applovin":
-                            AdsControl.getInstance(act).Applovin_Appopen_Show(act, callback2);
-                            break;
                         case "local":
                             AdsControl.getInstance(act).myAdsAdder.local_Appopen_show(act, callback2);
                             break;
@@ -437,7 +398,6 @@ public class AdsControl {
     int current_admob_BannerId = 0;
     int current_adx_BannerId = 0;
     int current_fb_BannerId = 0;
-    int current_applovin_BannerId = 0;
 
     private void banner_Ads() {
         try {
@@ -447,7 +407,7 @@ public class AdsControl {
                     if (ad_banner_network < adnetwork.length) {
                         switch (adnetwork[ad_banner_network]) {
                             case "admob":
-                                String[] admob_BannerId = app_data.get(0).getAdmobBannerid().split(",");
+                                String[] admob_BannerId = app_data.get(0).getAdmobBannerid().split("&");
                                 if (current_admob_BannerId < admob_BannerId.length) {
                                     Admob_Banner_Ad(admob_BannerId[current_admob_BannerId], view_group);
                                     current_admob_BannerId++;
@@ -458,7 +418,7 @@ public class AdsControl {
                                 ad_banner_network++;
                                 break;
                             case "adx":
-                                String[] adx_BannerId = app_data.get(0).getAdxBannerId().split(",");
+                                String[] adx_BannerId = app_data.get(0).getAdxBannerId().split("&");
                                 if (current_adx_BannerId < adx_BannerId.length) {
                                     Adx_Banner_Ad(adx_BannerId[current_adx_BannerId], view_group);
                                     current_adx_BannerId++;
@@ -469,23 +429,12 @@ public class AdsControl {
                                 ad_banner_network++;
                                 break;
                             case "fb":
-                                String[] fb_BannerId = app_data.get(0).getFbBannerId().split(",");
+                                String[] fb_BannerId = app_data.get(0).getFbBannerId().split("&");
                                 if (current_fb_BannerId < fb_BannerId.length) {
                                     Fb_Banner_Ad(fb_BannerId[current_fb_BannerId], view_group);
                                     current_fb_BannerId++;
                                     if (current_fb_BannerId == fb_BannerId.length) {
                                         current_fb_BannerId = 0;
-                                    }
-                                }
-                                ad_banner_network++;
-                                break;
-                            case "applovin":
-                                String[] applovin_BannerId = app_data.get(0).getApplovin_banner_id().split(",");
-                                if (current_applovin_BannerId < applovin_BannerId.length) {
-                                    Applovin_Banner_Ad(applovin_BannerId[current_applovin_BannerId], view_group);
-                                    current_applovin_BannerId++;
-                                    if (current_applovin_BannerId == applovin_BannerId.length) {
-                                        current_applovin_BannerId = 0;
                                     }
                                 }
                                 ad_banner_network++;
@@ -654,73 +603,6 @@ public class AdsControl {
         }
     }
 
-    // Applovin Mode
-    private void Applovin_Banner_Ad(String placementId, ViewGroup banner_ad) {
-        if (!placementId.equalsIgnoreCase("")) {
-            if (isApplovinBannerLoaded) {
-                return;
-            }
-            final MaxAdView applo_banner_ad = new MaxAdView(placementId, activity);
-            applo_banner_ad.setLayoutParams(new ViewGroup.LayoutParams(320, 50));
-            applo_banner_ad.setListener(new MaxAdViewAdListener() {
-                @Override
-                public void onAdExpanded(MaxAd maxAd) {
-                }
-
-                @Override
-                public void onAdCollapsed(MaxAd maxAd) {
-                }
-
-                @Override
-                public void onAdLoaded(MaxAd maxAd) {
-                    if (app_data.get(0).isPreload_banner_ads()) {
-                        Conts.log_debug(TAG, "Applovin Banner Loaded");
-                        applovin_banner_ad = applo_banner_ad;
-                        isApplovinBannerLoaded = true;
-                    } else {
-                        Conts.log_debug(TAG, "Applovin Banner Loaded and show");
-                        try {
-                            if (applo_banner_ad.getParent() != null) {
-                                ((ViewGroup) applo_banner_ad.getParent()).removeView(applo_banner_ad);
-                            }
-                            banner_ad.addView(applo_banner_ad);
-                            isApplovinBannerLoaded = false;
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-
-                @Override
-                public void onAdDisplayed(MaxAd maxAd) {
-                }
-
-                @Override
-                public void onAdHidden(MaxAd maxAd) {
-                }
-
-                @Override
-                public void onAdClicked(MaxAd maxAd) {
-                }
-
-                @Override
-                public void onAdLoadFailed(String s, MaxError maxError) {
-                    Conts.log_debug(TAG, "Applovin Banner Failed " + maxError.getMessage());
-                    if (app_data.get(0).isPreload_banner_ads()) {
-                        banner_Ads();
-                    } else {
-                        myAdsAdder.local_Banner(banner_ad);
-                    }
-                }
-
-                @Override
-                public void onAdDisplayFailed(MaxAd maxAd, MaxError maxError) {
-                }
-            });
-            applo_banner_ad.loadAd();
-        }
-    }
-
     // Local Mode
     private void Local_Banner_Ad() {
         if (isLocal_banner_Loaded) {
@@ -772,17 +654,6 @@ public class AdsControl {
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
-                    } else if (isApplovinBannerLoaded) {
-                        try {
-                            if (applovin_banner_ad.getParent() != null) {
-                                ((ViewGroup) applovin_banner_ad.getParent()).removeView(applovin_banner_ad);
-                            }
-                            banner_container.addView(applovin_banner_ad);
-                            isApplovinBannerLoaded = false;
-                            banner_Ads();
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
                     } else if (isLocal_banner_Loaded) {
                         myAdsAdder.local_Banner(banner_container);
                         Conts.log_debug(TAG, "Local Banner ad show");
@@ -798,7 +669,7 @@ public class AdsControl {
                         if (ad_banner_network < adnetwork.length) {
                             switch (adnetwork[ad_banner_network]) {
                                 case "admob":
-                                    String[] admob_BannerId = app_data.get(0).getAdmobBannerid().split(",");
+                                    String[] admob_BannerId = app_data.get(0).getAdmobBannerid().split("&");
                                     if (current_admob_BannerId < admob_BannerId.length) {
                                         Admob_Banner_Ad(admob_BannerId[current_admob_BannerId], banner_container);
                                         current_admob_BannerId++;
@@ -809,7 +680,7 @@ public class AdsControl {
                                     ad_banner_network++;
                                     break;
                                 case "adx":
-                                    String[] adx_BannerId = app_data.get(0).getAdxBannerId().split(",");
+                                    String[] adx_BannerId = app_data.get(0).getAdxBannerId().split("&");
                                     if (current_adx_BannerId < adx_BannerId.length) {
                                         Adx_Banner_Ad(adx_BannerId[current_adx_BannerId], banner_container);
                                         current_adx_BannerId++;
@@ -820,23 +691,12 @@ public class AdsControl {
                                     ad_banner_network++;
                                     break;
                                 case "fb":
-                                    String[] fb_BannerId = app_data.get(0).getFbBannerId().split(",");
+                                    String[] fb_BannerId = app_data.get(0).getFbBannerId().split("&");
                                     if (current_fb_BannerId < fb_BannerId.length) {
                                         Fb_Banner_Ad(fb_BannerId[current_fb_BannerId], banner_container);
                                         current_fb_BannerId++;
                                         if (current_fb_BannerId == fb_BannerId.length) {
                                             current_fb_BannerId = 0;
-                                        }
-                                    }
-                                    ad_banner_network++;
-                                    break;
-                                case "applovin":
-                                    String[] applovin_BannerId = app_data.get(0).getApplovin_banner_id().split(",");
-                                    if (current_applovin_BannerId < applovin_BannerId.length) {
-                                        Applovin_Banner_Ad(applovin_BannerId[current_applovin_BannerId], banner_container);
-                                        current_applovin_BannerId++;
-                                        if (current_applovin_BannerId == applovin_BannerId.length) {
-                                            current_applovin_BannerId = 0;
                                         }
                                     }
                                     ad_banner_network++;
@@ -867,7 +727,6 @@ public class AdsControl {
     int current_admob_small_native_BannerId = 0;
     int current_adx_small_native_BannerId = 0;
     int current_fb_small_native_BannerId = 0;
-    int current_applovin_small_native_BannerId = 0;
 
     private void small_native_banner_Ads() {
         try {
@@ -877,7 +736,7 @@ public class AdsControl {
                     if (ad_small_native_banner_network < adnetwork.length) {
                         switch (adnetwork[ad_small_native_banner_network]) {
                             case "admob":
-                                String[] admob_small__native_banner_id = app_data.get(0).getAdmob_small_native_bannerid().split(",");
+                                String[] admob_small__native_banner_id = app_data.get(0).getAdmob_small_native_bannerid().split("&");
                                 if (current_admob_small_native_BannerId < admob_small__native_banner_id.length) {
                                     Admob_Native_Banner_Ad(admob_small__native_banner_id[current_admob_small_native_BannerId], view_group);
                                     current_admob_small_native_BannerId++;
@@ -888,7 +747,7 @@ public class AdsControl {
                                 ad_small_native_banner_network++;
                                 break;
                             case "adx":
-                                String[] adx_small_native_banner_id = app_data.get(0).getAdx_small_native_banner_id().split(",");
+                                String[] adx_small_native_banner_id = app_data.get(0).getAdx_small_native_banner_id().split("&");
                                 if (current_adx_small_native_BannerId < adx_small_native_banner_id.length) {
                                     Adx_Native_Banner_Ad(adx_small_native_banner_id[current_adx_small_native_BannerId], view_group);
                                     current_adx_small_native_BannerId++;
@@ -899,23 +758,12 @@ public class AdsControl {
                                 ad_small_native_banner_network++;
                                 break;
                             case "fb":
-                                String[] fb_native_banner_id = app_data.get(0).getFbNativeBannerId().split(",");
+                                String[] fb_native_banner_id = app_data.get(0).getFbNativeBannerId().split("&");
                                 if (current_fb_small_native_BannerId < fb_native_banner_id.length) {
                                     Fb_Native_Banner_Ad(fb_native_banner_id[current_fb_small_native_BannerId], view_group);
                                     current_fb_small_native_BannerId++;
                                     if (current_fb_small_native_BannerId == fb_native_banner_id.length) {
                                         current_fb_small_native_BannerId = 0;
-                                    }
-                                }
-                                ad_small_native_banner_network++;
-                                break;
-                            case "applovin":
-                                String[] applovin_small_native_banner_id = app_data.get(0).getApplovin_small_native_bannerid().split(",");
-                                if (current_applovin_small_native_BannerId < applovin_small_native_banner_id.length) {
-                                    Applovin_Native_Banner_Ad(applovin_small_native_banner_id[current_applovin_small_native_BannerId], view_group);
-                                    current_applovin_small_native_BannerId++;
-                                    if (current_applovin_small_native_BannerId == applovin_small_native_banner_id.length) {
-                                        current_applovin_small_native_BannerId = 0;
                                     }
                                 }
                                 ad_small_native_banner_network++;
@@ -1055,51 +903,6 @@ public class AdsControl {
         }
     }
 
-    // Applovin Mode
-    private void Applovin_Native_Banner_Ad(String placementId, ViewGroup native_ad) {
-        if (!placementId.equalsIgnoreCase("")) {
-            if (isApplovin_small_native_banner_Loaded) {
-                return;
-            }
-            final MaxNativeAdLoader nativeAdLoader = new MaxNativeAdLoader(placementId, activity);
-            nativeAdLoader.setRevenueListener(ad -> {
-            });
-            nativeAdLoader.setNativeAdListener(new MaxNativeAdListener() {
-                @Override
-                public void onNativeAdLoaded(final MaxNativeAdView nativeAdView, final MaxAd ad) {
-                    if (app_data.get(0).isPreload_small_native_banner_ads()) {
-                        Conts.log_debug(TAG, "Applovin Small Native Banner ad Loaded");
-                        applovin_small_native_banner_Ad = nativeAdView;
-                        Applovin_small_native_banner_Ad = ad;
-                        isApplovin_small_native_banner_Loaded = true;
-                    } else {
-                        if (ad != null) {
-                            native_ad.removeAllViews();
-                        }
-                        native_ad.removeAllViews();
-                        native_ad.addView(nativeAdView);
-                        isApplovin_small_native_banner_Loaded = false;
-                    }
-                }
-
-                @Override
-                public void onNativeAdLoadFailed(final String adUnitId, final MaxError error) {
-                    Conts.log_debug(TAG, "Applovin Small Native Banner ad Failed " + error.getMessage());
-                    if (app_data.get(0).isPreload_small_native_banner_ads()) {
-                        small_native_banner_Ads();
-                    } else {
-                        myAdsAdder.small_local_Native_Banner(native_ad);
-                    }
-                }
-
-                @Override
-                public void onNativeAdClicked(final MaxAd ad) {
-                }
-            });
-            nativeAdLoader.loadAd(new NativeAds(activity).create_Small_Native_Banner_AdView());
-        }
-    }
-
     // Local Mode
     private void Local_Native_Banner_Ad() {
         if (isLocal_small_Native_banner_Loaded) {
@@ -1129,15 +932,6 @@ public class AdsControl {
                         Conts.log_debug(TAG, "FB Native Banner ad show");
                         isFB_small_native_banner_Loaded = false;
                         small_native_banner_Ads();
-                    } else if (isApplovin_small_native_banner_Loaded) {
-                        if (Applovin_small_native_banner_Ad != null) {
-                            native_banner_ad.removeAllViews();
-                        }
-                        native_banner_ad.removeAllViews();
-                        native_banner_ad.addView(applovin_small_native_banner_Ad);
-                        Conts.log_debug(TAG, "Applovin Native Banner ad show");
-                        isApplovin_small_native_banner_Loaded = false;
-                        small_native_banner_Ads();
                     } else if (isLocal_small_Native_banner_Loaded) {
                         myAdsAdder.small_local_Native_Banner(native_banner_ad);
                         Conts.log_debug(TAG, "Local Native Banner ad show");
@@ -1153,7 +947,7 @@ public class AdsControl {
                         if (ad_small_native_banner_network < adnetwork.length) {
                             switch (adnetwork[ad_small_native_banner_network]) {
                                 case "admob":
-                                    String[] admob_small__native_banner_id = app_data.get(0).getAdmob_small_native_bannerid().split(",");
+                                    String[] admob_small__native_banner_id = app_data.get(0).getAdmob_small_native_bannerid().split("&");
                                     if (current_admob_small_native_BannerId < admob_small__native_banner_id.length) {
                                         Admob_Native_Banner_Ad(admob_small__native_banner_id[current_admob_small_native_BannerId], native_banner_ad);
                                         current_admob_small_native_BannerId++;
@@ -1164,7 +958,7 @@ public class AdsControl {
                                     ad_small_native_banner_network++;
                                     break;
                                 case "adx":
-                                    String[] adx_small_native_banner_id = app_data.get(0).getAdx_small_native_banner_id().split(",");
+                                    String[] adx_small_native_banner_id = app_data.get(0).getAdx_small_native_banner_id().split("&");
                                     if (current_adx_small_native_BannerId < adx_small_native_banner_id.length) {
                                         Adx_Native_Banner_Ad(adx_small_native_banner_id[current_adx_small_native_BannerId], native_banner_ad);
                                         current_adx_small_native_BannerId++;
@@ -1175,23 +969,12 @@ public class AdsControl {
                                     ad_small_native_banner_network++;
                                     break;
                                 case "fb":
-                                    String[] fb_native_banner_id = app_data.get(0).getFbNativeBannerId().split(",");
+                                    String[] fb_native_banner_id = app_data.get(0).getFbNativeBannerId().split("&");
                                     if (current_fb_small_native_BannerId < fb_native_banner_id.length) {
                                         Fb_Native_Banner_Ad(fb_native_banner_id[current_fb_small_native_BannerId], native_banner_ad);
                                         current_fb_small_native_BannerId++;
                                         if (current_fb_small_native_BannerId == fb_native_banner_id.length) {
                                             current_fb_small_native_BannerId = 0;
-                                        }
-                                    }
-                                    ad_small_native_banner_network++;
-                                    break;
-                                case "applovin":
-                                    String[] applovin_small_native_banner_id = app_data.get(0).getApplovin_small_native_bannerid().split(",");
-                                    if (current_applovin_small_native_BannerId < applovin_small_native_banner_id.length) {
-                                        Applovin_Native_Banner_Ad(applovin_small_native_banner_id[current_applovin_small_native_BannerId], native_banner_ad);
-                                        current_applovin_small_native_BannerId++;
-                                        if (current_applovin_small_native_BannerId == applovin_small_native_banner_id.length) {
-                                            current_applovin_small_native_BannerId = 0;
                                         }
                                     }
                                     ad_small_native_banner_network++;
@@ -1220,7 +1003,6 @@ public class AdsControl {
     int current_admob_small_native_Id = 0;
     int current_adx_small_native_Id = 0;
     int current_fb_small_native_Id = 0;
-    int current_applovin_small_native_Id = 0;
 
     private void small_native_Ads() {
         try {
@@ -1230,7 +1012,7 @@ public class AdsControl {
                     if (ad_small_native_network < adnetwork.length) {
                         switch (adnetwork[ad_small_native_network]) {
                             case "admob":
-                                String[] admob_small_native_id = app_data.get(0).getAdmob_small_nativeid().split(",");
+                                String[] admob_small_native_id = app_data.get(0).getAdmob_small_nativeid().split("&");
                                 if (current_admob_small_native_Id < admob_small_native_id.length) {
                                     Admob_Small_Native_Ad(admob_small_native_id[current_admob_small_native_Id], view_group);
                                     current_admob_small_native_Id++;
@@ -1241,7 +1023,7 @@ public class AdsControl {
                                 ad_small_native_network++;
                                 break;
                             case "adx":
-                                String[] adx_small_native_id = app_data.get(0).getAdx_small_native_id().split(",");
+                                String[] adx_small_native_id = app_data.get(0).getAdx_small_native_id().split("&");
                                 if (current_adx_small_native_Id < adx_small_native_id.length) {
                                     Adx_Small_Native_Ad(adx_small_native_id[current_adx_small_native_Id], view_group);
                                     current_adx_small_native_Id++;
@@ -1252,23 +1034,12 @@ public class AdsControl {
                                 ad_small_native_network++;
                                 break;
                             case "fb":
-                                String[] fb_small_native_id = app_data.get(0).getFbNativeBannerId().split(",");
+                                String[] fb_small_native_id = app_data.get(0).getFbNativeBannerId().split("&");
                                 if (current_fb_small_native_Id < fb_small_native_id.length) {
                                     Fb_Small_Native_Ad(fb_small_native_id[current_fb_small_native_Id], view_group);
                                     current_fb_small_native_Id++;
                                     if (current_fb_small_native_Id == fb_small_native_id.length) {
                                         current_fb_small_native_Id = 0;
-                                    }
-                                }
-                                ad_small_native_network++;
-                                break;
-                            case "applovin":
-                                String[] applovin_small_native_id = app_data.get(0).getApplovin_small_nativeid().split(",");
-                                if (current_applovin_small_native_Id < applovin_small_native_id.length) {
-                                    Applovin_Small_NativeAd(applovin_small_native_id[current_applovin_small_native_Id], view_group);
-                                    current_applovin_small_native_Id++;
-                                    if (current_applovin_small_native_Id == applovin_small_native_id.length) {
-                                        current_applovin_small_native_Id = 0;
                                     }
                                 }
                                 ad_small_native_network++;
@@ -1409,52 +1180,6 @@ public class AdsControl {
         }
     }
 
-    // Applovin Mode
-    private void Applovin_Small_NativeAd(String placementId, ViewGroup small_native) {
-        if (!placementId.equalsIgnoreCase("")) {
-            if (isapplovin_small_native_Loaded) {
-                return;
-            }
-            final MaxNativeAdLoader nativeAdLoader = new MaxNativeAdLoader(placementId, activity);
-            nativeAdLoader.setRevenueListener(ad -> {
-            });
-            nativeAdLoader.setNativeAdListener(new MaxNativeAdListener() {
-                @Override
-                public void onNativeAdLoaded(final MaxNativeAdView nativeAdView, final MaxAd ad) {
-                    if (app_data.get(0).isPreload_small_native_ads()) {
-                        Conts.log_debug(TAG, "Applovin Small Native ad Loaded");
-                        applovin_small_native_Ad = nativeAdView;
-                        Applovin_small_native_Ad = ad;
-                        isapplovin_small_native_Loaded = true;
-                    } else {
-                        Conts.log_debug(TAG, "Applovin Small Native ad Loaded and show");
-                        if (ad != null) {
-                            small_native.removeAllViews();
-                        }
-                        small_native.removeAllViews();
-                        small_native.addView(nativeAdView);
-                        isapplovin_small_native_Loaded = false;
-                    }
-                }
-
-                @Override
-                public void onNativeAdLoadFailed(final String adUnitId, final MaxError error) {
-                    Conts.log_debug(TAG, "Applovin Small Native ad Failed " + error.getMessage());
-                    if (app_data.get(0).isPreload_small_native_ads()) {
-                        small_native_Ads();
-                    } else {
-                        myAdsAdder.small_local_Native(small_native);
-                    }
-                }
-
-                @Override
-                public void onNativeAdClicked(final MaxAd ad) {
-                }
-            });
-            nativeAdLoader.loadAd(new NativeAds(activity).create_Small_NativeAdView());
-        }
-    }
-
     // Local Mode
     private void Local_Small_Native_Ad() {
         if (isLocal_small_Native_Loaded) {
@@ -1484,15 +1209,6 @@ public class AdsControl {
                         Conts.log_debug(TAG, "FB Small Native ad show");
                         isFb_small_native_Loaded = false;
                         small_native_Ads();
-                    } else if (isapplovin_small_native_Loaded) {
-                        if (Applovin_small_native_Ad != null) {
-                            native_banner_ad.removeAllViews();
-                        }
-                        native_banner_ad.removeAllViews();
-                        native_banner_ad.addView(applovin_small_native_Ad);
-                        Conts.log_debug(TAG, "Applovin Small Native ad show");
-                        isapplovin_small_native_Loaded = false;
-                        small_native_Ads();
                     } else if (isLocal_small_Native_Loaded) {
                         Conts.log_debug(TAG, "Local Small Native ad show");
                         myAdsAdder.small_local_Native(native_banner_ad);
@@ -1508,7 +1224,7 @@ public class AdsControl {
                         if (ad_small_native_network < adnetwork.length) {
                             switch (adnetwork[ad_small_native_network]) {
                                 case "admob":
-                                    String[] admob_small_native_id = app_data.get(0).getAdmob_small_nativeid().split(",");
+                                    String[] admob_small_native_id = app_data.get(0).getAdmob_small_nativeid().split("&");
                                     if (current_admob_small_native_Id < admob_small_native_id.length) {
                                         Admob_Small_Native_Ad(admob_small_native_id[current_admob_small_native_Id], native_banner_ad);
                                         current_admob_small_native_Id++;
@@ -1519,7 +1235,7 @@ public class AdsControl {
                                     ad_small_native_network++;
                                     break;
                                 case "adx":
-                                    String[] adx_small_native_id = app_data.get(0).getAdx_small_native_id().split(",");
+                                    String[] adx_small_native_id = app_data.get(0).getAdx_small_native_id().split("&");
                                     if (current_adx_small_native_Id < adx_small_native_id.length) {
                                         Adx_Small_Native_Ad(adx_small_native_id[current_adx_small_native_Id], native_banner_ad);
                                         current_adx_small_native_Id++;
@@ -1530,23 +1246,12 @@ public class AdsControl {
                                     ad_small_native_network++;
                                     break;
                                 case "fb":
-                                    String[] fb_small_native_id = app_data.get(0).getFbNativeBannerId().split(",");
+                                    String[] fb_small_native_id = app_data.get(0).getFbNativeBannerId().split("&");
                                     if (current_fb_small_native_Id < fb_small_native_id.length) {
                                         Fb_Small_Native_Ad(fb_small_native_id[current_fb_small_native_Id], native_banner_ad);
                                         current_fb_small_native_Id++;
                                         if (current_fb_small_native_Id == fb_small_native_id.length) {
                                             current_fb_small_native_Id = 0;
-                                        }
-                                    }
-                                    ad_small_native_network++;
-                                    break;
-                                case "applovin":
-                                    String[] applovin_small_native_id = app_data.get(0).getApplovin_small_nativeid().split(",");
-                                    if (current_applovin_small_native_Id < applovin_small_native_id.length) {
-                                        Applovin_Small_NativeAd(applovin_small_native_id[current_applovin_small_native_Id], native_banner_ad);
-                                        current_applovin_small_native_Id++;
-                                        if (current_applovin_small_native_Id == applovin_small_native_id.length) {
-                                            current_applovin_small_native_Id = 0;
                                         }
                                     }
                                     ad_small_native_network++;
@@ -1577,7 +1282,6 @@ public class AdsControl {
     int current_admob_native_Id = 0;
     int current_adx_native_Id = 0;
     int current_fb_native_Id = 0;
-    int current_applovin_native_Id = 0;
 
     private void native_Ads() {
         try {
@@ -1587,7 +1291,7 @@ public class AdsControl {
                     if (ad_native_network < adnetwork.length) {
                         switch (adnetwork[ad_native_network]) {
                             case "admob":
-                                String[] admob_native_id = app_data.get(0).getAdmobNativeid().split(",");
+                                String[] admob_native_id = app_data.get(0).getAdmobNativeid().split("&");
                                 if (current_admob_native_Id < admob_native_id.length) {
                                     Admob_Native_Ad(admob_native_id[current_admob_native_Id], view_group);
                                     current_admob_native_Id++;
@@ -1598,7 +1302,7 @@ public class AdsControl {
                                 ad_native_network++;
                                 break;
                             case "adx":
-                                String[] adx_native_id = app_data.get(0).getAdxNativeId().split(",");
+                                String[] adx_native_id = app_data.get(0).getAdxNativeId().split("&");
                                 if (current_adx_native_Id < adx_native_id.length) {
                                     Adx_Native_Ad(adx_native_id[current_adx_native_Id], view_group);
                                     current_adx_native_Id++;
@@ -1609,23 +1313,12 @@ public class AdsControl {
                                 ad_native_network++;
                                 break;
                             case "fb":
-                                String[] fb_native_id = app_data.get(0).getFbNativeId().split(",");
+                                String[] fb_native_id = app_data.get(0).getFbNativeId().split("&");
                                 if (current_fb_native_Id < fb_native_id.length) {
                                     Fb_Native_Ad(fb_native_id[current_fb_native_Id], view_group);
                                     current_fb_native_Id++;
                                     if (current_fb_native_Id == fb_native_id.length) {
                                         current_fb_native_Id = 0;
-                                    }
-                                }
-                                ad_native_network++;
-                                break;
-                            case "applovin":
-                                String[] applovin_native_id = app_data.get(0).getApplovin_nativeid().split(",");
-                                if (current_applovin_native_Id < applovin_native_id.length) {
-                                    Applovin_Native_Ad(applovin_native_id[current_applovin_native_Id], view_group);
-                                    current_applovin_native_Id++;
-                                    if (current_applovin_native_Id == applovin_native_id.length) {
-                                        current_applovin_native_Id = 0;
                                     }
                                 }
                                 ad_native_network++;
@@ -1769,52 +1462,6 @@ public class AdsControl {
         }
     }
 
-    // Applovin Mode
-    private void Applovin_Native_Ad(String placementId, ViewGroup native_ad) {
-        if (!placementId.equalsIgnoreCase("")) {
-            if (isApplovin_Native_Loaded) {
-                return;
-            }
-            final MaxNativeAdLoader nativeAdLoader = new MaxNativeAdLoader(placementId, activity);
-            nativeAdLoader.setRevenueListener(ad -> {
-            });
-            nativeAdLoader.setNativeAdListener(new MaxNativeAdListener() {
-                @Override
-                public void onNativeAdLoaded(final MaxNativeAdView nativeAdView, final MaxAd ad) {
-                    if (app_data.get(0).isPreload_native_ads()) {
-                        Conts.log_debug(TAG, "Applovin Native ad Loaded");
-                        applovin_maxnativeadview = nativeAdView;
-                        Applovin_native_ad = ad;
-                        isApplovin_Native_Loaded = true;
-                    } else {
-                        Conts.log_debug(TAG, "Applovin Native ad Loaded and show");
-                        if (ad != null) {
-                            native_ad.removeAllViews();
-                        }
-                        native_ad.removeAllViews();
-                        native_ad.addView(nativeAdView);
-                        isApplovin_Native_Loaded = false;
-                    }
-                }
-
-                @Override
-                public void onNativeAdLoadFailed(final String adUnitId, final MaxError error) {
-                    Conts.log_debug(TAG, "Applovin Native ad Failed " + error.getMessage());
-                    if (app_data.get(0).isPreload_native_ads()) {
-                        native_Ads();
-                    } else {
-                        myAdsAdder.local_Native(native_ad);
-                    }
-                }
-
-                @Override
-                public void onNativeAdClicked(final MaxAd ad) {
-                }
-            });
-            nativeAdLoader.loadAd(new NativeAds(activity).createNativeAdView());
-        }
-    }
-
     // Local Mode
     private void Local_Native_ad() {
         if (isLocal_Native_Loaded) {
@@ -1828,7 +1475,6 @@ public class AdsControl {
     int current_admob_mrec_Id = 0;
     int current_adx_mrec_Id = 0;
     int current_fb_mrec_Id = 0;
-    int current_applovin_mrec_Id = 0;
 
     private void medium_rect_Ads() {
         try {
@@ -1838,7 +1484,7 @@ public class AdsControl {
                     if (ad_medium_network < adnetwork.length) {
                         switch (adnetwork[ad_medium_network]) {
                             case "admob":
-                                String[] admob_mrec_id = app_data.get(0).getAdmobMediumRectangleid().split(",");
+                                String[] admob_mrec_id = app_data.get(0).getAdmobMediumRectangleid().split("&");
                                 if (current_admob_mrec_Id < admob_mrec_id.length) {
                                     Admob_mrec_Ad(admob_mrec_id[current_admob_mrec_Id], view_group);
                                     current_admob_mrec_Id++;
@@ -1849,7 +1495,7 @@ public class AdsControl {
                                 ad_medium_network++;
                                 break;
                             case "adx":
-                                String[] adx_mrec_id = app_data.get(0).getAdxMediumRectangleid().split(",");
+                                String[] adx_mrec_id = app_data.get(0).getAdxMediumRectangleid().split("&");
                                 if (current_adx_mrec_Id < adx_mrec_id.length) {
                                     Adx_mrec_Ad(adx_mrec_id[current_adx_mrec_Id], view_group);
                                     current_adx_mrec_Id++;
@@ -1860,23 +1506,12 @@ public class AdsControl {
                                 ad_medium_network++;
                                 break;
                             case "fb":
-                                String[] fb_mrec_id = app_data.get(0).getFbMediumRectangleId().split(",");
+                                String[] fb_mrec_id = app_data.get(0).getFbMediumRectangleId().split("&");
                                 if (current_fb_mrec_Id < fb_mrec_id.length) {
                                     FB_mrec_Ad(fb_mrec_id[current_fb_mrec_Id], view_group);
                                     current_fb_mrec_Id++;
                                     if (current_fb_mrec_Id == fb_mrec_id.length) {
                                         current_fb_mrec_Id = 0;
-                                    }
-                                }
-                                ad_medium_network++;
-                                break;
-                            case "applovin":
-                                String[] applovin_mrec_id = app_data.get(0).getApplovin_medium_rectangle_id().split(",");
-                                if (current_applovin_mrec_Id < applovin_mrec_id.length) {
-                                    Applovin_mrec_Ad(applovin_mrec_id[current_applovin_mrec_Id], view_group);
-                                    current_applovin_mrec_Id++;
-                                    if (current_applovin_mrec_Id == applovin_mrec_id.length) {
-                                        current_applovin_mrec_Id = 0;
                                     }
                                 }
                                 ad_medium_network++;
@@ -2035,73 +1670,6 @@ public class AdsControl {
         }
     }
 
-    // Applovin Mode
-    private void Applovin_mrec_Ad(String placmentId, ViewGroup mrec_ad) {
-        if (!placmentId.equalsIgnoreCase("")) {
-            if (isApplovin_Mrec_loaded) {
-                return;
-            }
-            final MaxAdView applovin_medium_rect = new MaxAdView(placmentId, MaxAdFormat.MREC, activity);
-            int widthPx = AppLovinSdkUtils.dpToPx(activity, 300);
-            int heightPx = AppLovinSdkUtils.dpToPx(activity, 250);
-            applovin_medium_rect.setLayoutParams(new ViewGroup.LayoutParams(widthPx, heightPx));
-            applovin_medium_rect.loadAd();
-            applovin_medium_rect.setListener(new MaxAdViewAdListener() {
-                @Override
-                public void onAdExpanded(MaxAd maxAd) {
-                }
-
-                @Override
-                public void onAdCollapsed(MaxAd maxAd) {
-                }
-
-                @Override
-                public void onAdLoaded(MaxAd maxAd) {
-                    if (app_data.get(0).isPreload_native_ads()) {
-                        Conts.log_debug(TAG, "Applovin mediam ragtangal Loaded");
-                        applovin_Mrec_view = applovin_medium_rect;
-                        isApplovin_Mrec_loaded = true;
-                    } else {
-                        Conts.log_debug(TAG, "Applovin mediam ragtangal Loaded and show");
-                        try {
-                            if (applovin_medium_rect.getParent() != null) {
-                                ((ViewGroup) applovin_medium_rect.getParent()).removeView(applovin_medium_rect);
-                            }
-                            mrec_ad.addView(applovin_medium_rect);
-                            isApplovin_Mrec_loaded = false;
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-
-                @Override
-                public void onAdDisplayed(MaxAd maxAd) {
-                }
-
-                @Override
-                public void onAdHidden(MaxAd maxAd) {
-                }
-
-                @Override
-                public void onAdClicked(MaxAd maxAd) {
-                }
-
-                @Override
-                public void onAdLoadFailed(String s, MaxError maxError) {
-                    Conts.log_debug(TAG, "Applovin mediam ragtangal Failed " + maxError.getMessage());
-                    if (app_data.get(0).isPreload_native_ads()) {
-                        medium_rect_Ads();
-                    }
-                }
-
-                @Override
-                public void onAdDisplayFailed(MaxAd maxAd, MaxError maxError) {
-                }
-            });
-        }
-    }
-
     // TODO: 7/17/2023 Show Native Ads
     @SuppressLint({"MissingPermission", "SetTextI18n"})
     public void show_native_ad(final ViewGroup native_ad) {
@@ -2142,17 +1710,6 @@ public class AdsControl {
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
-                        } else if (isApplovin_Mrec_loaded) {
-                            try {
-                                if (applovin_Mrec_view.getParent() != null) {
-                                    ((ViewGroup) applovin_Mrec_view.getParent()).removeView(applovin_Mrec_view);
-                                }
-                                native_ad.addView(applovin_Mrec_view);
-                                isApplovin_Mrec_loaded = false;
-                                medium_rect_Ads();
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
                         }
                     } else {
                         if (isadmob_native_Loaded) {
@@ -2169,15 +1726,6 @@ public class AdsControl {
                             new NativeAds(activity).FB_Native(fb_native_Ad, native_ad);
                             Conts.log_debug(TAG, "FB Native ad show");
                             isFB_Native_Loaded = false;
-                            native_Ads();
-                        } else if (isApplovin_Native_Loaded) {
-                            if (Applovin_native_ad != null) {
-                                native_ad.removeAllViews();
-                            }
-                            native_ad.removeAllViews();
-                            native_ad.addView(applovin_maxnativeadview);
-                            Conts.log_debug(TAG, "Applovin Native ad show");
-                            isApplovin_Native_Loaded = false;
                             native_Ads();
                         } else if (isLocal_Native_Loaded) {
                             myAdsAdder.local_Native(native_ad);
@@ -2196,7 +1744,7 @@ public class AdsControl {
                             if (ad_medium_network < adnetwork.length) {
                                 switch (adnetwork[ad_medium_network]) {
                                     case "admob":
-                                        String[] admob_mrec_id = app_data.get(0).getAdmobMediumRectangleid().split(",");
+                                        String[] admob_mrec_id = app_data.get(0).getAdmobMediumRectangleid().split("&");
                                         if (current_admob_mrec_Id < admob_mrec_id.length) {
                                             Admob_mrec_Ad(admob_mrec_id[current_admob_mrec_Id], native_ad);
                                             current_admob_mrec_Id++;
@@ -2207,7 +1755,7 @@ public class AdsControl {
                                         ad_medium_network++;
                                         break;
                                     case "adx":
-                                        String[] adx_mrec_id = app_data.get(0).getAdxMediumRectangleid().split(",");
+                                        String[] adx_mrec_id = app_data.get(0).getAdxMediumRectangleid().split("&");
                                         if (current_adx_mrec_Id < adx_mrec_id.length) {
                                             Adx_mrec_Ad(adx_mrec_id[current_adx_mrec_Id], native_ad);
                                             current_adx_mrec_Id++;
@@ -2218,23 +1766,12 @@ public class AdsControl {
                                         ad_medium_network++;
                                         break;
                                     case "fb":
-                                        String[] fb_mrec_id = app_data.get(0).getFbMediumRectangleId().split(",");
+                                        String[] fb_mrec_id = app_data.get(0).getFbMediumRectangleId().split("&");
                                         if (current_fb_mrec_Id < fb_mrec_id.length) {
                                             FB_mrec_Ad(fb_mrec_id[current_fb_mrec_Id], native_ad);
                                             current_fb_mrec_Id++;
                                             if (current_fb_mrec_Id == fb_mrec_id.length) {
                                                 current_fb_mrec_Id = 0;
-                                            }
-                                        }
-                                        ad_medium_network++;
-                                        break;
-                                    case "applovin":
-                                        String[] applovin_mrec_id = app_data.get(0).getApplovin_medium_rectangle_id().split(",");
-                                        if (current_applovin_mrec_Id < applovin_mrec_id.length) {
-                                            Applovin_mrec_Ad(applovin_mrec_id[current_applovin_mrec_Id], native_ad);
-                                            current_applovin_mrec_Id++;
-                                            if (current_applovin_mrec_Id == applovin_mrec_id.length) {
-                                                current_applovin_mrec_Id = 0;
                                             }
                                         }
                                         ad_medium_network++;
@@ -2254,7 +1791,7 @@ public class AdsControl {
                             if (ad_native_network < adnetwork.length) {
                                 switch (adnetwork[ad_native_network]) {
                                     case "admob":
-                                        String[] admob_native_id = app_data.get(0).getAdmobNativeid().split(",");
+                                        String[] admob_native_id = app_data.get(0).getAdmobNativeid().split("&");
                                         if (current_admob_native_Id < admob_native_id.length) {
                                             Admob_Native_Ad(admob_native_id[current_admob_native_Id], native_ad);
                                             current_admob_native_Id++;
@@ -2265,7 +1802,7 @@ public class AdsControl {
                                         ad_native_network++;
                                         break;
                                     case "adx":
-                                        String[] adx_native_id = app_data.get(0).getAdxNativeId().split(",");
+                                        String[] adx_native_id = app_data.get(0).getAdxNativeId().split("&");
                                         if (current_adx_native_Id < adx_native_id.length) {
                                             Adx_Native_Ad(adx_native_id[current_adx_native_Id], native_ad);
                                             current_adx_native_Id++;
@@ -2276,23 +1813,12 @@ public class AdsControl {
                                         ad_native_network++;
                                         break;
                                     case "fb":
-                                        String[] fb_native_id = app_data.get(0).getFbNativeId().split(",");
+                                        String[] fb_native_id = app_data.get(0).getFbNativeId().split("&");
                                         if (current_fb_native_Id < fb_native_id.length) {
                                             Fb_Native_Ad(fb_native_id[current_fb_native_Id], native_ad);
                                             current_fb_native_Id++;
                                             if (current_fb_native_Id == fb_native_id.length) {
                                                 current_fb_native_Id = 0;
-                                            }
-                                        }
-                                        ad_native_network++;
-                                        break;
-                                    case "applovin":
-                                        String[] applovin_native_id = app_data.get(0).getApplovin_nativeid().split(",");
-                                        if (current_applovin_native_Id < applovin_native_id.length) {
-                                            Applovin_Native_Ad(applovin_native_id[current_applovin_native_Id], native_ad);
-                                            current_applovin_native_Id++;
-                                            if (current_applovin_native_Id == applovin_native_id.length) {
-                                                current_applovin_native_Id = 0;
                                             }
                                         }
                                         ad_native_network++;
@@ -2324,7 +1850,6 @@ public class AdsControl {
     int current_admob_IntrId = 0;
     int current_adx_IntrId = 0;
     int current_fb_IntrId = 0;
-    int current_applovin_IntrId = 0;
     Dialog ad_inter_dialog;
     long ad_dialog_time_in_second = 2;
     int countAdds = 0;
@@ -2338,7 +1863,7 @@ public class AdsControl {
                     if (ad_inter_network < adnetwork.length) {
                         switch (adnetwork[ad_inter_network]) {
                             case "admob":
-                                String[] admob_inter = app_data.get(0).getAdmobInterid().split(",");
+                                String[] admob_inter = app_data.get(0).getAdmobInterid().split("&");
                                 if (current_admob_IntrId < admob_inter.length) {
                                     Admob_inter_Ad(activity, admob_inter[current_admob_IntrId]);
                                     current_admob_IntrId++;
@@ -2349,7 +1874,7 @@ public class AdsControl {
                                 ad_inter_network++;
                                 break;
                             case "adx":
-                                String[] adx_inter = app_data.get(0).getAdxInterId().split(",");
+                                String[] adx_inter = app_data.get(0).getAdxInterId().split("&");
                                 if (current_adx_IntrId < adx_inter.length) {
                                     Adx_inter_Ad(activity, adx_inter[current_adx_IntrId]);
                                     current_adx_IntrId++;
@@ -2360,23 +1885,12 @@ public class AdsControl {
                                 ad_inter_network++;
                                 break;
                             case "fb":
-                                String[] fb_inter = app_data.get(0).getFbInterId().split(",");
+                                String[] fb_inter = app_data.get(0).getFbInterId().split("&");
                                 if (current_fb_IntrId < fb_inter.length) {
                                     Fb_inter_Ad(activity, fb_inter[current_fb_IntrId]);
                                     current_fb_IntrId++;
                                     if (current_fb_IntrId == fb_inter.length) {
                                         current_fb_IntrId = 0;
-                                    }
-                                }
-                                ad_inter_network++;
-                                break;
-                            case "applovin":
-                                String[] applovin_inter = app_data.get(0).getApplovin_interid().split(",");
-                                if (current_applovin_IntrId < applovin_inter.length) {
-                                    Applovin_inter_Ad(activity, applovin_inter[current_applovin_IntrId]);
-                                    current_applovin_IntrId++;
-                                    if (current_applovin_IntrId == applovin_inter.length) {
-                                        current_applovin_IntrId = 0;
                                     }
                                 }
                                 ad_inter_network++;
@@ -2636,87 +2150,6 @@ public class AdsControl {
         }
     }
 
-    // Applovin Mode
-    private void Applovin_inter_Ad(Activity act, String placementId) {
-        if (!placementId.equalsIgnoreCase("")) {
-            if (isApplovinInterLoaded) {
-                return;
-            }
-            MaxInterstitialAd interstitialAdmax = new MaxInterstitialAd(placementId, act);
-            interstitialAdmax.setListener(new MaxAdListener() {
-                @Override
-                public void onAdLoaded(MaxAd ad) {
-                    if (app_data.get(0).isPreload_inter_ads()) {
-                        Conts.log_debug(TAG, "Applovin Inter Loaded");
-                        Applovin_maxInterstitialAd = interstitialAdmax;
-                        isApplovinInterLoaded = true;
-                    } else {
-                        if (app_data.get(0).isApp_inter_dialog_show()) {
-                            ad_inter_dialog.show();
-                            new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                @Override
-                                public void onTick(long millisUntilFinished) {
-                                }
-
-                                @Override
-                                public void onFinish() {
-                                    Conts.log_debug(TAG, "Applovin Inter Loaded and show");
-                                    ad_inter_dialog.dismiss();
-                                    interstitialAdmax.showAd();
-                                    isApplovinInterLoaded = false;
-                                }
-                            }.start();
-                        } else {
-                            Conts.log_debug(TAG, "Applovin Inter Loaded and show");
-                            interstitialAdmax.showAd();
-                            isApplovinInterLoaded = false;
-                        }
-                    }
-                }
-
-                @Override
-                public void onAdDisplayed(MaxAd ad) {
-                }
-
-                @Override
-                public void onAdHidden(MaxAd ad) {
-                    Conts.log_debug(TAG, "Applovin Inter Close");
-                    if (callback != null) {
-                        callback.onClick();
-                        callback = null;
-                    }
-                }
-
-                @Override
-                public void onAdClicked(MaxAd ad) {
-                }
-
-                @Override
-                public void onAdLoadFailed(String adUnitId, MaxError error) {
-                    Conts.log_debug(TAG, "Applovin Inter Failed " + error.getMessage());
-                    if (app_data.get(0).isPreload_inter_ads()) {
-                        inter_Ads(act);
-                    } else {
-                        if (callback != null) {
-                            callback.onClick();
-                            callback = null;
-                        }
-                    }
-                }
-
-                @Override
-                public void onAdDisplayFailed(MaxAd ad, MaxError error) {
-                }
-            });
-            interstitialAdmax.loadAd();
-        } else {
-            if (callback != null) {
-                callback.onClick();
-                callback = null;
-            }
-        }
-    }
-
     // Local Mode
     private void Local_inter_Ad() {
         if (isLocalInterLoaded) {
@@ -2794,34 +2227,6 @@ public class AdsControl {
                                     Conts.log_debug(TAG, "Adx Appopen Show");
                                     isadx_appopen_Loaded = false;
                                     appopen_Ads(act);
-                                }
-                            } else if (isapplovin_appopen_Loaded) {
-                                if (app_data.get(0).isApp_inter_dialog_show()) {
-                                    ad_inter_dialog.show();
-                                    new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                        @Override
-                                        public void onTick(long millisUntilFinished) {
-
-                                        }
-
-                                        @Override
-                                        public void onFinish() {
-                                            ad_inter_dialog.dismiss();
-                                            if (applovin_appopen.isReady()) {
-                                                applovin_appopen.showAd();
-                                                isapplovin_appopen_Loaded = false;
-                                                Conts.log_debug(TAG, "Applovin Appopen Show");
-                                                appopen_Ads(act);
-                                            }
-                                        }
-                                    }.start();
-                                } else {
-                                    if (applovin_appopen.isReady()) {
-                                        applovin_appopen.showAd();
-                                        isapplovin_appopen_Loaded = false;
-                                        Conts.log_debug(TAG, "Applovin Appopen Show");
-                                        appopen_Ads(act);
-                                    }
                                 }
                             } else if (islocal_appopen_Loaded) {
                                 if (app_data.get(0).isApp_inter_dialog_show()) {
@@ -2924,29 +2329,6 @@ public class AdsControl {
                                     isFBInterLoaded = false;
                                     inter_Ads(act);
                                 }
-                            } else if (isApplovinInterLoaded) {
-                                if (app_data.get(0).isApp_inter_dialog_show()) {
-                                    ad_inter_dialog.show();
-                                    new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                        @Override
-                                        public void onTick(long millisUntilFinished) {
-                                        }
-
-                                        @Override
-                                        public void onFinish() {
-                                            Conts.log_debug(TAG, "Applovin Inter Show");
-                                            ad_inter_dialog.dismiss();
-                                            Applovin_maxInterstitialAd.showAd();
-                                            isApplovinInterLoaded = false;
-                                            inter_Ads(act);
-                                        }
-                                    }.start();
-                                } else {
-                                    Conts.log_debug(TAG, "Applovin Inter Show");
-                                    Applovin_maxInterstitialAd.showAd();
-                                    isApplovinInterLoaded = false;
-                                    inter_Ads(act);
-                                }
                             } else if (isLocalInterLoaded) {
                                 if (app_data.get(0).isApp_inter_dialog_show()) {
                                     ad_inter_dialog.show();
@@ -3016,18 +2398,6 @@ public class AdsControl {
                                             }
                                             ad_appopen_inter_network++;
                                             break;
-                                        case "applovin":
-                                            String applovin_placement = app_data.get(0).getApplovin_appopen_id();
-                                            if (!applovin_placement.equalsIgnoreCase("")) {
-                                                Applovin_appopen_Ads(act, applovin_placement);
-                                            } else {
-                                                if (callback != null) {
-                                                    callback.onClick();
-                                                    callback = null;
-                                                }
-                                            }
-                                            ad_appopen_inter_network++;
-                                            break;
                                         case "local":
                                             if (app_data.get(0).isApp_inter_dialog_show()) {
                                                 ad_inter_dialog.show();
@@ -3083,7 +2453,7 @@ public class AdsControl {
                                 if (ad_inter_network < adnetwork.length) {
                                     switch (adnetwork[ad_inter_network]) {
                                         case "admob":
-                                            String[] admob_inter = app_data.get(0).getAdmobInterid().split(",");
+                                            String[] admob_inter = app_data.get(0).getAdmobInterid().split("&");
                                             if (current_admob_IntrId < admob_inter.length) {
                                                 Admob_inter_Ad(act, admob_inter[current_admob_IntrId]);
                                                 current_admob_IntrId++;
@@ -3099,7 +2469,7 @@ public class AdsControl {
                                             ad_inter_network++;
                                             break;
                                         case "adx":
-                                            String[] adx_inter = app_data.get(0).getAdxInterId().split(",");
+                                            String[] adx_inter = app_data.get(0).getAdxInterId().split("&");
                                             if (current_adx_IntrId < adx_inter.length) {
                                                 Adx_inter_Ad(act, adx_inter[current_adx_IntrId]);
                                                 current_adx_IntrId++;
@@ -3115,28 +2485,12 @@ public class AdsControl {
                                             ad_inter_network++;
                                             break;
                                         case "fb":
-                                            String[] fb_inter = app_data.get(0).getFbInterId().split(",");
+                                            String[] fb_inter = app_data.get(0).getFbInterId().split("&");
                                             if (current_fb_IntrId < fb_inter.length) {
                                                 Fb_inter_Ad(act, fb_inter[current_fb_IntrId]);
                                                 current_fb_IntrId++;
                                                 if (current_fb_IntrId == fb_inter.length) {
                                                     current_fb_IntrId = 0;
-                                                }
-                                            } else {
-                                                if (callback != null) {
-                                                    callback.onClick();
-                                                    callback = null;
-                                                }
-                                            }
-                                            ad_inter_network++;
-                                            break;
-                                        case "applovin":
-                                            String[] applovin_inter = app_data.get(0).getApplovin_interid().split(",");
-                                            if (current_applovin_IntrId < applovin_inter.length) {
-                                                Applovin_inter_Ad(act, applovin_inter[current_applovin_IntrId]);
-                                                current_applovin_IntrId++;
-                                                if (current_applovin_IntrId == applovin_inter.length) {
-                                                    current_applovin_IntrId = 0;
                                                 }
                                             } else {
                                                 if (callback != null) {
@@ -3340,69 +2694,6 @@ public class AdsControl {
         }
     }
 
-    // Applovin Appopen
-    public void Applovin_Appopen_Show(Activity activity, OnClickListener dataListner) {
-        callback = dataListner;
-        if (app_data != null && app_data.size() > 0) {
-            String placement = app_data.get(0).getApplovin_appopen_id();
-            if (!placement.equalsIgnoreCase("")) {
-                final MaxAppOpenAd applovin_appOpenAd = new MaxAppOpenAd(placement, activity);
-                applovin_appOpenAd.setListener(new MaxAdListener() {
-                    @Override
-                    public void onAdLoaded(MaxAd maxAd) {
-                        if (applovin_appOpenAd.isReady()) {
-                            applovin_appOpenAd.showAd();
-                            Conts.log_debug(TAG, "Applovin Open Ad show");
-                        } else {
-                            applovin_appOpenAd.loadAd();
-                        }
-                    }
-
-                    @Override
-                    public void onAdDisplayed(MaxAd maxAd) {
-                    }
-
-                    @Override
-                    public void onAdHidden(MaxAd maxAd) {
-                        Conts.log_debug(TAG, "Applovin Close Open Ad");
-                        if (callback != null) {
-                            callback.onClick();
-                            callback = null;
-                        }
-                    }
-
-                    @Override
-                    public void onAdClicked(MaxAd maxAd) {
-                    }
-
-                    @Override
-                    public void onAdLoadFailed(String s, MaxError maxError) {
-                        Conts.log_debug(TAG, "Applovin Failed Open Ad " + maxError.getCode());
-                        if (callback != null) {
-                            callback.onClick();
-                            callback = null;
-                        }
-                    }
-
-                    @Override
-                    public void onAdDisplayFailed(MaxAd maxAd, MaxError maxError) {
-                    }
-                });
-                applovin_appOpenAd.loadAd();
-            } else {
-                if (callback != null) {
-                    callback.onClick();
-                    callback = null;
-                }
-            }
-        } else {
-            if (callback != null) {
-                callback.onClick();
-                callback = null;
-            }
-        }
-    }
-
     private AdRequest getAdRequest() {
         return new AdRequest.Builder().build();
     }
@@ -3430,11 +2721,6 @@ public class AdsControl {
                             case "adx":
                                 String adxplacement = app_data.get(0).getAdxAppopenId();
                                 Adx_appopen_Ads(activity, adxplacement);
-                                ad_appopen_inter_network++;
-                                break;
-                            case "applovin":
-                                String applovinplacementId = app_data.get(0).getApplovin_appopen_id();
-                                Applovin_appopen_Ads(activity, applovinplacementId);
                                 ad_appopen_inter_network++;
                                 break;
                             case "local":
@@ -3622,98 +2908,6 @@ public class AdsControl {
         }
     }
 
-    // Applovin
-    void Applovin_appopen_Ads(Activity act, String placementId) {
-        if (app_data != null && app_data.size() > 0) {
-            if (!placementId.equalsIgnoreCase("")) {
-                if (isapplovin_appopen_Loaded) {
-                    return;
-                }
-                final MaxAppOpenAd applovin_appOpenAd = new MaxAppOpenAd(placementId, act);
-                applovin_appOpenAd.setListener(new MaxAdListener() {
-                    @Override
-                    public void onAdLoaded(MaxAd maxAd) {
-                        if (app_data.get(0).isPreload_inter_ads()) {
-                            Conts.log_debug(TAG, "Applovin appopen Loaded");
-                            applovin_appopen = applovin_appOpenAd;
-                            isapplovin_appopen_Loaded = true;
-                        } else {
-                            if (app_data.get(0).isApp_inter_dialog_show()) {
-                                ad_inter_dialog.show();
-                                new CountDownTimer(ad_dialog_time_in_second * 1000, 10) {
-                                    @Override
-                                    public void onTick(long millisUntilFinished) {
-
-                                    }
-
-                                    @Override
-                                    public void onFinish() {
-                                        ad_inter_dialog.dismiss();
-                                        if (applovin_appOpenAd.isReady()) {
-                                            applovin_appOpenAd.showAd();
-                                            Conts.log_debug(TAG, "Applovin Appopen loaded and Show");
-                                            isapplovin_appopen_Loaded = false;
-                                        }
-                                    }
-                                }.start();
-                            } else {
-                                if (applovin_appOpenAd.isReady()) {
-                                    applovin_appOpenAd.showAd();
-                                    Conts.log_debug(TAG, "Applovin Appopen loaded and Show");
-                                    isapplovin_appopen_Loaded = false;
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onAdDisplayed(MaxAd maxAd) {
-                    }
-
-                    @Override
-                    public void onAdHidden(MaxAd maxAd) {
-                        Conts.log_debug(TAG, "Applovin Appopen Close");
-                        if (callback != null) {
-                            callback.onClick();
-                            callback = null;
-                        }
-                    }
-
-                    @Override
-                    public void onAdClicked(MaxAd maxAd) {
-                    }
-
-                    @Override
-                    public void onAdLoadFailed(String s, MaxError maxError) {
-                        Conts.log_debug(TAG, "Applovin Failed Open Ad " + maxError.getCode());
-                        if (app_data.get(0).isPreload_inter_ads()) {
-                            appopen_Ads(act);
-                        } else {
-                            if (callback != null) {
-                                callback.onClick();
-                                callback = null;
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onAdDisplayFailed(MaxAd maxAd, MaxError maxError) {
-                    }
-                });
-                applovin_appOpenAd.loadAd();
-            } else {
-                if (app_data.get(0).isPreload_inter_ads()) {
-                    appopen_Ads(act);
-                } else {
-                    if (callback != null) {
-                        callback.onClick();
-                        callback = null;
-                    }
-                }
-            }
-        }
-    }
-
     // Local
     void Local_Appopen_Ads() {
         if (islocal_appopen_Loaded) {
@@ -3729,7 +2923,6 @@ public class AdsControl {
             String admob_splash_inter = app_data.get(0).getAdmob_splash_interid();
             String adx_splash_inter = app_data.get(0).getAdx_splash_inter_id();
             String fb_splash_inter = app_data.get(0).getFb_splash_inter_id();
-            String applovin_splash_inter = app_data.get(0).getApplovin_splash_interid();
             if (!admob_splash_inter.equalsIgnoreCase("")) {
                 final AdRequest adRequest = new AdRequest.Builder().build();
                 InterstitialAd.load(act, admob_splash_inter, adRequest, new InterstitialAdLoadCallback() {
@@ -3857,47 +3050,6 @@ public class AdsControl {
                     }
                 };
                 FB_interstitial.loadAd(FB_interstitial.buildLoadAdConfig().withAdListener(interstitialAdListener).build());
-            } else if (!applovin_splash_inter.equalsIgnoreCase("")) {
-                final MaxInterstitialAd interstitialAdmax = new MaxInterstitialAd(applovin_splash_inter, act);
-                interstitialAdmax.setListener(new MaxAdListener() {
-                    @Override
-                    public void onAdLoaded(MaxAd ad) {
-                        Conts.log_debug(TAG, "Applovin Inter Loaded");
-                        interstitialAdmax.showAd();
-                    }
-
-                    @Override
-                    public void onAdDisplayed(MaxAd ad) {
-                        Conts.log_debug(TAG, "Applovin Inter Show");
-                    }
-
-                    @Override
-                    public void onAdHidden(MaxAd ad) {
-                        Conts.log_debug(TAG, "Applovin Inter Close");
-                        if (callback != null) {
-                            callback.onClick();
-                            callback = null;
-                        }
-                    }
-
-                    @Override
-                    public void onAdClicked(MaxAd ad) {
-                    }
-
-                    @Override
-                    public void onAdLoadFailed(String adUnitId, MaxError error) {
-                        Conts.log_debug(TAG, "Applovin Inter Failed " + error.getCode());
-                        if (callback != null) {
-                            callback.onClick();
-                            callback = null;
-                        }
-                    }
-
-                    @Override
-                    public void onAdDisplayFailed(MaxAd ad, MaxError error) {
-                    }
-                });
-                interstitialAdmax.loadAd();
             } else {
                 new Handler().postDelayed(() -> myAdsAdder.show_local_InterAd(act, callback), 2500);
             }

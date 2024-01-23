@@ -9,8 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.applovin.mediation.nativeAds.MaxNativeAdView;
-import com.applovin.mediation.nativeAds.MaxNativeAdViewBinder;
 import com.facebook.ads.AdOptionsView;
 import com.facebook.ads.NativeAdLayout;
 import com.facebook.ads.NativeBannerAd;
@@ -35,7 +33,7 @@ public class NativeAds {
 
         adView.setMediaView(adView.findViewById(R.id.ad_media));
         adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
-        adView.setPriceView(adView.findViewById(R.id.secondary));
+        adView.setAdvertiserView(adView.findViewById(R.id.secondary));
         adView.setBodyView(adView.findViewById(R.id.ad_body));
         adView.setCallToActionView(adView.findViewById(R.id.ad_call_to_action));
         adView.setIconView(adView.findViewById(R.id.ad_app_icon));
@@ -47,10 +45,10 @@ public class NativeAds {
             ((ImageView) adView.getIconView()).setImageDrawable(nativeAd.getIcon().getDrawable());
             adView.getIconView().setVisibility(View.VISIBLE);
         }
-        if (nativeAd.getPrice() == null) {
-            ((TextView) adView.getPriceView()).setText(nativeAd.getStore());
+        if (nativeAd.getAdvertiser() == null) {
+            ((TextView) adView.getAdvertiserView()).setText(nativeAd.getAdvertiser());
         } else {
-            ((TextView) adView.getPriceView()).setText(nativeAd.getPrice());
+            ((TextView) adView.getAdvertiserView()).setText(nativeAd.getAdvertiser());
         }
         if (nativeAd.getBody() == null) {
             adView.getBodyView().setVisibility(View.GONE);
@@ -77,7 +75,7 @@ public class NativeAds {
         adView.setIconView((ImageView) adView.findViewById(R.id.small_native_ad_app_icon));
         adView.setHeadlineView(adView.findViewById(R.id.small_native_ad_headline));
         adView.setBodyView(adView.findViewById(R.id.small_native_ad_body));
-        adView.setPriceView(adView.findViewById(R.id.small_native_ad_secondary));
+        adView.setAdvertiserView(adView.findViewById(R.id.small_native_ad_secondary));
         adView.setCallToActionView((TextView) adView.findViewById(R.id.small_native_ad_call_to_action));
 
         ((TextView) adView.getHeadlineView()).setText(nativeAd.getHeadline());
@@ -87,10 +85,10 @@ public class NativeAds {
             ((ImageView) adView.getIconView()).setImageDrawable(nativeAd.getIcon().getDrawable());
             adView.getIconView().setVisibility(View.VISIBLE);
         }
-        if (nativeAd.getPrice() == null) {
-            ((TextView) adView.getPriceView()).setText(nativeAd.getStore());
+        if (nativeAd.getAdvertiser() == null) {
+            ((TextView) adView.getAdvertiserView()).setText(nativeAd.getAdvertiser());
         } else {
-            ((TextView) adView.getPriceView()).setText(nativeAd.getPrice());
+            ((TextView) adView.getAdvertiserView()).setText(nativeAd.getAdvertiser());
         }
         if (nativeAd.getBody() == null) {
             adView.getBodyView().setVisibility(View.GONE);
@@ -115,7 +113,7 @@ public class NativeAds {
 
         adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
         adView.setBodyView(adView.findViewById(R.id.ad_body));
-        adView.setPriceView(adView.findViewById(R.id.secondary));
+        adView.setAdvertiserView(adView.findViewById(R.id.secondary));
         adView.setCallToActionView(adView.findViewById(R.id.ad_call_to_action));
         adView.setIconView(adView.findViewById(R.id.ad_app_icon));
 
@@ -126,10 +124,10 @@ public class NativeAds {
             ((ImageView) adView.getIconView()).setImageDrawable(nativeAd.getIcon().getDrawable());
             adView.getIconView().setVisibility(View.VISIBLE);
         }
-        if (nativeAd.getPrice() == null) {
-            ((TextView) adView.getPriceView()).setText(nativeAd.getStore());
+        if (nativeAd.getAdvertiser() == null) {
+            ((TextView) adView.getAdvertiserView()).setText(nativeAd.getAdvertiser());
         } else {
-            ((TextView) adView.getPriceView()).setText(nativeAd.getPrice());
+            ((TextView) adView.getAdvertiserView()).setText(nativeAd.getAdvertiser());
         }
         if (nativeAd.getBody() == null) {
             adView.getBodyView().setVisibility(View.INVISIBLE);
@@ -251,41 +249,5 @@ public class NativeAds {
         clickableViews.add(nativeAdTitle);
         clickableViews.add(nativeAdCallToAction);
         nativeBannerAd.registerViewForInteraction(adView, nativeAdIcon, clickableViews);
-    }
-
-    // Applovin Native Ads
-    public MaxNativeAdView createNativeAdView() {
-        MaxNativeAdViewBinder binder = new MaxNativeAdViewBinder.Builder(R.layout.applovin_native_ad)
-                .setTitleTextViewId(R.id.title_text_view)
-                .setBodyTextViewId(R.id.body_text_view)
-                .setAdvertiserTextViewId(R.id.advertiser_textView)
-                .setIconImageViewId(R.id.icon_image_view)
-                .setMediaContentViewGroupId(R.id.media_view_container)
-                .setOptionsContentViewGroupId(R.id.options_view)
-                .setCallToActionButtonId(R.id.cta_button).build();
-        return new MaxNativeAdView(binder, activity);
-    }
-
-    // Applovin Small Native Ads
-    public MaxNativeAdView create_Small_NativeAdView() {
-        MaxNativeAdViewBinder binder = new MaxNativeAdViewBinder.Builder(R.layout.applovin_small_native_ad)
-                .setTitleTextViewId(R.id.title_text_view)
-                .setBodyTextViewId(R.id.body_text_view)
-                .setAdvertiserTextViewId(R.id.advertiser_textView)
-                .setIconImageViewId(R.id.media_view_container)
-                .setOptionsContentViewGroupId(R.id.options_view)
-                .setCallToActionButtonId(R.id.cta_button).build();
-        return new MaxNativeAdView(binder, activity);
-    }
-
-    // Applovin Small Native Banner Ads
-    public MaxNativeAdView create_Small_Native_Banner_AdView() {
-        MaxNativeAdViewBinder binder = new MaxNativeAdViewBinder.Builder(R.layout.applovin_small_native_banner_ad)
-                .setTitleTextViewId(R.id.title_text_view)
-                .setAdvertiserTextViewId(R.id.advertiser_textView)
-                .setBodyTextViewId(R.id.body_text_view)
-                .setIconImageViewId(R.id.icon_image_view)
-                .setCallToActionButtonId(R.id.cta_button).build();
-        return new MaxNativeAdView(binder, activity);
     }
 }
